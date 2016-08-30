@@ -1,0 +1,2382 @@
+{
+	"resourceType": "Bundle",
+	"type": "collection",
+	"id": "2e16cf6f-8fcb-49cb-8a62-759047b06fa6",
+	"link": [
+		{
+			"relation": "self",
+			"url": "http://172.16.4.105:8888/resource/fhir/medicationadministration?subject.identifier=9E7A%3B3&limit=&fields="
+		}
+	],
+	"total": 8,
+	"entry": [
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "d421dfb4-cce2-476f-b02d-dd95ebbd2f8b",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "a16fc40f-c1d1-4072-829e-e2d5bf67bf83",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "ebeb129e-8d0a-4e5f-b4bc-cefcfeccc140",
+								"name": "SIMVASTATIN TAB",
+								"code": {
+									"text": "Simvastatin 40 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "198211",
+											"display": "Simvastatin 40 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#a41e8a5f-9ef4-40ad-b93e-c662fdaae777",
+												"display": "SIMVASTATIN TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "a41e8a5f-9ef4-40ad-b93e-c662fdaae777",
+										"type": {
+											"text": "SIMVASTATIN 40MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4020400",
+													"display": "SIMVASTATIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "SIMVASTATIN TAB"
+												}
+											]
+										},
+										"description": "SIMVASTATIN 40MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:9E7A:3:38293"
+							}
+						],
+						"note": "SIMVASTATIN TAB (EXPIRED)\n Give: 40MG PO QPM",
+						"medication": {
+							"reference": "#ebeb129e-8d0a-4e5f-b4bc-cefcfeccc140"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:9E7A:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 40MG PO QPM",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 1440,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "QPM"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 40,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#ebeb129e-8d0a-4e5f-b4bc-cefcfeccc140"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "3a9139c2-df2b-481b-a17a-e1ba9470506f"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:9E7A:3:38293"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "4U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "40MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 1440
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "QPM"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:9E7A:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:9E7A:3:38293"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:9E7A:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:CV350"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ANTILIPEMIC AGENTS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4020400"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "SIMVASTATIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:36567"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "40 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4010153"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "SIMVASTATIN 40MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 40,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#a16fc40f-c1d1-4072-829e-e2d5bf67bf83"
+				},
+				"practitioner": {
+					"reference": "#3a9139c2-df2b-481b-a17a-e1ba9470506f"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "2b3d6e68-4c3b-4cb0-bec3-c3d887fc499c",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "5cffaf77-aa60-422c-be0d-b8f731aa76fb",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "31fa837d-4992-4b01-a3bd-3378e7d22838",
+								"name": "WARFARIN TAB",
+								"code": {
+									"text": "Warfarin Sodium 5 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "855332",
+											"display": "Warfarin Sodium 5 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#51463cea-5526-43ed-a602-b69e431cfea7",
+												"display": "WARFARIN TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "51463cea-5526-43ed-a602-b69e431cfea7",
+										"type": {
+											"text": "WARFARIN NA 5MG TAB,UD",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4019972",
+													"display": "WARFARIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "WARFARIN TAB"
+												}
+											]
+										},
+										"description": "WARFARIN NA 5MG TAB,UD"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:9E7A:3:38294"
+							}
+						],
+						"note": "WARFARIN TAB (EXPIRED)\n Give: 5MG PO QDAY-WARF",
+						"medication": {
+							"reference": "#31fa837d-4992-4b01-a3bd-3378e7d22838"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:9E7A:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 5MG PO QDAY-WARF",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 1440,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "QDAY-WARF"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 5,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#31fa837d-4992-4b01-a3bd-3378e7d22838"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T13:00:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "11f0bbcc-0f7c-4fd0-ba20-da8515e173f6"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:9E7A:3:38294"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "1U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "5MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10740
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 1440
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "QDAY-WARF"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:9E7A:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:9E7A:3:38294"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:9E7A:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:BL110"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ANTICOAGULANTS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4019972"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "WARFARIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:11289"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "5 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4013990"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "WARFARIN NA 5MG TAB,UD"
+					}
+				],
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T13:00:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 5,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#5cffaf77-aa60-422c-be0d-b8f731aa76fb"
+				},
+				"practitioner": {
+					"reference": "#11f0bbcc-0f7c-4fd0-ba20-da8515e173f6"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "3c84c9a4-0bd9-4943-a8a3-06104de34a88",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "6f200eee-cc7c-40d4-8010-fc34665f3590",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "d5ea859a-74d3-4f12-87ea-7c06bf428eae",
+								"name": "METFORMIN TAB,ORAL",
+								"code": {
+									"text": "Metformin hydrochloride 500 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "861007",
+											"display": "Metformin hydrochloride 500 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB,ORAL"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#b39e19ca-8818-4b5a-be13-43bd21646993",
+												"display": "METFORMIN TAB,ORAL"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "b39e19ca-8818-4b5a-be13-43bd21646993",
+										"type": {
+											"text": "METFORMIN HCL 500MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4023979",
+													"display": "METFORMIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "METFORMIN TAB,ORAL"
+												}
+											]
+										},
+										"description": "METFORMIN HCL 500MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:9E7A:3:38295"
+							}
+						],
+						"note": "METFORMIN TAB,ORAL (EXPIRED)\n Give: 500MG PO Q12H",
+						"medication": {
+							"reference": "#d5ea859a-74d3-4f12-87ea-7c06bf428eae"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:9E7A:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 500MG PO Q12H",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 720,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "Q12H"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 500,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#d5ea859a-74d3-4f12-87ea-7c06bf428eae"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "6ca4b8e9-fea3-492a-b1f7-94845cc0b226"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:9E7A:3:38295"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "2U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "500MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 720
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "Q12H"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:9E7A:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:9E7A:3:38295"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:9E7A:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:HS502"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ORAL HYPOGLYCEMIC AGENTS,ORAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4023979"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "METFORMIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:6809"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "500 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4012735"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "METFORMIN HCL 500MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 500,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#6f200eee-cc7c-40d4-8010-fc34665f3590"
+				},
+				"practitioner": {
+					"reference": "#6ca4b8e9-fea3-492a-b1f7-94845cc0b226"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "06731abb-e7bf-46dc-9a4c-7a8891747e8b",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "9869b238-b831-4cf2-98f5-cfe5e141baae",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "5fb254da-6c75-4b1d-8359-1ad9db739c4f",
+								"name": "METOPROLOL TARTRATE TAB",
+								"code": {
+									"text": "Metoprolol Tartrate 50 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "866514",
+											"display": "Metoprolol Tartrate 50 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#e1ce805d-4193-4f60-9d24-022b1a8b149f",
+												"display": "METOPROLOL TARTRATE TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "e1ce805d-4193-4f60-9d24-022b1a8b149f",
+										"type": {
+											"text": "METOPROLOL TARTRATE 50MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4019836",
+													"display": "METOPROLOL"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "METOPROLOL TARTRATE TAB"
+												}
+											]
+										},
+										"description": "METOPROLOL TARTRATE 50MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:9E7A:3:38296"
+							}
+						],
+						"note": "METOPROLOL TARTRATE TAB (EXPIRED)\n Give: 50MG PO BID",
+						"medication": {
+							"reference": "#5fb254da-6c75-4b1d-8359-1ad9db739c4f"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:9E7A:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 50MG PO BID",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 720,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "BID"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 50,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#5fb254da-6c75-4b1d-8359-1ad9db739c4f"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "d49b2604-04f1-4a9e-8c4f-53d49b65ac57"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:9E7A:3:38296"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "3U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "50MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 720
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "BID"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:9E7A:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:9E7A:3:38296"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:9E7A:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:CV100"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "BETA BLOCKERS/RELATED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4019836"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "METOPROLOL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:6918"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "50 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4004608"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "METOPROLOL TARTRATE 50MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 50,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#9869b238-b831-4cf2-98f5-cfe5e141baae"
+				},
+				"practitioner": {
+					"reference": "#d49b2604-04f1-4a9e-8c4f-53d49b65ac57"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "7258e504-a7a4-4ae9-b57d-b680206249ae",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "a26c4482-de53-4657-9afc-0f15a9683e66",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "86145f10-cf84-4d0e-9b08-8f3ba67c12bb",
+								"name": "SIMVASTATIN TAB",
+								"code": {
+									"text": "Simvastatin 40 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "198211",
+											"display": "Simvastatin 40 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#d9a9f034-7de2-475f-87ab-1e261d944e0f",
+												"display": "SIMVASTATIN TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "d9a9f034-7de2-475f-87ab-1e261d944e0f",
+										"type": {
+											"text": "SIMVASTATIN 40MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4020400",
+													"display": "SIMVASTATIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "SIMVASTATIN TAB"
+												}
+											]
+										},
+										"description": "SIMVASTATIN 40MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:C877:3:38293"
+							}
+						],
+						"note": "SIMVASTATIN TAB (EXPIRED)\n Give: 40MG PO QPM",
+						"medication": {
+							"reference": "#86145f10-cf84-4d0e-9b08-8f3ba67c12bb"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:C877:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 40MG PO QPM",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 1440,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "QPM"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 40,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#86145f10-cf84-4d0e-9b08-8f3ba67c12bb"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "38a025e6-50f6-4f09-ab09-dcdf23666453"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:C877:3:38293"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "4U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "40MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 1440
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "QPM"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:C877:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:C877:3:38293"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:C877:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:CV350"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ANTILIPEMIC AGENTS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4020400"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "SIMVASTATIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:36567"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "40 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4010153"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "SIMVASTATIN 40MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 40,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#a26c4482-de53-4657-9afc-0f15a9683e66"
+				},
+				"practitioner": {
+					"reference": "#38a025e6-50f6-4f09-ab09-dcdf23666453"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "02f0da89-4560-4081-8c6c-7d55c7c64e65",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "ebc25eba-40ad-4863-b313-21ae8951276f",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "af497c7c-deb0-4d57-a7c0-daa973adebf0",
+								"name": "WARFARIN TAB",
+								"code": {
+									"text": "Warfarin Sodium 5 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "855332",
+											"display": "Warfarin Sodium 5 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#2bf61ff1-9c1c-48b7-848c-2c7f0cac4be1",
+												"display": "WARFARIN TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "2bf61ff1-9c1c-48b7-848c-2c7f0cac4be1",
+										"type": {
+											"text": "WARFARIN NA 5MG TAB,UD",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4019972",
+													"display": "WARFARIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "WARFARIN TAB"
+												}
+											]
+										},
+										"description": "WARFARIN NA 5MG TAB,UD"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:C877:3:38294"
+							}
+						],
+						"note": "WARFARIN TAB (EXPIRED)\n Give: 5MG PO QDAY-WARF",
+						"medication": {
+							"reference": "#af497c7c-deb0-4d57-a7c0-daa973adebf0"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:C877:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 5MG PO QDAY-WARF",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 1440,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "QDAY-WARF"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 5,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#af497c7c-deb0-4d57-a7c0-daa973adebf0"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T13:00:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "1b21079a-1a91-408c-bc57-3120003d5663"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:C877:3:38294"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "1U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "5MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10740
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 1440
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "QDAY-WARF"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:C877:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:C877:3:38294"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:C877:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:BL110"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ANTICOAGULANTS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4019972"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "WARFARIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:11289"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "5 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4013990"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "WARFARIN NA 5MG TAB,UD"
+					}
+				],
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T13:00:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 5,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#ebc25eba-40ad-4863-b313-21ae8951276f"
+				},
+				"practitioner": {
+					"reference": "#1b21079a-1a91-408c-bc57-3120003d5663"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "f8401359-443c-4ca0-8de5-daa84f18ce32",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "b2a1fddf-be17-4b7a-9677-e9aec97b6843",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "172ad978-d66a-4049-9664-b012ac512b74",
+								"name": "METFORMIN TAB,ORAL",
+								"code": {
+									"text": "Metformin hydrochloride 500 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "861007",
+											"display": "Metformin hydrochloride 500 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB,ORAL"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#84110b02-6702-4f36-aa9d-6b19727d6aaa",
+												"display": "METFORMIN TAB,ORAL"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "84110b02-6702-4f36-aa9d-6b19727d6aaa",
+										"type": {
+											"text": "METFORMIN HCL 500MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4023979",
+													"display": "METFORMIN"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "METFORMIN TAB,ORAL"
+												}
+											]
+										},
+										"description": "METFORMIN HCL 500MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:C877:3:38295"
+							}
+						],
+						"note": "METFORMIN TAB,ORAL (EXPIRED)\n Give: 500MG PO Q12H",
+						"medication": {
+							"reference": "#172ad978-d66a-4049-9664-b012ac512b74"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:C877:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 500MG PO Q12H",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 720,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "Q12H"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 500,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#172ad978-d66a-4049-9664-b012ac512b74"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "ccbb7953-ca98-4e23-9c36-892a97abb0dd"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:C877:3:38295"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "2U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "500MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 720
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "Q12H"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:C877:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:C877:3:38295"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:C877:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:HS502"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "ORAL HYPOGLYCEMIC AGENTS,ORAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4023979"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "METFORMIN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:6809"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "500 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4012735"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "METFORMIN HCL 500MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 500,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#b2a1fddf-be17-4b7a-9677-e9aec97b6843"
+				},
+				"practitioner": {
+					"reference": "#ccbb7953-ca98-4e23-9c36-892a97abb0dd"
+				}
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "MedicationAdministration",
+				"id": "1137c0c7-70f2-4dcb-ba6c-fdc4be3a6a3a",
+				"status": "completed",
+				"contained": [
+					{
+						"resourceType": "MedicationPrescription",
+						"id": "973bfa5b-d5c2-47d5-99c5-6056a8b78955",
+						"status": "stopped",
+						"contained": [
+							{
+								"resourceType": "Medication",
+								"id": "ce43864e-52a3-42a3-a807-890ddaac28ae",
+								"name": "METOPROLOL TARTRATE TAB",
+								"code": {
+									"text": "Metoprolol Tartrate 50 MG Oral Tablet",
+									"coding": [
+										{
+											"system": "urn:oid:2.16.840.1.113883.6.88",
+											"code": "866514",
+											"display": "Metoprolol Tartrate 50 MG Oral Tablet"
+										}
+									]
+								},
+								"product": {
+									"form": {
+										"text": "TAB"
+									},
+									"ingredient": [
+										{
+											"item": {
+												"reference": "#8dab5c24-3df9-4b61-a015-d9700788f4ee",
+												"display": "METOPROLOL TARTRATE TAB"
+											}
+										}
+									]
+								},
+								"contained": [
+									{
+										"resourceType": "Substance",
+										"id": "8dab5c24-3df9-4b61-a015-d9700788f4ee",
+										"type": {
+											"text": "METOPROLOL TARTRATE 50MG TAB",
+											"coding": [
+												{
+													"system": "urn:oid:2.16.840.1.113883.6.233",
+													"code": "urn:va:vuid:4019836",
+													"display": "METOPROLOL"
+												},
+												{
+													"system": "SNOMED-CT",
+													"code": "urn:sct:410942007",
+													"display": "METOPROLOL TARTRATE TAB"
+												}
+											]
+										},
+										"description": "METOPROLOL TARTRATE 50MG TAB"
+									}
+								]
+							}
+						],
+						"identifier": [
+							{
+								"system": "urn:oid:2.16.840.1.113883.6.233",
+								"value": "urn:va:med:C877:3:38296"
+							}
+						],
+						"note": "METOPROLOL TARTRATE TAB (EXPIRED)\n Give: 50MG PO BID",
+						"medication": {
+							"reference": "#ce43864e-52a3-42a3-a807-890ddaac28ae"
+						},
+						"dateWritten": "2010-02-01T16:07:00+04:00",
+						"prescriber": {
+							"reference": "Provider/urn:va:user:C877:993"
+						},
+						"dosageInstruction": [
+							{
+								"text": "Give: 50MG PO BID",
+								"scheduledTiming": {
+									"repeat": {
+										"frequency": "1",
+										"period": 720,
+										"periodUnits": "s"
+									},
+									"code": {
+										"text": "BID"
+									}
+								},
+								"route": {
+									"text": "PO"
+								},
+								"doseQuantity": {
+									"value": 50,
+									"units": "MG"
+								}
+							}
+						],
+						"dispense": {
+							"medication": {
+								"reference": "#ce43864e-52a3-42a3-a807-890ddaac28ae"
+							},
+							"validityPeriod": {
+								"start": "2015-01-29T16:07:00+04:00",
+								"end": "2015-02-06T00:00:00+04:00"
+							},
+							"quantity": {},
+							"expectedSupplyDuration": {
+								"units": "days"
+							}
+						}
+					},
+					{
+						"resourceType": "Practitioner",
+						"id": "a5f4fcc2-2372-412d-ac13-ac4d148f07df"
+					}
+				],
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:med:C877:3:38296"
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#IMO",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#kind",
+						"valueString": "Medication, Inpatient"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#localId",
+						"valueString": "3U;I"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatus",
+						"valueString": "urn:sct:392521001"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medStatusName",
+						"valueString": "historical"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#medType",
+						"valueString": "urn:sct:105903003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#supply",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/amount",
+						"valueString": "1"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/instructions",
+						"valueString": "50MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/noun",
+						"valueString": "TABLET"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStart",
+						"valueInteger": 0
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/relativeStop",
+						"valueInteger": 10553
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleFreq",
+						"valueString": 720
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleName",
+						"valueString": "BID"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/scheduleType",
+						"valueString": "CONTINUOUS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#dosages[0]]/summary",
+						"valueString": "MedicationDose{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationName",
+						"valueString": "7A GEN MED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/locationUid",
+						"valueString": "urn:va:location:C877:158"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/orderUid",
+						"valueString": "urn:va:order:C877:3:38296"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistName",
+						"valueString": "PROGRAMMER,FIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/pharmacistUid",
+						"valueString": "urn:va:user:C877:119"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/providerName",
+						"valueString": "PROVIDER,TEN"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#orders[0]/summary",
+						"valueString": "MedicationOrder{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassCode",
+						"valueString": "urn:vadc:CV100"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/drugClassName",
+						"valueString": "BETA BLOCKERS/RELATED"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCode",
+						"valueString": "urn:va:vuid:4019836"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientCodeName",
+						"valueString": "METOPROLOL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRole",
+						"valueString": "urn:sct:410942007"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/ingredientRXNCode",
+						"valueString": "urn:rxnorm:6918"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/strength",
+						"valueString": "50 MG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/summary",
+						"valueString": "MedicationProduct{uid=''}"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
+						"valueString": "urn:va:vuid:4004608"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedName",
+						"valueString": "METOPROLOL TARTRATE 50MG TAB"
+					}
+				],
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"wasNotGiven": false,
+				"reasonGiven": [
+					{
+						"text": "None",
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/reason-medication-given",
+								"code": "a",
+								"display": "None"
+							}
+						]
+					}
+				],
+				"effectiveTimePeriod": {
+					"start": "2015-01-29T16:07:00+04:00",
+					"end": "2015-02-06T00:00:00+04:00"
+				},
+				"note": "MedicationDose{uid=''}",
+				"dosage": {
+					"quantity": {
+						"value": 50,
+						"units": "MG",
+						"system": "urn:oid:2.16.840.1.113883.6.8"
+					},
+					"route": {
+						"text": "PO"
+					}
+				},
+				"prescription": {
+					"reference": "#973bfa5b-d5c2-47d5-99c5-6056a8b78955"
+				},
+				"practitioner": {
+					"reference": "#a5f4fcc2-2372-412d-ac13-ac4d148f07df"
+				}
+			}
+		}
+	]
+}

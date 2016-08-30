@@ -1,0 +1,1016 @@
+{
+	"resourceType": "Bundle",
+	"type": "collection",
+	"id": "2cf23277-633e-4d37-bb99-0821dd94bdda",
+	"link": [
+		{
+			"rel": "self",
+			"href": "http://172.16.4.105:8888/resource/fhir/allergyintolerance?subject.identifier=9E7A%3B3&uid=&start=&limit=&fields="
+		}
+	],
+	"entry": [
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>MILK</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:2939:19:106"
+					}
+				],
+				"recordedDate": "1994-01-19T08:22:00+04:00",
+				"patient": {
+					"reference": "Patient/2939;19"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0349375"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4636981",
+									"display": "MILK"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "NAUSEA,VOMITING"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "536"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "New Jersey HCS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20150811104725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "106"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "29;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20150811104725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:2939:19:106"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "19940119082339"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].comment",
+						"valueString": " TESTING DIETETICS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].entered",
+						"valueString": "19940119082309"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].enteredByName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].enteredByUid",
+						"valueString": "urn:va:user:2939:755"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].summary",
+						"valueString": "AllergyComment{uid=''}"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>PENICILLIN</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:9E7A:3:751"
+					}
+				],
+				"recordedDate": "2005-03-17T20:09:00+04:00",
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "AM114",
+							"display": "PENICILLINS AND BETA-LACTAM ANTIMICROBIALS"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "PENICILLIN"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "ITCHING,WATERING EYES"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "500"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP MASTER"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "751"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "PHARMACOLOGIC"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "VEHU,EIGHT"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "125;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:9E7A:3:751"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>CHOCOLATE</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:9E7A:3:874"
+					}
+				],
+				"recordedDate": "2007-12-17T15:13:00+04:00",
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0008299"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4636681",
+									"display": "CHOCOLATE"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4637011",
+									"display": "DIARRHEA"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "500"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP MASTER"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "874"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROVIDER,ONE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "3;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:9E7A:3:874"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>SOY MILK</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:9E7A:3:986"
+					}
+				],
+				"recordedDate": "2015-07-06T15:29:00+04:00",
+				"patient": {
+					"reference": "Patient/9E7A;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0452741"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4691068",
+									"display": "SOY MILK"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "HIVES"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "500"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP MASTER"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "986"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROGRAMMER,ONE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "718;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:9E7A:3:986"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>PENICILLIN</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:C877:3:751"
+					}
+				],
+				"recordedDate": "2005-03-17T20:09:00+04:00",
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "AM114",
+							"display": "PENICILLINS AND BETA-LACTAM ANTIMICROBIALS"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "PENICILLIN"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "ITCHING,WATERING EYES"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "507"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP BEE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "751"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "PHARMACOLOGIC"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "VEHU,EIGHT"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "125;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:C877:3:751"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20050317200936"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>CHOCOLATE</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:C877:3:874"
+					}
+				],
+				"recordedDate": "2007-12-17T15:13:00+04:00",
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0008299"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4636681",
+									"display": "CHOCOLATE"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4637011",
+									"display": "DIARRHEA"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "507"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP BEE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "874"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROVIDER,ONE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "3;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:C877:3:874"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20071217151354"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>SOY MILK</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:C877:3:986"
+					}
+				],
+				"recordedDate": "2015-07-06T15:29:00+04:00",
+				"patient": {
+					"reference": "Patient/C877;3"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0452741"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4691068",
+									"display": "SOY MILK"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "HIVES"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "507"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "CAMP BEE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "986"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROGRAMMER,ONE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "718;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:C877:3:986"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "20150706153033"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "<auto-verified>"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "AllergyIntolerance",
+				"text": {
+					"status": "generated",
+					"div": "<div>MILK</div>"
+				},
+				"identifier": [
+					{
+						"use": "official",
+						"system": "http://vistacore.us/fhir/id/uid",
+						"value": "urn:va:allergy:FFC7:28:106"
+					}
+				],
+				"recordedDate": "1994-01-19T08:22:00+04:00",
+				"patient": {
+					"reference": "Patient/FFC7;28"
+				},
+				"substance": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "C0349375"
+						}
+					]
+				},
+				"status": null,
+				"criticality": "unassessible",
+				"type": "immune",
+				"category": null,
+				"lastOccurence": null,
+				"event": [
+					{
+						"substance": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:4636981",
+									"display": "MILK"
+								}
+							]
+						},
+						"certainty": "likely",
+						"manifestation": {
+							"coding": [
+								{
+									"system": "urn:oid:2.16.840.1.113883.6.233",
+									"code": "urn:va:vuid:",
+									"display": "NAUSEA,VOMITING"
+								}
+							]
+						},
+						"description": null,
+						"onset": null,
+						"duration": null,
+						"severity": null,
+						"exposureRoute": null,
+						"comment": null
+					}
+				],
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityCode",
+						"valueString": "551"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#facilityName",
+						"valueString": "New Jersey HCS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#historical",
+						"valueString": true
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#kind",
+						"valueString": "Allergy/Adverse Reaction"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#lastUpdateTime",
+						"valueString": "20150811104725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#localId",
+						"valueString": "106"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#mechanism",
+						"valueString": "ALLERGY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#originatorName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#reference",
+						"valueString": "29;GMRD(120.82,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#stampTime",
+						"valueString": "20150811104725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#typeName",
+						"valueString": "DRUG, FOOD"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#uid",
+						"valueString": "urn:va:allergy:FFC7:28:106"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verified",
+						"valueString": "19940119082339"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#verifierName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].comment",
+						"valueString": " TESTING DIETETICS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].entered",
+						"valueString": "19940119082309"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].enteredByName",
+						"valueString": "PROGRAMMER,TWENTY"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].enteredByUid",
+						"valueString": "urn:va:user:FFC7:755"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/algyInt#comments[].summary",
+						"valueString": "AllergyComment{uid=''}"
+					}
+				]
+			}
+		}
+	],
+	"total": 8
+}

@@ -1,0 +1,1092 @@
+{
+	"resourceType": "Bundle",
+	"type": "collection",
+	"id": "8084fbd8-1f61-47f1-945d-30a5d29ffcdd",
+	"link": [
+		{
+			"relation": "self",
+			"url": "http://172.16.4.105:8888/resource/fhir/patient/9E7A;3/condition?limit=&date-asserted=&onset=&fields="
+		}
+	],
+	"total": 12,
+	"entry": [
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Occasional, uncontrolled chest pain (ICD-9-CM 411.1)"
+				},
+				"patient": {
+					"reference": "2939;19"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:411.1",
+							"display": "INTERMED CORONARY SYND"
+						},
+						{
+							"code": "25106000",
+							"display": "Impending infarction (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#49fd250c-8ae4-40cf-a9e7-f9af10801d5e",
+					"display": "PROGRAMMER,TWENTY"
+				},
+				"dateAsserted": "1996-05-14",
+				"onsetDateTime": "1996-03-15",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 2939;19</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "49fd250c-8ae4-40cf-a9e7-f9af10801d5e",
+						"name": "PROGRAMMER,TWENTY",
+						"identifier": {
+							"value": "urn:va:user:2939:755",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#comments",
+						"valueString": "<div><ul><li>comment:SHERIDAN PROBLEM</li><li>entered:19960514</li><li>enteredByCode:urn:va:user:2939:755</li><li>enteredByName:PROGRAMMER,TWENTY</li><li>summary:ProblemComment{uid=''}</li></ul></div>"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICINE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "1996-05-14"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Diabetes Mellitus Type II or unspecified (ICD-9-CM 250.00)"
+				},
+				"patient": {
+					"reference": "9E7A;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:250.00",
+							"display": "DIABETES MELLI W/O COMP TYP II"
+						},
+						{
+							"code": "250.00",
+							"display": "DIABETES MELLI W/O COMP TYP II",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#7679d054-e612-44d5-acff-44e3f9606caf",
+					"display": "VEHU,EIGHT"
+				},
+				"dateAsserted": "2000-05-08",
+				"onsetDateTime": "1998-05-02",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 9E7A;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:9E7A:32"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "7679d054-e612-44d5-acff-44e3f9606caf",
+						"name": "VEHU,EIGHT",
+						"identifier": {
+							"value": "urn:va:user:9E7A:20010",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2004-03-30"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Chronic Systolic Heart failure (ICD-9-CM 428.22)"
+				},
+				"patient": {
+					"reference": "9E7A;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:428.22",
+							"display": "CHRONIC SYSTOLIC HEART FAILURE"
+						},
+						{
+							"code": 428.22,
+							"display": "CHRONIC SYSTOLIC HEART FAILURE",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						},
+						{
+							"code": "441481004",
+							"display": "Chronic systolic heart failure (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#cb1c808c-813d-4050-ab16-a313904311e9",
+					"display": "LABTECH,SPECIAL"
+				},
+				"dateAsserted": "2004-03-09",
+				"onsetDateTime": "2004-03-09",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 9E7A;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:9E7A:23"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "cb1c808c-813d-4050-ab16-a313904311e9",
+						"name": "LABTECH,SPECIAL",
+						"identifier": {
+							"value": "urn:va:user:9E7A:11745",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2004-03-09"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Acute myocardial infarction, unspecified site, episode of care unspecified (ICD-9-CM 410.90)"
+				},
+				"patient": {
+					"reference": "9E7A;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:410.90",
+							"display": "AMI NOS, UNSPECIFIED"
+						},
+						{
+							"code": "410.90",
+							"display": "AMI NOS, UNSPECIFIED",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#94d440a7-7d7c-424d-b135-28c2924111f0",
+					"display": "VEHU,EIGHT"
+				},
+				"dateAsserted": "2005-03-17",
+				"onsetDateTime": "2005-03-17",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 9E7A;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:9E7A:23"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "94d440a7-7d7c-424d-b135-28c2924111f0",
+						"name": "VEHU,EIGHT",
+						"identifier": {
+							"value": "urn:va:user:9E7A:20010",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2005-03-17"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Hypertension (ICD-9-CM 401.9)"
+				},
+				"patient": {
+					"reference": "9E7A;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:401.9",
+							"display": "HYPERTENSION NOS"
+						},
+						{
+							"code": 401.9,
+							"display": "HYPERTENSION NOS",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						},
+						{
+							"code": "59621000",
+							"display": "Essential hypertension (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#1c46baeb-9358-4514-aac1-3fc6f34d55e5",
+					"display": "VEHU,ONEHUNDRED"
+				},
+				"dateAsserted": "2007-04-10",
+				"onsetDateTime": "2005-04-07",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 9E7A;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "1c46baeb-9358-4514-aac1-3fc6f34d55e5",
+						"name": "VEHU,ONEHUNDRED",
+						"identifier": {
+							"value": "urn:va:user:9E7A:10000000031",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2007-04-10"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Hyperlipidemia (ICD-9-CM 272.4)"
+				},
+				"patient": {
+					"reference": "9E7A;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:272.4",
+							"display": "HYPERLIPIDEMIA NEC/NOS"
+						},
+						{
+							"code": 272.4,
+							"display": "HYPERLIPIDEMIA NEC/NOS",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#4779b9f7-183b-4645-b445-29d02e481609",
+					"display": "VEHU,ONEHUNDRED"
+				},
+				"dateAsserted": "2007-04-10",
+				"onsetDateTime": "2005-04-07",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient 9E7A;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "4779b9f7-183b-4645-b445-29d02e481609",
+						"name": "VEHU,ONEHUNDRED",
+						"identifier": {
+							"value": "urn:va:user:9E7A:10000000031",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2007-04-10"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Diabetes Mellitus Type II or unspecified (ICD-9-CM 250.00)"
+				},
+				"patient": {
+					"reference": "C877;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:250.00",
+							"display": "DIABETES MELLI W/O COMP TYP II"
+						},
+						{
+							"code": "250.00",
+							"display": "DIABETES MELLI W/O COMP TYP II",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#be4a1753-ca25-45c3-b395-bae37c1b1b2f",
+					"display": "VEHU,EIGHT"
+				},
+				"dateAsserted": "2000-05-08",
+				"onsetDateTime": "1998-05-02",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient C877;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:C877:32"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "be4a1753-ca25-45c3-b395-bae37c1b1b2f",
+						"name": "VEHU,EIGHT",
+						"identifier": {
+							"value": "urn:va:user:C877:20010",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2004-03-30"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Chronic Systolic Heart failure (ICD-9-CM 428.22)"
+				},
+				"patient": {
+					"reference": "C877;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:428.22",
+							"display": "CHRONIC SYSTOLIC HEART FAILURE"
+						},
+						{
+							"code": 428.22,
+							"display": "CHRONIC SYSTOLIC HEART FAILURE",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						},
+						{
+							"code": "441481004",
+							"display": "Chronic systolic heart failure (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#0433aa22-5d32-4233-b614-37629d7c438c",
+					"display": "LABTECH,SPECIAL"
+				},
+				"dateAsserted": "2004-03-09",
+				"onsetDateTime": "2004-03-09",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient C877;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:C877:23"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "0433aa22-5d32-4233-b614-37629d7c438c",
+						"name": "LABTECH,SPECIAL",
+						"identifier": {
+							"value": "urn:va:user:C877:11745",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2004-03-09"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Acute myocardial infarction, unspecified site, episode of care unspecified (ICD-9-CM 410.90)"
+				},
+				"patient": {
+					"reference": "C877;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:410.90",
+							"display": "AMI NOS, UNSPECIFIED"
+						},
+						{
+							"code": "410.90",
+							"display": "AMI NOS, UNSPECIFIED",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#f0471f9f-572e-42b5-b5e4-3fb7ca1d9d18",
+					"display": "VEHU,EIGHT"
+				},
+				"dateAsserted": "2005-03-17",
+				"onsetDateTime": "2005-03-17",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient C877;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location",
+								"_id": "urn:va:location:C877:23"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "f0471f9f-572e-42b5-b5e4-3fb7ca1d9d18",
+						"name": "VEHU,EIGHT",
+						"identifier": {
+							"value": "urn:va:user:C877:20010",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2005-03-17"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Hypertension (ICD-9-CM 401.9)"
+				},
+				"patient": {
+					"reference": "C877;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:401.9",
+							"display": "HYPERTENSION NOS"
+						},
+						{
+							"code": 401.9,
+							"display": "HYPERTENSION NOS",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						},
+						{
+							"code": "59621000",
+							"display": "Essential hypertension (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#a9535dd8-32ef-49ba-86a8-85f3fdfeebcc",
+					"display": "VEHU,ONEHUNDRED"
+				},
+				"dateAsserted": "2007-04-10",
+				"onsetDateTime": "2005-04-07",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient C877;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "a9535dd8-32ef-49ba-86a8-85f3fdfeebcc",
+						"name": "VEHU,ONEHUNDRED",
+						"identifier": {
+							"value": "urn:va:user:C877:10000000031",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2007-04-10"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Hyperlipidemia (ICD-9-CM 272.4)"
+				},
+				"patient": {
+					"reference": "C877;3"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:272.4",
+							"display": "HYPERLIPIDEMIA NEC/NOS"
+						},
+						{
+							"code": 272.4,
+							"display": "HYPERLIPIDEMIA NEC/NOS",
+							"system": "urn:oid:2.16.840.1.113883.6.42"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#95bf40df-4bfd-46aa-849b-e49742dab59e",
+					"display": "VEHU,ONEHUNDRED"
+				},
+				"dateAsserted": "2007-04-10",
+				"onsetDateTime": "2005-04-07",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient C877;3</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "95bf40df-4bfd-46aa-849b-e49742dab59e",
+						"name": "VEHU,ONEHUNDRED",
+						"identifier": {
+							"value": "urn:va:user:C877:10000000031",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICAL"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "2007-04-10"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Condition",
+				"category": {
+					"coding": [
+						{
+							"code": "diagnosis",
+							"system": "2.16.840.1.113883.4.642.2.224"
+						}
+					]
+				},
+				"stage": {
+					"summary": "Occasional, uncontrolled chest pain (ICD-9-CM 411.1)"
+				},
+				"patient": {
+					"reference": "FFC7;28"
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "urn:oid:2.16.840.1.113883.6.233",
+							"code": "urn:icd:411.1",
+							"display": "INTERMED CORONARY SYND"
+						},
+						{
+							"code": "25106000",
+							"display": "Impending infarction (disorder)",
+							"system": "http://snomed.info/sct"
+						}
+					]
+				},
+				"asserter": {
+					"reference": "#d751f187-ecb2-4254-a0bb-a3f7f75ddd6c",
+					"display": "PROGRAMMER,TWENTY"
+				},
+				"dateAsserted": "1996-05-14",
+				"onsetDateTime": "1996-03-15",
+				"contained": [
+					{
+						"resourceType": "Encounter",
+						"text": {
+							"status": "generated",
+							"div": "<div>Encounter with patient FFC7;28</div>"
+						},
+						"location": [
+							{
+								"resourceType": "Location"
+							}
+						]
+					},
+					{
+						"resourceType": "Practitioner",
+						"_id": "d751f187-ecb2-4254-a0bb-a3f7f75ddd6c",
+						"name": "PROGRAMMER,TWENTY",
+						"identifier": {
+							"value": "urn:va:user:FFC7:755",
+							"system": "urn:oid:2.16.840.1.113883.6.233"
+						}
+					}
+				],
+				"clinicalStatus": "confirmed",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#comments",
+						"valueString": "<div><ul><li>comment:SHERIDAN PROBLEM</li><li>entered:19960514</li><li>enteredByCode:urn:va:user:FFC7:755</li><li>enteredByName:PROGRAMMER,TWENTY</li><li>summary:ProblemComment{uid=''}</li></ul></div>"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#service",
+						"valueString": "MEDICINE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#serviceConnected",
+						"valueBoolean": false
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusCode",
+						"valueString": "urn:sct:55561003"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusDisplayName",
+						"valueString": "Active"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#statusName",
+						"valueString": "ACTIVE"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/condition#updated",
+						"valueDateTime": "1996-05-14"
+					}
+				]
+			}
+		}
+	]
+}

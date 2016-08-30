@@ -1,0 +1,143 @@
+{
+  "resourceType": "Patient",
+  "extension": [
+    {
+      "url": "http://vistacore.us/fhir/profiles/@main#service-connected",
+      "valueCoding": {
+        "code": "Y",
+        "display": "Service Connected"
+      }
+    },
+    {
+      "url": "http://vistacore.us/fhir/profiles/@main#sensitive",
+      "valueBoolean": false
+    },
+    {
+      "url": "http://vistacore.us/fhir/profiles/@main#religion",
+      "valueCoding": {
+        "code": "urn:va:pat-religion:99",
+        "display": "ROMAN CATHOLIC CHURCH"
+      }
+    },
+    {
+      "url": "http://vistacore.us/fhir/profiles/@main#service-connected-percent",
+      "valueQuantity": {
+        "value": "0",
+        "units": "%"
+      }
+    }
+  ],
+  "text": {
+    "status": "generated",
+    "div": "<div>EIGHT,PATIENT. SSN: 666000008</div>"
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://hl7.org/fhir/sid/us-ssn",
+      "value": "666000008"
+    },
+    {
+      "system": "http://vistacore.us/fhir/id/uid",
+      "value": "urn:va:patient:9E7A:3:3"
+    },
+    {
+      "system": "http://vistacore.us/fhir/id/dfn",
+      "value": "3"
+    },
+    {
+      "system": "http://vistacore.us/fhir/id/pid",
+      "value": "9E7A;3"
+    },
+    {
+      "system": "http://vistacore.us/fhir/id/lrdfn",
+      "value": "27"
+    },
+    {
+      "system": "http://vistacore.us/fhir/id/icn",
+      "value": "10108V420871"
+    }
+  ],
+  "name": [
+    {
+      "use": "official",
+      "text": "EIGHT,PATIENT",
+      "family": [
+        "EIGHT"
+      ],
+      "given": [
+        "PATIENT"
+      ]
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1935-04-07",
+  "contained": [
+    {
+      "resourceType": "Organization",
+      "id": "c188033a-646a-4db9-9911-4ba203ba09bf",
+      "identifier": [
+        {
+          "system": "urn:oid:2.16.840.1.113883.6.233",
+          "value": "998"
+        }
+      ],
+      "name": "ABILENE (CAA)"
+    }
+  ],
+  "managingOrganization": {
+    "reference": "#c188033a-646a-4db9-9911-4ba203ba09bf"
+  },
+  "telecom": [
+    {
+      "use": "home",
+      "system": "phone",
+      "value": "(222)555-8235"
+    },
+    {
+      "use": "work",
+      "system": "phone",
+      "value": "(222)555-7720"
+    }
+  ],
+  "address": [
+    {
+      "use": "home",
+      "line": [
+        "Any Street"
+      ],
+      "city": "Any Town",
+      "state": "WV",
+      "postalCode": ""
+    }
+  ],
+  "contact": [
+    {
+      "relationship": [
+        {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/patient-contact-relationship",
+              "code": "family",
+              "display": "Next of Kin"
+            }
+          ],
+          "text": "Next of Kin"
+        }
+      ],
+      "name": {
+        "use": "usual",
+        "text": "VETERAN,BROTHER"
+      }
+    }
+  ],
+  "maritalStatus": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/v3/MaritalStatus",
+        "code": "M",
+        "display": "Married"
+      }
+    ]
+  }
+}

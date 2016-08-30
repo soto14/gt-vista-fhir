@@ -1,0 +1,142 @@
+{
+	"resourceType": "Bundle",
+	"type": "collection",
+	"id": "6ed3185b-08aa-47f9-a2de-2554a6504d6d",
+	"link": [
+		{
+			"relation": "self",
+			"url": "http://172.16.4.105:8888/resource/fhir/patient/9E7A;3/procedure?limit=&date-asserted=&onset=&fields="
+		}
+	],
+	"total": 2,
+	"entry": [
+		{
+			"resource": {
+				"resourceType": "Procedure",
+				"id": "8017509e-7fbf-4ea3-b81c-b02e4ac695bc",
+				"text": {
+					"status": "generated",
+					"div": "<div>LAPARASCOPY</div>"
+				},
+				"status": "completed",
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:procedure:2939:19:50;MCAR(699,"
+					}
+				],
+				"patient": {
+					"reference": "Patient/2939;19"
+				},
+				"type": {
+					"coding": [
+						{
+							"system": "gov.va.fileman697-2:9E7A",
+							"display": "LAPARASCOPY",
+							"primary": true
+						}
+					]
+				},
+				"performedDateTime": "1998-11-19T08:00:00+04:00",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#category",
+						"valueString": "CP"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#facilityCode",
+						"valueString": "536"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#facilityName",
+						"valueString": "New Jersey HCS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#kind",
+						"valueString": "Procedure"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#lastUpdateTime",
+						"valueString": "20140409083725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#localId",
+						"valueString": "50;MCAR(699,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#stampTime",
+						"valueString": "20140409083725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#lastUpdateTime",
+						"valueString": "20140409083725"
+					}
+				]
+			}
+		},
+		{
+			"resource": {
+				"resourceType": "Procedure",
+				"id": "2db2425f-e9eb-421b-a3de-da6752e52b60",
+				"text": {
+					"status": "generated",
+					"div": "<div>LAPARASCOPY</div>"
+				},
+				"status": "completed",
+				"identifier": [
+					{
+						"system": "urn:oid:2.16.840.1.113883.6.233",
+						"value": "urn:va:procedure:FFC7:28:50;MCAR(699,"
+					}
+				],
+				"patient": {
+					"reference": "Patient/FFC7;28"
+				},
+				"type": {
+					"coding": [
+						{
+							"system": "gov.va.fileman697-2:9E7A",
+							"display": "LAPARASCOPY",
+							"primary": true
+						}
+					]
+				},
+				"performedDateTime": "1998-11-19T08:00:00+04:00",
+				"extension": [
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#category",
+						"valueString": "CP"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#facilityCode",
+						"valueString": "551"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#facilityName",
+						"valueString": "New Jersey HCS"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#kind",
+						"valueString": "Procedure"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#lastUpdateTime",
+						"valueString": "20140409083725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#localId",
+						"valueString": "50;MCAR(699,"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#stampTime",
+						"valueString": "20140409083725"
+					},
+					{
+						"url": "http://vistacore.us/fhir/extensions/procedure#lastUpdateTime",
+						"valueString": "20140409083725"
+					}
+				]
+			}
+		}
+	]
+}
