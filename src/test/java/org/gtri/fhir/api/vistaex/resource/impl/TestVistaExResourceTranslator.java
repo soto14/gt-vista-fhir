@@ -43,6 +43,33 @@ public class TestVistaExResourceTranslator {
         }
     }
 
+    @Test
+    public void testTranslateObservation() throws Exception{
+        String jsonFileText = getFileTextContent("src/test/resources/json/observation-fhrish-sample.json");
+        Bundle observationBundle = translator.translateObservationForPatient(jsonFileText);
+        Assert.assertNotNull(observationBundle);
+        Assert.assertFalse(observationBundle.isEmpty());
+        List<Bundle.Entry> entryList = observationBundle.getEntry();
+        Assert.assertEquals(entryList.size(), 1748);
+        for(Bundle.Entry entry : entryList){
+            Assert.assertEquals(entry.getResource().getResourceName(), "Observation");
+        }
+    }
+
+    @Test
+    public void testTranslateMedicationPrescription() throws Exception{
+        String jsonFileText = getFileTextContent("src/test/resources/json/medication-prescription-fhirish-sample-new.json");
+        Bundle medicationPrescriptionBundle = translator.translateMedicationOrderForPatient(jsonFileText);
+        Assert.assertNotNull(medicationPrescriptionBundle);
+        Assert.assertFalse(medicationPrescriptionBundle.isEmpty());
+        List<Bundle.Entry> entryList = medicationPrescriptionBundle.getEntry();
+        Assert.assertEquals(entryList.size(), 48);
+        for(Bundle.Entry entry : entryList){
+            Assert.assertNotNull(entry.getResource());
+            Assert.assertEquals(entry.getResource().getResourceName(), "MedicationOrder");
+        }
+    }
+
     public String getFileTextContent(String filePath) throws Exception{
         File patientJsonFile = new File(filePath);
         return FileUtils.readFileToString(patientJsonFile, Charset.forName("UTF-8"));

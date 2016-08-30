@@ -277,8 +277,31 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
-    public MedicationOrder retrieveMedicationOrderForPatient(String patientId) {
-        return null;
+    public Bundle retrieveMedicationOrderForPatient(String patientId) {
+        logger.debug("Getting MedicationOrder for Patient");
+        Bundle medicationOrderBundle = null;
+
+        String medicationPrescriptionUrl = serverURL + "patient/" + patientId + "/medicationprescription?limit=&fields=";
+        //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/medicationprescription?limit=&fields=
+        logger.debug("Using URL " + medicationPrescriptionUrl);
+        HttpGet httpGet = new HttpGet(medicationPrescriptionUrl);
+
+        try{
+            CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
+            try{
+                String jsonStr = getJsonResponse(response);
+                medicationOrderBundle = vistaExResourceTranslator.translateMedicationOrderForPatient(jsonStr);
+            }
+            finally{
+                response.close();
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+        logger.debug("Finished Getting MedicationOrder");
+        return medicationOrderBundle;
     }
 
     @Override
@@ -287,7 +310,7 @@ public class VistaExResourceImpl implements VistaExResource{
         Bundle conditionBundle = null;
 
         String conditionRecordUrl = serverURL + "patient/" + patientId + "/condition?limit=&date-asserted=&onset=&fields=";
-//        https://54.173.144.121/resource/fhir/patient/9E7A%3B3/condition?limit=&date-asserted=&onset=&fields=
+        //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/condition?limit=&date-asserted=&onset=&fields=
         logger.debug("Using URL " + conditionRecordUrl);
         HttpGet httpGet = new HttpGet(conditionRecordUrl);
 
@@ -310,8 +333,29 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
-    public Observation retrieveObservationForPatient(String patientId) {
-        return null;
+    public Bundle retrieveObservationForPatient(String patientId) {
+        logger.debug("Getting Observation Bundle for Patient {}", patientId);
+        Bundle observationBundle = null;
+        //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/observation?limit=&date-asserted=&onset=&fields=
+        String observationRecordUrl = serverURL + "patient/" + patientId + "/observation?limit=&date-asserted=&onset=&fields=";
+        logger.debug("Using URL " + observationRecordUrl);
+        HttpGet httpGet = new HttpGet(observationRecordUrl);
+
+        try{
+            CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
+            try{
+                String jsonStr = getJsonResponse(response);
+                observationBundle = vistaExResourceTranslator.translateObservationForPatient(jsonStr);
+            }
+            finally{
+                response.close();
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        logger.debug("Finshed Getting Conditions");
+        return observationBundle;
     }
 
     @Override

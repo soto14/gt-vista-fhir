@@ -19,25 +19,25 @@ public interface VistaExResource {
     public Patient retrievePatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 MedicationOrder Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of MedicationOrder Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link MedicationOrder} resource for the patient.
+     * @return {@link Bundle} resource for the patient.
      */
-    public MedicationOrder retrieveMedicationOrderForPatient(String patientId);
+    public Bundle retrieveMedicationOrderForPatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 Condition Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of Condition Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
      * @return {@link Bundle} resource for the patient.
      */
     public Bundle retrieveConditionForPatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 Observation Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of Observation Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link Observation} resource for the patient.
+     * @return {@link Bundle} resource for the patient.
      */
-    public Observation retrieveObservationForPatient(String patientId);
+    public Bundle retrieveObservationForPatient(String patientId);
 
     /**
      * Retrieves a DTSU2 Procedure Object, from the VistaEx API, for a patient

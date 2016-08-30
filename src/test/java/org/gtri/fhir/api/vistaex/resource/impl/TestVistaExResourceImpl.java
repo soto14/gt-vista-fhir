@@ -24,6 +24,9 @@ public class TestVistaExResourceImpl {
 
     @Test
     public void testServiceInteraction() throws Exception{
+        // list to store bundles
+        List<Bundle.Entry> entryList;
+
         //log in
         boolean success = vistaExResource.loginToVistaEx();
         Assert.assertTrue( success );
@@ -39,9 +42,30 @@ public class TestVistaExResourceImpl {
         Bundle conditionBundle = vistaExResource.retrieveConditionForPatient(PATIENT_ID);
         Assert.assertNotNull(conditionBundle);
         Assert.assertEquals(conditionBundle.getTotal(), Integer.valueOf(12) );
-        List<Bundle.Entry> entryList = conditionBundle.getEntry();
+        entryList = conditionBundle.getEntry();
         for(Bundle.Entry entry : entryList){
             Assert.assertEquals(entry.getResource().getResourceName(), "Condition" );
+        }
+
+        //query for observation bundle
+        Bundle observationBundle = vistaExResource.retrieveObservationForPatient(PATIENT_ID);
+        Assert.assertNotNull(observationBundle);
+        Assert.assertFalse(observationBundle.isEmpty());
+        entryList = observationBundle.getEntry();
+        Assert.assertTrue(entryList.size()> 0);
+        for(Bundle.Entry entry : entryList){
+            Assert.assertEquals(entry.getResource().getResourceName(), "Observation");
+        }
+
+        //query for medication order bundle
+        Bundle medicationOrderBundle = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
+        Assert.assertNotNull(medicationOrderBundle);
+        Assert.assertFalse(medicationOrderBundle.isEmpty());
+        entryList = medicationOrderBundle.getEntry();
+        Assert.assertEquals(entryList.size(), 48);
+        for(Bundle.Entry entry : entryList){
+            Assert.assertNotNull(entry.getResource());
+            Assert.assertEquals(entry.getResource().getResourceName(), "MedicationOrder");
         }
 
         //log out

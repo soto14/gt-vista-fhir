@@ -22,25 +22,25 @@ public interface VistaExResourceTranslator {
     public Patient translatePatient(String patientJSON);
 
     /**
-     * Translates JSON for a MedicationOrder Object, from the VistaEx API, to a DTSU2 MedicationOrder
-     * @param medicationOrderJson the {@link String} JSON representation to translate to a DTSU2 MedicationOrder
-     * @return {@link MedicationOrder}.
+     * Translates JSON for a Bundle of MedicationOrder Objects, from the VistaEx API, to a DTSU2 MedicationOrder
+     * @param medicationOrderBundleJson the {@link String} JSON representation to translate to a DTSU2 MedicationOrder Bundle
+     * @return {@link Bundle}.
      */
-    public MedicationOrder translateMedicationOrderForPatient(String medicationOrderJson);
+    public Bundle translateMedicationOrderForPatient(String medicationOrderBundleJson);
 
     /**
-     * Translates JSON for a Bundle of rCondition Objects, from the VistaEx API, to a DTSU2 Bundle of Conditions
-     * @param conditionBundleJson the {@link String} JSON representation to translate to a DTSU2 Condition
+     * Translates JSON for a Bundle of Condition Objects, from the VistaEx API, to a DTSU2 Bundle of Conditions
+     * @param conditionBundleJson the {@link String} JSON representation to translate to a DTSU2 Condition Bundle
      * @return {@link Bundle}.
      */
     public Bundle translateConditionBundleForPatient(String conditionBundleJson);
 
     /**
-     * Translates JSON for a Observation Object, from the VistaEx API, to a DTSU2 Observation
-     * @param observationJson the {@link String} JSON representation to translate to a DTSU2
-     * @return {@link Observation}.
+     * Translates JSON for a Bundle of Observation Objects, from the VistaEx API, to a DTSU2 Bundle of Observation
+     * @param observationBundleJson the {@link String} JSON representation to translate to a DTSU2 Observation Bundle
+     * @return {@link Bundle}.
      */
-    public Observation translateObservationForPatient(String observationJson);
+    public Bundle translateObservationForPatient(String observationBundleJson);
 
     /**
      * Translates JSON for a Procedure Object, from the VistaEx API, to a DTSU2 Procedure
