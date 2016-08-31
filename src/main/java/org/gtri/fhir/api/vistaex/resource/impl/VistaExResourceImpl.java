@@ -38,7 +38,6 @@ import java.util.Properties;
 /**
  * Created by es130 on 8/29/2016.
  */
-@Service
 public class VistaExResourceImpl implements VistaExResource{
     /*========================================================================*/
     /* CONSTANTS */
