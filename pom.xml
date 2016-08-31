@@ -5,17 +5,18 @@
 	HAPI projects use the HAPI-FHIR base POM as their base. You don't need this
 	for your own projects. One thing to note though:  
 	-->
-	<parent>
-		<groupId>ca.uhn.hapi.fhir</groupId>
-		<artifactId>hapi-fhir</artifactId>
-		<version>2.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
-	
+	<!--<parent>-->
+		<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
+		<!--<artifactId>hapi-fhir</artifactId>-->
+		<!--<version>2.0-SNAPSHOT</version>-->
+		<!--<relativePath>../pom.xml</relativePath>-->
+	<!--</parent>-->
+	<groupId>org.gtri.fhir.api.vistaex</groupId>
 	<artifactId>restful-gtva-dstu2-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>HAPI FHIR Sample RESTful Server</name>
+	<name>HAPI FHIR GT VistA Ex API Sample RESTful Server</name>
 
 	<repositories>
 		<repository>
@@ -26,6 +27,20 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
+
+    <properties>
+        <!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
+        <jetty_version>9.3.10.v20160621</jetty_version>
+        <!-- This property is used in some of the site documentation where the version is shown, so that we can deploy the site even if the project is on a snapshot version. -->
+        <hapi_stable_version>1.4</hapi_stable_version>
+        <maven_assembly_plugin_version>2.5.3</maven_assembly_plugin_version>
+        <maven_license_plugin_version>1.8</maven_license_plugin_version>
+        <maven_source_plugin_version>2.4</maven_source_plugin_version>
+        <ebay_cors_filter_version>1.0.1</ebay_cors_filter_version>
+        <spring_version>4.3.1.RELEASE</spring_version>
+        <thymeleaf-version>3.0.1.RELEASE</thymeleaf-version>
+    </properties>
 
 	<dependencies>
 
@@ -41,22 +56,89 @@
 			<artifactId>hapi-fhir-structures-dstu2</artifactId>
 			<version>2.0-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-structures-dstu</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Bring in Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.10.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>${spring_version}</version>
+        </dependency>
 
 		<!-- This dependency is used for the "FHIR Tester" web app overlay -->
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-testpage-overlay</artifactId>
-			<version>2.0-SNAPSHOT</version>
-			<type>war</type>
-			<scope>provided</scope>		
-		</dependency>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-testpage-overlay</artifactId>
-			<version>2.0-SNAPSHOT</version>
-			<classifier>classes</classifier>
-			<scope>provided</scope>		
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
+			<!--<artifactId>hapi-fhir-testpage-overlay</artifactId>-->
+			<!--<version>2.0-SNAPSHOT</version>-->
+			<!--<type>war</type>-->
+			<!--<scope>provided</scope>		-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
+			<!--<artifactId>hapi-fhir-testpage-overlay</artifactId>-->
+			<!--<version>2.0-SNAPSHOT</version>-->
+			<!--<classifier>classes</classifier>-->
+			<!--<scope>provided</scope>		-->
+		<!--</dependency>-->
 
 		<!-- 
 		HAPI-FHIR uses Logback for logging support. The logback library is included 
@@ -73,6 +155,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
+            <version>1.1.7</version>
 		</dependency>
 
 		<!-- Needed for JEE/Servlet support -->
@@ -80,6 +163,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+            <version>3.1.0</version>
 		</dependency>
 
 		<!-- 
@@ -89,12 +173,20 @@
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf-version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl</artifactId>
+            <version>4.4.1</version>
+        </dependency>
 
 		<!-- Used for CORS support -->
 		<dependency>
 			<groupId>org.ebaysf.web</groupId>
 			<artifactId>cors-filter</artifactId>
+            <version>${ebay_cors_filter_version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>
@@ -102,6 +194,106 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>java-hamcrest</artifactId>
+            <version>2.0.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.7</version>
+        </dependency>
+
+        <!-- Apache Commons -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-api</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-client</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-server</artifactId>
+            <version>${jetty_version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -133,6 +325,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -146,28 +339,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<overlays>
-						<overlay>
-							<groupId>ca.uhn.hapi.fhir</groupId>
-							<artifactId>hapi-fhir-testpage-overlay</artifactId>
-						</overlay>
-					</overlays>
-				</configuration>
+                <version>2.6</version>
+				<!--<configuration>-->
+					<!--<overlays>-->
+						<!--<overlay>-->
+							<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
+							<!--<artifactId>hapi-fhir-testpage-overlay</artifactId>-->
+						<!--</overlay>-->
+					<!--</overlays>-->
+				<!--</configuration>-->
 			</plugin>
-			
-			<!-- 
-			This plugin is just a part of the HAPI internal build process, you do not
-			need to incude it in your own projects
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>false</skip>
-				</configuration>
-			</plugin>
-    		
+
 		</plugins>
 	</build>
 

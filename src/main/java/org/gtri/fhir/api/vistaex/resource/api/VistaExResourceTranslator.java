@@ -1,6 +1,6 @@
 package org.gtri.fhir.api.vistaex.resource.api;
 
-import ca.uhn.fhir.model.dstu.resource.*;
+//import ca.uhn.fhir.model.dstu.resource.*;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance;
 import ca.uhn.fhir.model.dstu2.resource.Condition;

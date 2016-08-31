@@ -1,12 +1,13 @@
 package ca.uhn.example.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
+import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
+import org.springframework.context.annotation.*;
 
-import ca.uhn.fhir.context.FhirVersionEnum;
-import ca.uhn.fhir.to.FhirTesterMvcConfig;
-import ca.uhn.fhir.to.TesterConfig;
+//import ca.uhn.fhir.context.FhirVersionEnum;
+//import ca.uhn.fhir.to.FhirTesterMvcConfig;
+//import ca.uhn.fhir.to.TesterConfig;
+
 
 //@formatter:off
 /**
@@ -18,7 +19,8 @@ import ca.uhn.fhir.to.TesterConfig;
  *    method below
  */
 @Configuration
-@Import(FhirTesterMvcConfig.class)
+@ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "ca.uhn.example.provider.*", "ca.uhn.example.servlet.*"})
+//@Import(FhirTesterMvcConfig.class)
 public class FhirTesterConfig {
 
 	/**
@@ -35,29 +37,35 @@ public class FhirTesterConfig {
 	 * deploying your server to a place with a fully qualified domain name, 
 	 * you might want to use that instead of using the variable.
 	 */
-	@Bean
-	public TesterConfig testerConfig() {
-		TesterConfig retVal = new TesterConfig();
-		retVal
-			.addServer()
-				.withId("home")
-				.withFhirVersion(FhirVersionEnum.DSTU2)
-				.withBaseUrl("${serverBase}/fhir")
-				.withName("Local Tester")
-			.addServer()
-				.withId("hapi")
-				.withFhirVersion(FhirVersionEnum.DSTU2)
-				.withBaseUrl("http://fhirtest.uhn.ca/baseDstu2")
-				.withName("Public HAPI Test Server");
-		
-		/*
-		 * Use the method below to supply a client "factory" which can be used 
-		 * if your server requires authentication
-		 */
-		// retVal.setClientFactory(clientFactory);
-		
-		return retVal;
-	}
-	
+//	@Bean
+//	public TesterConfig testerConfig() {
+//		TesterConfig retVal = new TesterConfig();
+//		retVal
+//			.addServer()
+//				.withId("home")
+//				.withFhirVersion(FhirVersionEnum.DSTU2)
+//				.withBaseUrl("${serverBase}/fhir")
+//				.withName("Local Tester")
+//			.addServer()
+//				.withId("hapi")
+//				.withFhirVersion(FhirVersionEnum.DSTU2)
+//				.withBaseUrl("http://fhirtest.uhn.ca/baseDstu2")
+//				.withName("Public HAPI Test Server");
+//
+//		/*
+//		 * Use the method below to supply a client "factory" which can be used
+//		 * if your server requires authentication
+//		 */
+//		// retVal.setClientFactory(clientFactory);
+//
+//		return retVal;
+//	}
+
+//	@Bean
+//	@Scope(value="session")
+//	public VistaExResource vistaExResource(){
+//		return new VistaExResourceImpl();
+//	}
+
 }
 //@formatter:on

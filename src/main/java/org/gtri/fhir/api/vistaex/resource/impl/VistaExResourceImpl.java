@@ -24,6 +24,7 @@ import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.net.ssl.SSLContext;
 import java.io.*;
@@ -37,6 +38,7 @@ import java.util.Properties;
 /**
  * Created by es130 on 8/29/2016.
  */
+@Service
 public class VistaExResourceImpl implements VistaExResource{
     /*========================================================================*/
     /* CONSTANTS */
@@ -265,6 +267,8 @@ public class VistaExResourceImpl implements VistaExResource{
                 logger.debug("Converting to DSTU2 Patient");
                 //now convert to Patient
                 patient = vistaExResourceTranslator.translatePatient(jsonStr);
+                //Explicitly set the id
+                patient.setId(patientId);
             }
             finally{
                 response.close();

@@ -3,7 +3,8 @@ package ca.uhn.example.servlet;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.uhn.example.provider.GtVistaExApiResourceProvider;
+import ca.uhn.example.provider.GtVistaExApiObservationResourceProvider;
+import ca.uhn.example.provider.GtVistaExApiPatientResourceProvider;
 import ca.uhn.example.provider.OrganizationResourceProvider;
 import ca.uhn.example.provider.PatientResourceProvider;
 import ca.uhn.fhir.context.FhirContext;
@@ -12,6 +13,8 @@ import ca.uhn.fhir.narrative.INarrativeGenerator;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
+import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This servlet is the actual FHIR server itself
@@ -38,9 +41,10 @@ public class ExampleRestfulServlet extends RestfulServer {
 		 * type of resource.
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
-		providers.add(new PatientResourceProvider());
+//		providers.add(new PatientResourceProvider());
 		providers.add(new OrganizationResourceProvider());
-		providers.add(new GtVistaExApiResourceProvider());
+		providers.add(new GtVistaExApiPatientResourceProvider());
+		providers.add(new GtVistaExApiObservationResourceProvider());
 		setResourceProviders(providers);
 		
 		/*
@@ -63,6 +67,8 @@ public class ExampleRestfulServlet extends RestfulServer {
 		 * Tells the server to return pretty-printed responses by default
 		 */
 		setDefaultPrettyPrint(true);
+
+		//todo log in to Vista Ex API
 		
 	}
 
