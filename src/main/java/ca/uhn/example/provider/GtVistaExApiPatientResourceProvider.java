@@ -25,18 +25,12 @@ import java.util.List;
 /**
  * Created by es130 on 8/29/2016.
  */
-public class GtVistaExApiPatientResourceProvider implements IResourceProvider {
+public class GtVistaExApiPatientResourceProvider extends GtVistaResourceProvider implements IResourceProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(GtVistaExApiPatientResourceProvider.class);
 
-//    @Autowired
-    protected VistaExResource vistaExResource;
-
     public GtVistaExApiPatientResourceProvider(){
-        //I don't like doing this, but the Autowired annotation does not work, and this
-        //method was the only way I could figure to get the VistaExResource Injected.
-        WebApplicationContext parentAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
-        vistaExResource = parentAppCtx.getBean(VistaExResource.class);
+        super();
     }
 
     /**
@@ -59,9 +53,7 @@ public class GtVistaExApiPatientResourceProvider implements IResourceProvider {
         List<Patient> returnVals = new ArrayList<Patient>();
         logger.debug("Retrieving Patient {}", patientId.getValue());
         //make call to VistA Ex API
-//        vistaExResource.loginToVistaEx();
         Patient patient = vistaExResource.retrievePatient(patientId.getValue());
-//        vistaExResource.logOutOfVistaEx();
         logger.debug("Retrieved Patient");
         returnVals.add(patient);
         return returnVals;

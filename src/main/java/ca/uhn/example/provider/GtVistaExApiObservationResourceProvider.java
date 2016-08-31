@@ -20,16 +20,10 @@ import java.util.List;
 /**
  * Created by es130 on 8/31/2016.
  */
-public class GtVistaExApiObservationResourceProvider implements IResourceProvider {
-
-//    @Autowired
-    VistaExResource vistaExResource;
+public class GtVistaExApiObservationResourceProvider extends GtVistaResourceProvider implements IResourceProvider {
 
     public GtVistaExApiObservationResourceProvider(){
-        //I don't like doing this, but the Autowired annotation does not work, and this
-        //method was the only way I could figure to get the VistaExResource Injected.
-        WebApplicationContext parentAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
-        vistaExResource = parentAppCtx.getBean(VistaExResource.class);
+        super();
     }
 
     @Override
@@ -49,10 +43,7 @@ public class GtVistaExApiObservationResourceProvider implements IResourceProvide
     ){
         //TODO: At a later date may want to change the chained param from "id" to Patient.SP_IDENTIFIER, then
         //the incoming param will be "identifier".
-        List<Observation> observations = new ArrayList<Observation>();
-//        vistaExResource.loginToVistaEx();
         Bundle observationBundle = vistaExResource.retrieveObservationForPatient(patientId.getValue());
-//        vistaExResource.logOutOfVistaEx();
         return observationBundle;
     }
 }

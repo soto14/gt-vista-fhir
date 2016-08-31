@@ -3,10 +3,7 @@ package ca.uhn.example.servlet;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.uhn.example.provider.GtVistaExApiObservationResourceProvider;
-import ca.uhn.example.provider.GtVistaExApiPatientResourceProvider;
-import ca.uhn.example.provider.OrganizationResourceProvider;
-import ca.uhn.example.provider.PatientResourceProvider;
+import ca.uhn.example.provider.*;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.narrative.DefaultThymeleafNarrativeGenerator;
 import ca.uhn.fhir.narrative.INarrativeGenerator;
@@ -50,10 +47,10 @@ public class ExampleRestfulServlet extends RestfulServer {
 		 * type of resource.
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
-//		providers.add(new PatientResourceProvider());
-		providers.add(new OrganizationResourceProvider());
 		providers.add(new GtVistaExApiPatientResourceProvider());
 		providers.add(new GtVistaExApiObservationResourceProvider());
+        providers.add(new GtVistaExApiConditionResourceProvider());
+        providers.add(new GtVistaExApiMedicationOrderResourceProvider());
 		setResourceProviders(providers);
 		
 		/*
