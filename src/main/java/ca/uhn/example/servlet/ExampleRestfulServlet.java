@@ -15,6 +15,8 @@ import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * This servlet is the actual FHIR server itself
@@ -23,11 +25,18 @@ public class ExampleRestfulServlet extends RestfulServer {
 
 	private static final long serialVersionUID = 1L;
 
+    private VistaExResource vistaExResource;
+
 	/**
 	 * Constructor
 	 */
 	public ExampleRestfulServlet() {
 		super(FhirContext.forDstu2()); // Support DSTU2
+        //Wire in the VistaExResource
+        //I don't like doing this, but the Autowired annotation does not work, and this
+        //method was the only way I could figure to get the VistaExResource Injected.
+        WebApplicationContext parentAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
+        vistaExResource = parentAppCtx.getBean(VistaExResource.class);
 	}
 	
 	/**
@@ -69,7 +78,13 @@ public class ExampleRestfulServlet extends RestfulServer {
 		setDefaultPrettyPrint(true);
 
 		//todo log in to Vista Ex API
-		
+        vistaExResource.loginToVistaEx();
 	}
 
+    @Override
+    public void destroy() {
+        super.destroy();
+        //todo log out of Vista Ex API
+        vistaExResource.logOutOfVistaEx();
+    }
 }

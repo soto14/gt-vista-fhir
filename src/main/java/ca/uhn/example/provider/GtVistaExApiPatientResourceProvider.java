@@ -15,6 +15,9 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +30,13 @@ public class GtVistaExApiPatientResourceProvider implements IResourceProvider {
     private static final Logger logger = LoggerFactory.getLogger(GtVistaExApiPatientResourceProvider.class);
 
 //    @Autowired
-    private VistaExResource vistaExResource;
+    protected VistaExResource vistaExResource;
 
     public GtVistaExApiPatientResourceProvider(){
-        vistaExResource = new VistaExResourceImpl();
+        //I don't like doing this, but the Autowired annotation does not work, and this
+        //method was the only way I could figure to get the VistaExResource Injected.
+        WebApplicationContext parentAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
+        vistaExResource = parentAppCtx.getBean(VistaExResource.class);
     }
 
     /**
@@ -53,9 +59,9 @@ public class GtVistaExApiPatientResourceProvider implements IResourceProvider {
         List<Patient> returnVals = new ArrayList<Patient>();
         logger.debug("Retrieving Patient {}", patientId.getValue());
         //make call to VistA Ex API
-        vistaExResource.loginToVistaEx();
+//        vistaExResource.loginToVistaEx();
         Patient patient = vistaExResource.retrievePatient(patientId.getValue());
-        vistaExResource.logOutOfVistaEx();
+//        vistaExResource.logOutOfVistaEx();
         logger.debug("Retrieved Patient");
         returnVals.add(patient);
         return returnVals;

@@ -2,12 +2,10 @@
 <web-app version="2.5">
 
 	<!-- set a listeners for Spring -->
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
 
     <!-- Configure spring -->
     <context-param>

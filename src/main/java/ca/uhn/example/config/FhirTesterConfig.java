@@ -3,6 +3,7 @@ package ca.uhn.example.config;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
 import org.springframework.context.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 //import ca.uhn.fhir.context.FhirVersionEnum;
 //import ca.uhn.fhir.to.FhirTesterMvcConfig;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.*;
  * 2. It tells the tester which server(s) to talk to, via the testerConfig()
  *    method below
  */
+
 @Configuration
 @ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "ca.uhn.example.provider.*"})
 //@Import(FhirTesterMvcConfig.class)
@@ -61,11 +63,11 @@ public class FhirTesterConfig {
 //		return retVal;
 //	}
 
-//	@Bean
-//	@Scope(value="session")
-//	public VistaExResource vistaExResource(){
-//		return new VistaExResourceImpl();
-//	}
+	@Bean
+	@Scope(value="singleton")
+	public VistaExResource vistaExResource(){
+		return new VistaExResourceImpl();
+	}
 
 }
 //@formatter:on
