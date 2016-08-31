@@ -19,7 +19,7 @@ import org.springframework.context.annotation.*;
  *    method below
  */
 @Configuration
-@ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "ca.uhn.example.provider.*", "ca.uhn.example.servlet.*"})
+@ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "ca.uhn.example.provider.*"})
 //@Import(FhirTesterMvcConfig.class)
 public class FhirTesterConfig {
 

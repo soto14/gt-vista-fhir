@@ -184,9 +184,6 @@ public class VistaExResourceImpl implements VistaExResource{
     private String getJsonResponse(CloseableHttpResponse response) throws IOException{
         InputStream contentInputStream = response.getEntity().getContent();
         String jsonStr = IOUtils.toString( contentInputStream, Charset.forName("UTF-8"));
-        logger.debug("Recieved JSON");
-        logger.debug("------------------------------");
-        logger.debug(jsonStr);
         return jsonStr;
     }
 

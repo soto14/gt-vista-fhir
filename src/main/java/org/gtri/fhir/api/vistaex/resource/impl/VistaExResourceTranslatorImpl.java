@@ -121,7 +121,6 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         //appliesPeriod maps to effectivePeriod in DSTU2
         translatedJson = translatedJson.replaceAll("\"appliesPeriod\"", "\"effectivePeriod\"");
         Bundle dstuObservationBundle = parser.parseResource(Bundle.class, translatedJson);
-
         logger.debug("Finished Translating ObservationBundle");
         return dstuObservationBundle;
     }
