@@ -10,10 +10,7 @@ import ca.uhn.fhir.narrative.INarrativeGenerator;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
-import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiConditionResourceProvider;
-import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiMedicationOrderResourceProvider;
-import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiObservationResourceProvider;
-import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiPatientResourceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.provider.*;
 import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +49,7 @@ public class GtVistaRestfulServlet extends RestfulServer {
 		providers.add(new GtVistaExApiObservationResourceProvider());
         providers.add(new GtVistaExApiConditionResourceProvider());
         providers.add(new GtVistaExApiMedicationOrderResourceProvider());
+        providers.add(new GtVistaExApiEncounterResourceProvider());
 		setResourceProviders(providers);
 		
 		/*

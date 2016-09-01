@@ -376,7 +376,7 @@ public class VistaExResourceImpl implements VistaExResource{
         catch(IOException ioe){
             ioe.printStackTrace();
         }
-        logger.debug("Finshed Getting Conditions");
+        logger.debug("Finished Getting Conditions");
         return observationBundle;
     }
 
@@ -393,5 +393,31 @@ public class VistaExResourceImpl implements VistaExResource{
     @Override
     public AllergyIntolerance retrieveAllergyIntoleranceForPatient(String patientId) {
         return null;
+    }
+
+    @Override
+    public List<Encounter> retrieveEncountersForPatient(String patientId) {
+        logger.debug("Getting Encounters for Patient {}", patientId);
+        List<Encounter> encounters = null;
+        //https://54.173.144.121/resource/patient/record/domain/visit?pid=9E7A%3B3&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=
+        String visitUrl = properties.get("visitUrl") + "?pid=" + patientId + "&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=";
+        logger.debug("Using URL " + visitUrl);
+        HttpGet httpGet = new HttpGet(visitUrl);
+
+        try{
+            CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
+            try{
+                String jsonStr = getJsonResponse(response);
+                encounters = vistaExResourceTranslator.translateEncounterforPatient(jsonStr);
+            }
+            finally{
+                response.close();
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        logger.debug("Finished Getting Encounters");
+        return encounters;
     }
 }

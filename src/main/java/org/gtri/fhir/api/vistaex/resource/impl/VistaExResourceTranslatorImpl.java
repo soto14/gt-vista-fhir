@@ -3,10 +3,15 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 import ca.uhn.fhir.context.FhirContext;
 //import ca.uhn.fhir.model.dstu.resource.*;
 //import ca.uhn.fhir.model.dstu.resource.Medication;
+import ca.uhn.fhir.model.dstu.valueset.EncounterTypeEnum;
+import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
+import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterClassEnum;
+import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
+import ca.uhn.fhir.model.dstu2.valueset.ParticipantTypeEnum;
 import ca.uhn.fhir.parser.IParser;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
 import org.json.JSONArray;
@@ -159,7 +164,9 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         JSONArray itemsArray = dataObject != null ? dataObject.optJSONArray("items") : null;
         String encounterId;
         String encounterClass;
-        DateFormat df = new SimpleDateFormat("yyyymmddHHmmss");
+        String categoryCodeStr;
+        String categoryNameStr;
+        DateFormat df = new SimpleDateFormat("yyyymmddHHmm");
 
         if( itemsArray != null ) {
             JSONObject currItemObject;
@@ -171,12 +178,44 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
 
                 //set the ID for the encounter
                 encounterId = currItemObject.optString("uid");
-                logger.debug("Processing encounter {}", encounterId);
                 encounter.setId(encounterId);
 
                 //set class
                 encounterClass = currItemObject.optString("patientClassName");
                 encounter.setClassElement(EncounterClassEnum.forCode(encounterClass.toLowerCase()));
+
+                //set the Patient reference
+                ResourceReferenceDt patientReference = new ResourceReferenceDt();
+                patientReference.setReference(currItemObject.optString("pid"));
+                encounter.setPatient(patientReference);
+
+                List<Encounter.Participant> encounterParticipants = new ArrayList<Encounter.Participant>();
+                //get primary provider ref
+                JSONObject primaryProvider = currItemObject.optJSONObject("primaryProvider");
+                if( primaryProvider != null ){
+                    ResourceReferenceDt primaryReference = new ResourceReferenceDt();
+                    primaryReference.setReference(primaryProvider.optString("providerUid"));
+                    Encounter.Participant primary = new Encounter.Participant();
+                    primary.setType(ParticipantTypeEnum.PPRF);
+                    primary.setIndividual(primaryReference);
+                    encounterParticipants.add(primary);
+                }
+
+                //get provider ref
+                JSONArray providerArray = currItemObject.optJSONArray("providers");
+                if( providerArray != null ) {
+                    for (int j = 0; j < providerArray.length(); j++) {
+                        //TODO: refactor to use same code as primary
+                        JSONObject provider = providerArray.getJSONObject(j);
+                        ResourceReferenceDt providerReference = new ResourceReferenceDt();
+                        providerReference.setReference(provider.optString("providerUid"));
+                        Encounter.Participant providerPart = new Encounter.Participant();
+                        providerPart.setType(ParticipantTypeEnum.SPRF);
+                        providerPart.setIndividual(providerReference);
+                        encounterParticipants.add(providerPart);
+                    }
+                }
+                encounter.setParticipant(encounterParticipants);
 
                 //set the location
                 Location location = new Location();
@@ -191,8 +230,54 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                 List<Encounter.Location> locations = new ArrayList<Encounter.Location>();
                 encounter.setLocation(locations);
 
+                //TODO: Figure out how to get real status from Vista Ex Visit, should not always be finished
+                encounter.setStatus(EncounterStateEnum.FINISHED);
+
+                //set the type
+                categoryCodeStr = currItemObject.optString("categoryCode");
+                categoryNameStr = currItemObject.optString("categoryName");
+                String normalizedStr = categoryNameStr.toLowerCase();
+                CodeableConceptDt typeConcept = new CodeableConceptDt();
+                CodingDt codingDt = new CodingDt();
+                codingDt.setCode(categoryCodeStr);
+                codingDt.setDisplay(categoryNameStr);
+                List<CodingDt> codingDtList = new ArrayList<CodingDt>();
+                codingDtList.add(codingDt);
+                typeConcept.setCoding(codingDtList);
+                List<CodeableConceptDt> typeList = new ArrayList<CodeableConceptDt>();
+                typeList.add(typeConcept);
+                encounter.setType(typeList);
+
+                //now set the class by looking at the item.categoryName
                 //supported class codes
                 //inpatient, outpatient, ambulatory, emergency, home, field, daytime, virtual, other
+                EncounterClassEnum className = EncounterClassEnum.OTHER;
+
+                if(normalizedStr.contains(EncounterClassEnum.AMBULATORY.getCode())){
+                    className = EncounterClassEnum.AMBULATORY;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.DAYTIME.getCode())){
+                    className = EncounterClassEnum.DAYTIME;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.EMERGENCY.getCode())){
+                    className = EncounterClassEnum.EMERGENCY;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.FIELD.getCode())){
+                    className = EncounterClassEnum.FIELD;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.HOME.getCode())){
+                    className = EncounterClassEnum.HOME;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.INPATIENT.getCode())){
+                    className = EncounterClassEnum.INPATIENT;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.OUTPATIENT.getCode())){
+                    className = EncounterClassEnum.OUTPATIENT;
+                }
+                else if(normalizedStr.contains(EncounterClassEnum.VIRTUAL.getCode())){
+                    className = EncounterClassEnum.VIRTUAL;
+                }
+                encounter.setClassElement(className);
 
                 //get the start and end date
                 JSONObject stay = currItemObject.optJSONObject("stay");
@@ -200,13 +285,9 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                     Date startDate = null;
                     Date endDate = null;
                     PeriodDt periodDt = new PeriodDt();
-                    try {
-                        startDate = df.parse(stay.optString("arrivalDateTime"));
-                        endDate = df.parse(stay.optString("dischargeDateTime"));
-                    }
-                    catch(ParseException pe){
-                        pe.printStackTrace();
-                    }
+                    startDate = getDateForString(stay.optString("arrivalDateTime"), df);
+                    endDate = getDateForString(stay.optString("dischargeDateTime"), df);
+
                     if( startDate != null ) {
                         periodDt.setStartWithSecondsPrecision(startDate);
                     }
@@ -224,8 +305,21 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     }
 
     /*========================================================================*/
-    /* PUBLIC METHODS */
+    /* PRIVATE METHODS */
     /*========================================================================*/
+    private Date getDateForString( String dateStr, DateFormat df){
+        Date date = null;
+        if(!dateStr.isEmpty()) {
+            try {
+                date = df.parse(dateStr);
+            }
+            catch(ParseException pe){
+                pe.printStackTrace();
+            }
+        }
+        return date;
+    }
+
     private String performCommonTranslations(String bundleJson){
         //some messages come in with the DSTU1 style bundles, update them
         String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=&\";-]+\\s*\\})", "$1relation$2url$3");

@@ -2,6 +2,8 @@ package org.gtri.fhir.api.vistaex.resource.api;
 
 import ca.uhn.fhir.model.dstu2.resource.*;
 
+import java.util.List;
+
 /**
  * Created by es130 on 8/29/2016.
  */
@@ -60,4 +62,10 @@ public interface VistaExResource {
      */
     public AllergyIntolerance retrieveAllergyIntoleranceForPatient(String patientId);
 
+    /**
+     * Retrieves Vista Ex Visit objects and converts it to a DTSU2 Encounter to the best of its ability.
+     * @param patientId the patient ID to use for the search
+     * @return List of {@link Encounter} resource for the patient.
+     */
+    public List<Encounter> retrieveEncountersForPatient(String patientId);
 }
