@@ -8,6 +8,7 @@ patient queries for the following:
 - MedicationOrder
 - Condition
 - Observation
+- Ecounter (not supported yet)
 - Procedure (not supported yet)
 - MedicationAdministration (not supported yet)
 - AllergyIntolerance (not supported yet)
@@ -30,5 +31,7 @@ Maven command:
 > mvn jetty:run
 
 You will be able to hit the web services at:
-- http://localhost:8080/fhir/Patient?identifier=9E7A%3B3
-- http://localhost:8080/fhir/Observation?patient.identifier=9E7A%3B3
+- http://localhost:8080/fhir/Patient?identifier=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Condition?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Observation?patient.identifier=9E7A%3B3&_format=json
