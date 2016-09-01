@@ -8,7 +8,7 @@ patient queries for the following:
 - MedicationOrder
 - Condition
 - Observation
-- Ecounter (not supported yet)
+- Ecounter
 - Procedure (not supported yet)
 - MedicationAdministration (not supported yet)
 - AllergyIntolerance (not supported yet)
@@ -35,6 +35,7 @@ Then start Tomcat, and it will deploy the WAR file.
 - http://localhost:8080/hapiGtVistaEx/fhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
 - http://localhost:8080/hapiGtVistaEx/fhir/Condition?patient.identifier=9E7A%3B3&_format=json
 - http://localhost:8080/hapiGtVistaEx/fhir/Observation?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/Encounter?patient.identifier=9E7A%3B3&_format=json
 
 How to run locally with Jetty
 --------------------------------------------------------------------------------
@@ -49,3 +50,4 @@ You will be able to hit the web services at:
 - http://localhost:8080/fhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
 - http://localhost:8080/fhir/Condition?patient.identifier=9E7A%3B3&_format=json
 - http://localhost:8080/fhir/Observation?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Encounter?patient.identifier=9E7A%3B3&_format=json
