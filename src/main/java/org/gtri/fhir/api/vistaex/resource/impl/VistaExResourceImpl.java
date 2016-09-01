@@ -186,6 +186,22 @@ public class VistaExResourceImpl implements VistaExResource{
         return jsonStr;
     }
 
+    private Boolean checkLoginResponse(CloseableHttpResponse loginResponse) throws IOException {
+        Boolean success = false;
+        try {
+            int statusCode = loginResponse.getStatusLine().getStatusCode();
+            logger.debug("Response Code " + statusCode);
+            success = (statusCode == 200);
+            //All we need is the cookie, which is managed as part of the HTTPContext
+            //for now ignore the content of the response. At a later date process
+            //the JSON. It contains permission and user metadata.
+//                HttpEntity responseEntity = loginResponse.getEntity();
+        } finally {
+            loginResponse.close();
+        }
+        return success;
+    }
+
     /*========================================================================*/
     /* PUBLIC METHODS */
     /*========================================================================*/
@@ -194,7 +210,6 @@ public class VistaExResourceImpl implements VistaExResource{
         Boolean success = false;
         logger.debug("Logging into VistaEx");
 
-        //TODO: Fix to use non-deprecated code
         HttpPost httpPost = new HttpPost(properties.getProperty("authUrl"));
 
         //build login JSON and to post
@@ -203,22 +218,29 @@ public class VistaExResourceImpl implements VistaExResource{
 
         try {
             CloseableHttpResponse loginResponse = getHttpClient().execute(httpPost, getHttpClientContext());
-            try {
-                int statusCode = loginResponse.getStatusLine().getStatusCode();
-                logger.debug("Response Code " + statusCode);
-                success = (statusCode == 200);
-                //All we need is the cookie, which is managed as part of the HTTPContext
-                //for now ignore the content of the response. At a later date process
-                //the JSON. It contains permission and user metadata.
-//                HttpEntity responseEntity = loginResponse.getEntity();
-            } finally {
-                loginResponse.close();
-            }
+            success = checkLoginResponse(loginResponse);
         }
         catch (IOException ioe){
             ioe.printStackTrace();
         }
         logger.debug("Completed login to VistaEx");
+        return success;
+    }
+
+    @Override
+    public Boolean refreshSessionOnVistaEx() {
+        Boolean success = false;
+        logger.debug("Refreshing session on VistaEx");
+
+        HttpGet httpGet = new HttpGet(properties.getProperty("refreshUrl"));
+        try {
+            CloseableHttpResponse refreshResponse = getHttpClient().execute(httpGet, getHttpClientContext());
+            success = checkLoginResponse(refreshResponse);
+        }
+        catch (IOException ioe){
+            ioe.printStackTrace();
+        }
+        logger.debug("Finished refreshing session on VistaEx");
         return success;
     }
 

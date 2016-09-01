@@ -1,4 +1,4 @@
-package ca.uhn.example.config;
+package org.gtri.fhir.api.vistaex.rest.service.config;
 
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
@@ -21,9 +21,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  */
 
 @Configuration
-@ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "ca.uhn.example.provider.*"})
-//@Import(FhirTesterMvcConfig.class)
-public class FhirTesterConfig {
+@ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "org.gtri.fhir.api.vistaex.rest.service.provider.*"})
+public class ApplicationConfig {
 
 	/**
 	 * This bean tells the testing webpage which servers it should configure itself

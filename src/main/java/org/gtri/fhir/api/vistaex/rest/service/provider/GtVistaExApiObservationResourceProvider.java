@@ -1,4 +1,4 @@
-package ca.uhn.example.provider;
+package org.gtri.fhir.api.vistaex.rest.service.provider;
 
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
@@ -7,15 +7,6 @@ import ca.uhn.fhir.rest.annotation.RequiredParam;
 import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.param.ReferenceParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
-import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
-import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by es130 on 8/31/2016.
@@ -43,7 +34,7 @@ public class GtVistaExApiObservationResourceProvider extends GtVistaResourceProv
     ){
         //TODO: At a later date may want to change the chained param from "id" to Patient.SP_IDENTIFIER, then
         //the incoming param will be "identifier".
-        Bundle observationBundle = vistaExResource.retrieveObservationForPatient(patientId.getValue());
+        Bundle observationBundle = getVistaExResource().retrieveObservationForPatient(patientId.getValue());
         return observationBundle;
     }
 }

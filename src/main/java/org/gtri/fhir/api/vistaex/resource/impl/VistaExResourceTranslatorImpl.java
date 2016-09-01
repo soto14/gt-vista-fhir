@@ -3,6 +3,7 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 import ca.uhn.fhir.context.FhirContext;
 //import ca.uhn.fhir.model.dstu.resource.*;
 //import ca.uhn.fhir.model.dstu.resource.Medication;
+import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterClassEnum;
@@ -13,7 +14,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -154,6 +159,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         JSONArray itemsArray = dataObject != null ? dataObject.optJSONArray("items") : null;
         String encounterId;
         String encounterClass;
+        DateFormat df = new SimpleDateFormat("yyyymmddHHmmss");
+
         if( itemsArray != null ) {
             JSONObject currItemObject;
             for (int i = 0; i < itemsArray.length(); i++) {
@@ -183,6 +190,31 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                 eLocation.setLocation(referenceDt);
                 List<Encounter.Location> locations = new ArrayList<Encounter.Location>();
                 encounter.setLocation(locations);
+
+                //supported class codes
+                //inpatient, outpatient, ambulatory, emergency, home, field, daytime, virtual, other
+
+                //get the start and end date
+                JSONObject stay = currItemObject.optJSONObject("stay");
+                if( stay != null ){
+                    Date startDate = null;
+                    Date endDate = null;
+                    PeriodDt periodDt = new PeriodDt();
+                    try {
+                        startDate = df.parse(stay.optString("arrivalDateTime"));
+                        endDate = df.parse(stay.optString("dischargeDateTime"));
+                    }
+                    catch(ParseException pe){
+                        pe.printStackTrace();
+                    }
+                    if( startDate != null ) {
+                        periodDt.setStartWithSecondsPrecision(startDate);
+                    }
+                    if( endDate != null ){
+                        periodDt.setEndWithSecondsPrecision(endDate);
+                    }
+                    encounter.setPeriod(periodDt);
+                }
 
                 encounters.add(encounter);
             }

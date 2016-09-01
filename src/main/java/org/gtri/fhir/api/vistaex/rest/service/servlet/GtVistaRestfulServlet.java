@@ -1,39 +1,40 @@
-package ca.uhn.example.servlet;
+package org.gtri.fhir.api.vistaex.rest.service.servlet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
-import ca.uhn.example.provider.*;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.narrative.DefaultThymeleafNarrativeGenerator;
 import ca.uhn.fhir.narrative.INarrativeGenerator;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
-import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
+import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiConditionResourceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiMedicationOrderResourceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiObservationResourceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.provider.GtVistaExApiPatientResourceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This servlet is the actual FHIR server itself
  */
-public class ExampleRestfulServlet extends RestfulServer {
+public class GtVistaRestfulServlet extends RestfulServer {
 
+    private static final long SESSION_REFRESH_INTERVAL_MILLI = 300000;
 	private static final long serialVersionUID = 1L;
+    private final static Logger logger = LoggerFactory.getLogger(GtVistaRestfulServlet.class);
 
-    private VistaExResource vistaExResource;
+    private Timer refreshTimer;
+    private SessionRefreshTimer sessionRefreshTimerTask;
 
 	/**
 	 * Constructor
 	 */
-	public ExampleRestfulServlet() {
+	public GtVistaRestfulServlet() {
 		super(FhirContext.forDstu2()); // Support DSTU2
-        //Wire in the VistaExResource
-        //I don't like doing this, but the Autowired annotation does not work, and this
-        //method was the only way I could figure to get the VistaExResource Injected.
-        WebApplicationContext parentAppCtx = ContextLoaderListener.getCurrentWebApplicationContext();
-        vistaExResource = parentAppCtx.getBean(VistaExResource.class);
 	}
 	
 	/**
@@ -74,14 +75,21 @@ public class ExampleRestfulServlet extends RestfulServer {
 		 */
 		setDefaultPrettyPrint(true);
 
-		//todo log in to Vista Ex API
-        vistaExResource.loginToVistaEx();
+        //log in to Vista Ex API
+        VistaUtil.getVistaExResource().loginToVistaEx();
+
+        //start the refresh thread
+        sessionRefreshTimerTask = new SessionRefreshTimer();
+        refreshTimer = new Timer();
+        refreshTimer.schedule(sessionRefreshTimerTask, SESSION_REFRESH_INTERVAL_MILLI, SESSION_REFRESH_INTERVAL_MILLI);
+
 	}
 
     @Override
     public void destroy() {
         super.destroy();
-        //todo log out of Vista Ex API
-        vistaExResource.logOutOfVistaEx();
+        //log out of Vista Ex API
+        VistaUtil.getVistaExResource().logOutOfVistaEx();
     }
+
 }

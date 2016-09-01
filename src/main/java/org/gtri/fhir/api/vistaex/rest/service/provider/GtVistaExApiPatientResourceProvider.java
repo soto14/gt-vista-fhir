@@ -1,23 +1,12 @@
-package ca.uhn.example.provider;
+package org.gtri.fhir.api.vistaex.rest.service.provider;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.primitive.IdDt;
-import ca.uhn.fhir.model.primitive.StringDt;
-import ca.uhn.fhir.rest.annotation.IdParam;
-import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.RequiredParam;
 import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
-import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
-import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +42,7 @@ public class GtVistaExApiPatientResourceProvider extends GtVistaResourceProvider
         List<Patient> returnVals = new ArrayList<Patient>();
         logger.debug("Retrieving Patient {}", patientId.getValue());
         //make call to VistA Ex API
-        Patient patient = vistaExResource.retrievePatient(patientId.getValue());
+        Patient patient = getVistaExResource().retrievePatient(patientId.getValue());
         logger.debug("Retrieved Patient");
         returnVals.add(patient);
         return returnVals;

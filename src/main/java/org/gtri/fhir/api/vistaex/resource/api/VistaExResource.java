@@ -8,7 +8,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 public interface VistaExResource {
 
     public Boolean loginToVistaEx();
-
+    public Boolean refreshSessionOnVistaEx();
     public Boolean logOutOfVistaEx();
 
     /**

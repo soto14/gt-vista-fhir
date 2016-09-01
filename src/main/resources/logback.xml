@@ -10,6 +10,7 @@
 
     <logger name="org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl" level="DEBUG"/>
     <logger name="org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceTranslatorImpl" level="DEBUG"/>
+    <logger name="org.gtri.fhir.api.vistaex.rest.service.servlet.GtVistaRestfulServlet" level="DEBUG"/>
 
     <root level="ERROR">
         <appender-ref ref="STDOUT" />

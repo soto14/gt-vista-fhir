@@ -17,7 +17,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>ca.uhn.example.config.FhirTesterConfig</param-value>
+        <param-value>org.gtri.fhir.api.vistaex.rest.service.config.ApplicationConfig</param-value>
     </context-param>
 
 	<!-- 
@@ -25,7 +25,7 @@
 	-->
 	<servlet>
 		<servlet-name>fhirServlet</servlet-name>
-		<servlet-class>ca.uhn.example.servlet.ExampleRestfulServlet</servlet-class>
+		<servlet-class>org.gtri.fhir.api.vistaex.rest.service.servlet.GtVistaRestfulServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
