@@ -30,5 +30,5 @@ Maven command:
 > mvn jetty:run
 
 You will be able to hit the web services at:
-- http://localhost:8080/fhir/Patient?id=9E7A%3B3
-- http://localhost:8080/fhir/Observation?patient.id=9E7A%3B3
+- http://localhost:8080/fhir/Patient?identifier=9E7A%3B3
+- http://localhost:8080/fhir/Observation?patient.identifier=9E7A%3B3

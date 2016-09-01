@@ -48,7 +48,7 @@ public class GtVistaExApiPatientResourceProvider extends GtVistaResourceProvider
     //public Patient getResourceById(@IdParam IdDt theId){
 
     @Search
-    public List<Patient> searchById(@RequiredParam(name="id") StringParam patientId){
+    public List<Patient> searchById(@RequiredParam(name=Patient.SP_IDENTIFIER) StringParam patientId){
 //    public List<Patient> searchById(@RequiredParam(name=Patient.SP_IDENTIFIER) StringParam patientId){
         List<Patient> returnVals = new ArrayList<Patient>();
         logger.debug("Retrieving Patient {}", patientId.getValue());

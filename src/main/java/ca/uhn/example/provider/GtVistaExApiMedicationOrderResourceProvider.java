@@ -3,6 +3,7 @@ package ca.uhn.example.provider;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
+import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.annotation.RequiredParam;
 import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.param.ReferenceParam;
@@ -26,7 +27,7 @@ public class GtVistaExApiMedicationOrderResourceProvider extends GtVistaResource
      */
     @Search
     public Bundle findMedicationOrderWithChain(
-            @RequiredParam(name= Observation.SP_PATIENT, chainWhitelist = {"id"})ReferenceParam patientId
+            @RequiredParam(name= Observation.SP_PATIENT, chainWhitelist = {Patient.SP_IDENTIFIER})ReferenceParam patientId
     ){
         //TODO: At a later date may want to change the chained param from "id" to Patient.SP_IDENTIFIER, then
         //the incoming param will be "identifier".

@@ -2,6 +2,7 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
@@ -68,6 +69,13 @@ public class TestVistaExResourceTranslator {
             Assert.assertNotNull(entry.getResource());
             Assert.assertEquals(entry.getResource().getResourceName(), "MedicationOrder");
         }
+    }
+
+    @Test
+    public void testTranslateVisit() throws Exception {
+        String jsonFileText = getFileTextContent("src/test/resources/json/visit-sample.json");
+        List<Encounter> encounters = translator.translateEncounterforPatient(jsonFileText);
+        Assert.assertEquals(encounters.size(), 254);
     }
 
     public String getFileTextContent(String filePath) throws Exception{

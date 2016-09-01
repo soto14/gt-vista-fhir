@@ -3,15 +3,18 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 import ca.uhn.fhir.context.FhirContext;
 //import ca.uhn.fhir.model.dstu.resource.*;
 //import ca.uhn.fhir.model.dstu.resource.Medication;
-import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
-import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.dstu2.resource.Procedure;
+import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
+import ca.uhn.fhir.model.dstu2.resource.*;
+import ca.uhn.fhir.model.dstu2.valueset.EncounterClassEnum;
 import ca.uhn.fhir.parser.IParser;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by es130 on 8/29/2016.
@@ -138,6 +141,54 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     @Override
     public AllergyIntolerance translateAllergyIntoleranceForPatient(String allergyIntoleranceJson) {
         return null;
+    }
+
+    @Override
+    public List<Encounter> translateEncounterforPatient(String encounterJson) {
+        logger.debug("Translating Visit to Encounter");
+        List<Encounter> encounters = new ArrayList<Encounter>();
+        JSONObject jsonObject = new JSONObject(encounterJson);
+        //get data element
+        JSONObject dataObject = jsonObject.optJSONObject("data");
+        //get item aray
+        JSONArray itemsArray = dataObject != null ? dataObject.optJSONArray("items") : null;
+        String encounterId;
+        String encounterClass;
+        if( itemsArray != null ) {
+            JSONObject currItemObject;
+            for (int i = 0; i < itemsArray.length(); i++) {
+                //get an item object
+                currItemObject = itemsArray.optJSONObject(i);
+                //Create a new encounter object
+                Encounter encounter = new Encounter();
+
+                //set the ID for the encounter
+                encounterId = currItemObject.optString("uid");
+                logger.debug("Processing encounter {}", encounterId);
+                encounter.setId(encounterId);
+
+                //set class
+                encounterClass = currItemObject.optString("patientClassName");
+                encounter.setClassElement(EncounterClassEnum.forCode(encounterClass.toLowerCase()));
+
+                //set the location
+                Location location = new Location();
+                location.setDescription(currItemObject.optString("locationDisplayName"));
+                location.setName(currItemObject.optString("locationName"));
+                location.setId(currItemObject.optString("locationUid"));
+
+                Encounter.Location eLocation = new Encounter.Location();
+                ResourceReferenceDt referenceDt = new ResourceReferenceDt();
+                referenceDt.setReference(currItemObject.optString("locationUid"));
+                eLocation.setLocation(referenceDt);
+                List<Encounter.Location> locations = new ArrayList<Encounter.Location>();
+                encounter.setLocation(locations);
+
+                encounters.add(encounter);
+            }
+        }
+        logger.debug("Finished Translating Visit to Encounter");
+        return encounters;
     }
 
     /*========================================================================*/

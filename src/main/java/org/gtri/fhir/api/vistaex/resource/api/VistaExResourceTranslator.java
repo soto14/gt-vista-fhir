@@ -9,6 +9,8 @@ import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.resource.Procedure;
 
+import java.util.List;
+
 /**
  * Created by es130 on 8/29/2016.
  */
@@ -62,4 +64,11 @@ public interface VistaExResourceTranslator {
      * @return {@link AllergyIntolerance}.
      */
     public AllergyIntolerance translateAllergyIntoleranceForPatient(String allergyIntoleranceJson);
+
+    /**
+     * Translates JSON for a Visit Object, from the VistaEx API, to a DTSU2 Encounter
+     * @param encounterJson
+     * @return
+     */
+    public List<Encounter> translateEncounterforPatient(String encounterJson);
 }
