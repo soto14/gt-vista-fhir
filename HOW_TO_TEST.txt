@@ -22,7 +22,21 @@ The WAR file for the application can be built by running the following command
 When Maven finishes the build there will be a WAR file for the application in the
 /target directory.
 
-How to run locally
+How to deploy to Tomcat
+--------------------------------------------------------------------------------
+After running a "mvn clean install" command there will be a WAR file in the 
+/target directory named "restful-gtva-dstu2-example.war". 
+
+Copy that war file to the $CATALINA_HOME/webapps directory.
+
+Then start Tomcat, and it will deploy the WAR file.
+
+- http://localhost:8080/restful-gtva-dstu2-examplefhir/Patient?identifier=9E7A%3B3&_format=json
+- http://localhost:8080/restful-gtva-dstu2-examplefhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/restful-gtva-dstu2-examplefhir/Condition?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/restful-gtva-dstu2-examplefhir/Observation?patient.identifier=9E7A%3B3&_format=json
+
+How to run locally with Jetty
 --------------------------------------------------------------------------------
 For testing the application can be run locally using the Maven Jetty plugin. It
 allows Maven to create/run a Jetty servlet container that can be hit by a web
