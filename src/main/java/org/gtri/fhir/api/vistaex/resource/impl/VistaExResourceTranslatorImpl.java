@@ -3,7 +3,6 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 import ca.uhn.fhir.context.FhirContext;
 //import ca.uhn.fhir.model.dstu.resource.*;
 //import ca.uhn.fhir.model.dstu.resource.Medication;
-import ca.uhn.fhir.model.dstu.valueset.EncounterTypeEnum;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
@@ -32,6 +31,23 @@ import java.util.List;
 public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator {
 
     private static final String MEDICATION_PRESCRIPTION = "MedicationPrescription";
+    private static final String ARRIVAL_DATE_TIME_KEY = "arrivalDateTime";
+    private static final String DISCHARGE_DATE_TIME_KEY = "dischargeDateTime";
+    private static final String CATEGORY_CODE_KEY = "categoryCode";
+    private static final String CATEGORY_NAME_KEY = "categoryName";
+    private static final String DATA_KEY = "data";
+    private static final String ITEMS_KEY = "items";
+    private static final String LOCATION_UID_KEY = "locationUid";
+    private static final String LOCATION_DISPLAY_NAME_KEY = "locationDisplayName";
+    private static final String PATIENT_CLASS_NAME_KEY = "patientClassName";
+    private static final String PATIENT_PID_KEY = "pid";
+    private static final String PRIMARY_PROVIDER_KEY = "primaryProvider";
+    private static final String PROVIDER_UID_KEY = "providerUid";
+    private static final String PROVIDERS_KEY = "providers";
+    private static final String PROVIDER_DISPLAY_NAME_KEY = "providerDisplayName";
+    private static final String STAY_KEY = "stay";
+    private static final String UID_KEY = "uid";
+
 
     /*========================================================================*/
     /* PRIVATE VARIABLES */
@@ -45,6 +61,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
      */
     private FhirContext dstu1Context;
     private FhirContext dstu2Context;
+    private DateFormat dateFormat;
 
     /*========================================================================*/
     /* CONSTRUCTORS */
@@ -53,6 +70,15 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         //create a dstu1Context
         dstu1Context = FhirContext.forDstu1();
         dstu2Context = FhirContext.forDstu2();
+        dateFormat = new SimpleDateFormat("yyyymmddHHmm");
+    }
+
+    /*========================================================================*/
+    /* GETTERS */
+    /*========================================================================*/
+
+    public DateFormat getDateFormat() {
+        return dateFormat;
     }
 
     /*========================================================================*/
@@ -159,14 +185,14 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         List<Encounter> encounters = new ArrayList<Encounter>();
         JSONObject jsonObject = new JSONObject(encounterJson);
         //get data element
-        JSONObject dataObject = jsonObject.optJSONObject("data");
+        JSONObject dataObject = jsonObject.optJSONObject(DATA_KEY);
         //get item aray
-        JSONArray itemsArray = dataObject != null ? dataObject.optJSONArray("items") : null;
+        JSONArray itemsArray = dataObject != null ? dataObject.optJSONArray(ITEMS_KEY) : null;
         String encounterId;
         String encounterClass;
         String categoryCodeStr;
         String categoryNameStr;
-        DateFormat df = new SimpleDateFormat("yyyymmddHHmm");
+
 
         if( itemsArray != null ) {
             JSONObject currItemObject;
@@ -177,126 +203,46 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                 Encounter encounter = new Encounter();
 
                 //set the ID for the encounter
-                encounterId = currItemObject.optString("uid");
+                encounterId = currItemObject.optString(UID_KEY);
                 encounter.setId(encounterId);
 
                 //set class
-                encounterClass = currItemObject.optString("patientClassName");
+                encounterClass = currItemObject.optString(PATIENT_CLASS_NAME_KEY);
                 encounter.setClassElement(EncounterClassEnum.forCode(encounterClass.toLowerCase()));
 
                 //set the Patient reference
-                ResourceReferenceDt patientReference = new ResourceReferenceDt();
-                patientReference.setReference(currItemObject.optString("pid"));
+                ResourceReferenceDt patientReference = createReference(currItemObject, PATIENT_PID_KEY, "");
                 encounter.setPatient(patientReference);
 
-                List<Encounter.Participant> encounterParticipants = new ArrayList<Encounter.Participant>();
-                //get primary provider ref
-                JSONObject primaryProvider = currItemObject.optJSONObject("primaryProvider");
-                if( primaryProvider != null ){
-                    ResourceReferenceDt primaryReference = new ResourceReferenceDt();
-                    primaryReference.setReference(primaryProvider.optString("providerUid"));
-                    Encounter.Participant primary = new Encounter.Participant();
-                    primary.setType(ParticipantTypeEnum.PPRF);
-                    primary.setIndividual(primaryReference);
-                    encounterParticipants.add(primary);
-                }
-
-                //get provider ref
-                JSONArray providerArray = currItemObject.optJSONArray("providers");
-                if( providerArray != null ) {
-                    for (int j = 0; j < providerArray.length(); j++) {
-                        //TODO: refactor to use same code as primary
-                        JSONObject provider = providerArray.getJSONObject(j);
-                        ResourceReferenceDt providerReference = new ResourceReferenceDt();
-                        providerReference.setReference(provider.optString("providerUid"));
-                        Encounter.Participant providerPart = new Encounter.Participant();
-                        providerPart.setType(ParticipantTypeEnum.SPRF);
-                        providerPart.setIndividual(providerReference);
-                        encounterParticipants.add(providerPart);
-                    }
-                }
+                //create the participant list
+                List<Encounter.Participant> encounterParticipants = createEncounterProviderList(currItemObject);
                 encounter.setParticipant(encounterParticipants);
 
                 //set the location
-                Location location = new Location();
-                location.setDescription(currItemObject.optString("locationDisplayName"));
-                location.setName(currItemObject.optString("locationName"));
-                location.setId(currItemObject.optString("locationUid"));
-
-                Encounter.Location eLocation = new Encounter.Location();
-                ResourceReferenceDt referenceDt = new ResourceReferenceDt();
-                referenceDt.setReference(currItemObject.optString("locationUid"));
-                eLocation.setLocation(referenceDt);
-                List<Encounter.Location> locations = new ArrayList<Encounter.Location>();
+                List<Encounter.Location> locations = createEncounterLocation(currItemObject);
                 encounter.setLocation(locations);
 
                 //TODO: Figure out how to get real status from Vista Ex Visit, should not always be finished
                 encounter.setStatus(EncounterStateEnum.FINISHED);
 
                 //set the type
-                categoryCodeStr = currItemObject.optString("categoryCode");
-                categoryNameStr = currItemObject.optString("categoryName");
-                String normalizedStr = categoryNameStr.toLowerCase();
-                CodeableConceptDt typeConcept = new CodeableConceptDt();
-                CodingDt codingDt = new CodingDt();
-                codingDt.setCode(categoryCodeStr);
-                codingDt.setDisplay(categoryNameStr);
-                List<CodingDt> codingDtList = new ArrayList<CodingDt>();
-                codingDtList.add(codingDt);
-                typeConcept.setCoding(codingDtList);
-                List<CodeableConceptDt> typeList = new ArrayList<CodeableConceptDt>();
-                typeList.add(typeConcept);
+                categoryCodeStr = currItemObject.optString(CATEGORY_CODE_KEY);
+                categoryNameStr = currItemObject.optString(CATEGORY_NAME_KEY);
+                List<CodeableConceptDt> typeList = createEncounterType(categoryCodeStr, categoryNameStr);
                 encounter.setType(typeList);
 
                 //now set the class by looking at the item.categoryName
-                //supported class codes
-                //inpatient, outpatient, ambulatory, emergency, home, field, daytime, virtual, other
-                EncounterClassEnum className = EncounterClassEnum.OTHER;
-
-                if(normalizedStr.contains(EncounterClassEnum.AMBULATORY.getCode())){
-                    className = EncounterClassEnum.AMBULATORY;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.DAYTIME.getCode())){
-                    className = EncounterClassEnum.DAYTIME;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.EMERGENCY.getCode())){
-                    className = EncounterClassEnum.EMERGENCY;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.FIELD.getCode())){
-                    className = EncounterClassEnum.FIELD;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.HOME.getCode())){
-                    className = EncounterClassEnum.HOME;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.INPATIENT.getCode())){
-                    className = EncounterClassEnum.INPATIENT;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.OUTPATIENT.getCode())){
-                    className = EncounterClassEnum.OUTPATIENT;
-                }
-                else if(normalizedStr.contains(EncounterClassEnum.VIRTUAL.getCode())){
-                    className = EncounterClassEnum.VIRTUAL;
-                }
+                EncounterClassEnum className = createEncounterClass(categoryNameStr);
                 encounter.setClassElement(className);
 
                 //get the start and end date
-                JSONObject stay = currItemObject.optJSONObject("stay");
+                JSONObject stay = currItemObject.optJSONObject(STAY_KEY);
                 if( stay != null ){
-                    Date startDate = null;
-                    Date endDate = null;
-                    PeriodDt periodDt = new PeriodDt();
-                    startDate = getDateForString(stay.optString("arrivalDateTime"), df);
-                    endDate = getDateForString(stay.optString("dischargeDateTime"), df);
-
-                    if( startDate != null ) {
-                        periodDt.setStartWithSecondsPrecision(startDate);
-                    }
-                    if( endDate != null ){
-                        periodDt.setEndWithSecondsPrecision(endDate);
-                    }
+                    PeriodDt periodDt = createEncounterStayPeriod(stay);
                     encounter.setPeriod(periodDt);
                 }
 
+                //add the encounter to the list
                 encounters.add(encounter);
             }
         }
@@ -307,6 +253,174 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     /*========================================================================*/
     /* PRIVATE METHODS */
     /*========================================================================*/
+
+    /**
+     * Takes in a JSONObject that represents a VistA Ex visit and generates a FHIR DSTU2 Encounter
+     * stay period.
+     * @param stay
+     * @return
+     */
+    private PeriodDt createEncounterStayPeriod(JSONObject stay){
+        Date startDate = null;
+        Date endDate = null;
+        PeriodDt periodDt = new PeriodDt();
+
+        startDate = getDateForString(stay.optString(ARRIVAL_DATE_TIME_KEY), getDateFormat());
+        endDate = getDateForString(stay.optString(DISCHARGE_DATE_TIME_KEY), getDateFormat());
+
+        if( startDate != null ) {
+            periodDt.setStartWithSecondsPrecision(startDate);
+        }
+        if( endDate != null ){
+            periodDt.setEndWithSecondsPrecision(endDate);
+        }
+        return periodDt;
+    }
+
+    /**
+     * Takes in a VistA Ex visit categoryName and generates the FHIR DSTU2 Encounter class for it.
+     * @param categoryNameStr
+     * @return
+     */
+    private EncounterClassEnum createEncounterClass(String categoryNameStr){
+        //supported class codes
+        //inpatient, outpatient, ambulatory, emergency, home, field, daytime, virtual, other
+        EncounterClassEnum className = EncounterClassEnum.OTHER;
+        String normalizedStr = categoryNameStr.toLowerCase();
+        if(normalizedStr.contains(EncounterClassEnum.AMBULATORY.getCode())){
+            className = EncounterClassEnum.AMBULATORY;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.DAYTIME.getCode())){
+            className = EncounterClassEnum.DAYTIME;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.EMERGENCY.getCode())){
+            className = EncounterClassEnum.EMERGENCY;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.FIELD.getCode())){
+            className = EncounterClassEnum.FIELD;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.HOME.getCode())){
+            className = EncounterClassEnum.HOME;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.INPATIENT.getCode())){
+            className = EncounterClassEnum.INPATIENT;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.OUTPATIENT.getCode())){
+            className = EncounterClassEnum.OUTPATIENT;
+        }
+        else if(normalizedStr.contains(EncounterClassEnum.VIRTUAL.getCode())){
+            className = EncounterClassEnum.VIRTUAL;
+        }
+        return className;
+    }
+
+    /**
+     * Takes in a VistA Ex categoryCode and categoryName and generates a FHIR DSTU2 Encounter type for it.
+     * @param categoryCodeStr
+     * @param categoryNameStr
+     * @return
+     */
+    private List<CodeableConceptDt> createEncounterType(String categoryCodeStr, String categoryNameStr){
+        CodeableConceptDt typeConcept = new CodeableConceptDt();
+        CodingDt codingDt = new CodingDt();
+        codingDt.setCode(categoryCodeStr);
+        codingDt.setDisplay(categoryNameStr);
+        List<CodingDt> codingDtList = new ArrayList<CodingDt>();
+        codingDtList.add(codingDt);
+        typeConcept.setCoding(codingDtList);
+        List<CodeableConceptDt> typeList = new ArrayList<CodeableConceptDt>();
+        typeList.add(typeConcept);
+        return typeList;
+    }
+
+    /**
+     * Takes in a JSONObject that represents a VistA Ex visit and generates a FHIR DSTU2 Encounter Location Reference.
+     * @param jsonObject
+     * @return
+     */
+    private List<Encounter.Location> createEncounterLocation(JSONObject jsonObject){
+        Encounter.Location eLocation = new Encounter.Location();
+        ResourceReferenceDt referenceDt = createReference(jsonObject, LOCATION_UID_KEY, LOCATION_DISPLAY_NAME_KEY);
+        eLocation.setLocation(referenceDt);
+        List<Encounter.Location> locations = new ArrayList<Encounter.Location>();
+        locations.add(eLocation);
+        return locations;
+    }
+
+    /**
+     * Takes in a Vista Ex visit object and generates a FHIR DSTU2 Encounter provider participant.
+     * @param jsonObject
+     * @return
+     */
+    private List<Encounter.Participant> createEncounterProviderList(JSONObject jsonObject){
+        List<Encounter.Participant> encounterParticipants = new ArrayList<Encounter.Participant>();
+        //get primary provider ref
+        JSONObject primaryProvider = jsonObject.optJSONObject(PRIMARY_PROVIDER_KEY);
+        if( primaryProvider != null ){
+            addEncounterProviderToParticiantList(encounterParticipants, primaryProvider, true);
+        }
+
+        //get provider ref
+        JSONArray providerArray = jsonObject.optJSONArray(PROVIDERS_KEY);
+        if( providerArray != null ) {
+            for (int j = 0; j < providerArray.length(); j++) {
+                JSONObject provider = providerArray.getJSONObject(j);
+                addEncounterProviderToParticiantList(encounterParticipants, provider, false);
+            }
+        }
+        return encounterParticipants;
+    }
+
+    /**
+     * Takes in a VistA Ex visit Provider JSON object and adds it to an Encounter.Participant list.
+     * @param encounterParticipants - the list to modify
+     * @param provider the provider to use
+     * @param isPrimary true if the provider is the primary provider, false otherwise
+     */
+    private void addEncounterProviderToParticiantList(List<Encounter.Participant> encounterParticipants, JSONObject provider, Boolean isPrimary){
+        Encounter.Participant primary = createEncounterProvider(provider, isPrimary);
+        encounterParticipants.add(primary);
+    }
+
+    /**
+     * Creates and configures an Encounter.Participant object from the JSONObject representing a VistA Ex Provider.
+     * @param provider the provider to use
+     * @param isPrimary true if primary, false otherwise
+     * @return the generated Encounter.Participant.
+     */
+    private Encounter.Participant createEncounterProvider(JSONObject provider, Boolean isPrimary){
+        ResourceReferenceDt primaryReference = createReference(provider, PROVIDER_UID_KEY, PROVIDER_DISPLAY_NAME_KEY);
+        Encounter.Participant encounterProvider = new Encounter.Participant();
+        if( isPrimary ){
+            encounterProvider.setType(ParticipantTypeEnum.PPRF);
+        }
+        else{
+            encounterProvider.setType(ParticipantTypeEnum.SPRF);
+        }
+        encounterProvider.setIndividual(primaryReference);
+        return encounterProvider;
+    }
+
+    /**
+     * Creates a FHIR DSTU2 ResourceReference to a VistA Ex element
+     * @param jsonObject
+     * @param referenceElement
+     * @param displayNameElement
+     * @return
+     */
+    private ResourceReferenceDt createReference(JSONObject jsonObject, String referenceElement, String displayNameElement){
+        ResourceReferenceDt primaryReference = new ResourceReferenceDt();
+        primaryReference.setReference(jsonObject.optString(referenceElement));
+        primaryReference.setDisplay(jsonObject.optString(displayNameElement));
+        return primaryReference;
+    }
+
+    /**
+     * Creates a Date object from a string, following a specific format.
+     * @param dateStr the String to convert to a date
+     * @param df the date formatter to use.
+     * @return Date
+     */
     private Date getDateForString( String dateStr, DateFormat df){
         Date date = null;
         if(!dateStr.isEmpty()) {

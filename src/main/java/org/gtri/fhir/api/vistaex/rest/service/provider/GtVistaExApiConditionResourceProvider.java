@@ -31,10 +31,8 @@ public class GtVistaExApiConditionResourceProvider extends GtVistaResourceProvid
      */
     @Search
     public Bundle findConditionWithChain(
-            @RequiredParam(name= Observation.SP_PATIENT, chainWhitelist = {Patient.SP_IDENTIFIER})ReferenceParam patientId
+            @RequiredParam(name= Observation.SP_PATIENT)ReferenceParam patientId
     ){
-        //TODO: At a later date may want to change the chained param from "id" to Patient.SP_IDENTIFIER, then
-        //the incoming param will be "identifier".
         Bundle observationBundle = getVistaExResource().retrieveConditionForPatient(patientId.getValue());
         return observationBundle;
     }

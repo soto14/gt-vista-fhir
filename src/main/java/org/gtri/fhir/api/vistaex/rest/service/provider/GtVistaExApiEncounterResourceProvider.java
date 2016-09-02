@@ -29,7 +29,7 @@ public class GtVistaExApiEncounterResourceProvider extends GtVistaResourceProvid
      */
     @Search
     public List<Encounter> findEncounterWithChain(
-            @RequiredParam(name= Observation.SP_PATIENT, chainWhitelist = {Patient.SP_IDENTIFIER})ReferenceParam patientId
+            @RequiredParam(name= Observation.SP_PATIENT)ReferenceParam patientId
     ){
         List<Encounter> encounters = getVistaExResource().retrieveEncountersForPatient(patientId.getValue());
         return encounters;

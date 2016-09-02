@@ -31,11 +31,14 @@ Copy that war file to the $CATALINA_HOME/webapps directory.
 
 Then start Tomcat, and it will deploy the WAR file.
 
+- http://localhost:8080/hapiGtVistaEx/fhir/Patient/9E7A%3B3
+- http://localhost:8080/hapiGtVistaEx/fhir/Patient?id=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/Patient?_id=9E7A%3B3&_format=json
 - http://localhost:8080/hapiGtVistaEx/fhir/Patient?identifier=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Condition?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Observation?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Encounter?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/Condition?patient=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/Observation?patient=9E7A%3B3&_format=json
+- http://localhost:8080/hapiGtVistaEx/fhir/Encounter?patient=9E7A%3B3&_format=json
 
 How to run locally with Jetty
 --------------------------------------------------------------------------------
@@ -46,8 +49,11 @@ Maven command:
 > mvn jetty:run
 
 You will be able to hit the web services at:
+- http://localhost:8080/fhir/Patient/9E7A%3B3
+- http://localhost:8080/fhir/Patient?id=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Patient?_id=9E7A%3B3&_format=json
 - http://localhost:8080/fhir/Patient?identifier=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/MedicationOrder?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Condition?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Observation?patient.identifier=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Encounter?patient.identifier=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Condition?patient=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Observation?patient=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Encounter?patient=9E7A%3B3&_format=json

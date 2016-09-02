@@ -1,8 +1,9 @@
 package org.gtri.fhir.api.vistaex.rest.service.provider;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.rest.annotation.RequiredParam;
-import ca.uhn.fhir.rest.annotation.Search;
+import ca.uhn.fhir.model.primitive.IdDt;
+import ca.uhn.fhir.model.primitive.StringDt;
+import ca.uhn.fhir.rest.annotation.*;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import org.slf4j.Logger;
@@ -30,22 +31,42 @@ public class GtVistaExApiPatientResourceProvider extends GtVistaResourceProvider
         return Patient.class;
     }
 
-    //TODO: would like to use read to get a Patient, but the vistaEx API ID
-    //does not follow the format of the IdDt object regex: [a-z-Z0-9\-\.]{1,36}
-    //as a result I am using search
-    //@Read()
-    //public Patient getResourceById(@IdParam IdDt theId){
+    @Read()
+    public Patient getResourceById(@IdParam IdDt patientId){
+        logger.debug("Searching patient {}", patientId.getValue());
+        Patient patient = getVistaExResource().retrievePatient(patientId.getIdPart());
+        logger.debug("Finished searching for patient");
+        return patient;
+    }
 
     @Search
-    public List<Patient> searchById(@RequiredParam(name=Patient.SP_IDENTIFIER) StringParam patientId){
-//    public List<Patient> searchById(@RequiredParam(name=Patient.SP_IDENTIFIER) StringParam patientId){
+    public List<Patient> searchById(@OptionalParam(name="id") StringParam patientId,
+                                    @OptionalParam(name=Patient.SP_IDENTIFIER) StringParam patientIdentifier,
+                                    @OptionalParam(name="_id") StringParam patientUnderScoreId){
         List<Patient> returnVals = new ArrayList<Patient>();
-        logger.debug("Retrieving Patient {}", patientId.getValue());
         //make call to VistA Ex API
-        Patient patient = getVistaExResource().retrievePatient(patientId.getValue());
-        logger.debug("Retrieved Patient");
-        returnVals.add(patient);
+        String idToUse = getPatientId(patientId, patientIdentifier, patientUnderScoreId);
+        if( !idToUse.isEmpty() ) {
+            logger.debug("Retrieving Patient {}", idToUse);
+            Patient patient = getVistaExResource().retrievePatient(idToUse);
+            logger.debug("Retrieved Patient");
+            returnVals.add(patient);
+        }
         return returnVals;
+    }
+
+    private String getPatientId( StringParam patientID, StringParam patientIdentifier, StringParam patientUnderScoreId){
+        String idToUse = "";
+        if( patientID != null ){
+            idToUse = patientID.getValue();
+        }
+        else if( patientIdentifier != null ){
+            idToUse = patientIdentifier.getValue();
+        }
+        else if( patientUnderScoreId != null ){
+            idToUse = patientUnderScoreId.getValue();
+        }
+        return idToUse;
     }
 
 }
