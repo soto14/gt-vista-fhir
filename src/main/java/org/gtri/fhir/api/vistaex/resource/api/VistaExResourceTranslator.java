@@ -52,11 +52,11 @@ public interface VistaExResourceTranslator {
     public Bundle translateProcedureForPatient(String procedureJson);
 
     /**
-     * Translates JSON for a MedicationAdministration Object, from the VistaEx API, to a DTSU2 MedicationAdministration
+     * Translates JSON for a Bundle of MedicationAdministration Objects, from the VistaEx API, to a DTSU2 MedicationAdministration
      * @param medicationAdministrationJson the {@link String} JSON representation to translate to a DTSU2 MedicationAdministration
-     * @return {@link MedicationAdministration}.
+     * @return {@link Bundle}.
      */
-    public MedicationAdministration translateMedicationAdministrationForPatient(String medicationAdministrationJson);
+    public Bundle translateMedicationAdministrationForPatient(String medicationAdministrationJson);
 
     /**
      * Translates JSON for a Bundle of AllergyIntollerance Objects, from the VistaEx API, to a DTSU2 AllergyIntolerance

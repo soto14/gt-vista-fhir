@@ -111,22 +111,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("(],\\s*\"total\":)", "}$1");
         translatedJson = translatedJson.replaceAll("(,\\s*)(\"resource\":)", "}$1{$2");
 
-        //medication becomes medicationReference in DSTU2
-        //this replace covers replacement of both medication.reference, and the dispense.medication.reference
-        translatedJson = translatedJson.replaceAll("\"medication\"", "\"medicationReference\"");
-        //scheduledTiming becomes timing in DSTU2
-        translatedJson = translatedJson.replaceAll("\"scheduledTiming\"", "\"timing\"");
-        //Change Type from MedicationPrescription to MedicationOrder
-        translatedJson = translatedJson.replaceAll("\"resourceType\":\\s*\"MedicationPrescription\",", "\"resourceType\": \"MedicationOrder\",");
-        //Change dispense to dispenseRequest
-        translatedJson = translatedJson.replaceAll("\"dispense\":", "\"dispenseRequest\":");
-        //need to update the Substance object to use "code" instead of "type" to describe the substance
-        //fun with Regex here. Find the JSON snippet that indicates the beginning of a Substance, create two groups, the
-        //portion of the Regex in the parens. Then use those groups to maintain the existing substance definition
-        //but change "type" to "code".
-        translatedJson = translatedJson.replaceAll("(\"resourceType\":\\s*\"Substance\",\\s*\"id\":\\s*\"[\\w-]+\",\\s*\")type(\":)", "$1code$2");
-        //Medication does not contain the field name in DSTU2, remove it from the DSTU1 input
-        translatedJson = translatedJson.replaceAll("(\"resourceType\":\\s*\"Medication\",\\s*\"id\":\\s*\"[\\w-]+\",\\s*)\"name\":\\s*\"[\\w\\s,]+\",", "$1");
+        //translate the medication prescription to a medication order
+        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
 
         IParser parser = dstu2Context.newJsonParser();
         Bundle dstuMedicationOrderBundle = parser.parseResource(Bundle.class, translatedJson);
@@ -174,17 +160,22 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("\"patient\"", "\"subject\"");
         //type maps to code
         translatedJson = translatedJson.replaceAll("\"type\"", "\"code\"");
-        //TODO: check on code, and primary
         translatedJson = translatedJson.replaceAll(",\\s*\"primary\":\\s*\\w+", "");
-        logger.debug("Translating {}", translatedJson);
         Bundle procedureBundle = parser.parseResource(Bundle.class, translatedJson);
         logger.debug("Finished Translating Procedure Bundle");
         return procedureBundle;
     }
 
     @Override
-    public MedicationAdministration translateMedicationAdministrationForPatient(String medicationAdministrationJson) {
-        return null;
+    public Bundle translateMedicationAdministrationForPatient(String medicationAdministrationJson) {
+        logger.debug("Translating Medication Administration");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(medicationAdministrationJson);
+        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
+        Bundle medicationAdminBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finsihed Translating Medication Administration");
+        return medicationAdminBundle;
     }
 
     @Override
@@ -276,6 +267,29 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     /*========================================================================*/
     /* PRIVATE METHODS */
     /*========================================================================*/
+
+    private String translateMedicationPrescriptionToMedicationOrder(String jsonString){
+        String translatedJson;
+
+        //Change Type from MedicationPrescription to MedicationOrder
+        translatedJson = jsonString.replaceAll("\"resourceType\":\\s*\"MedicationPrescription\",", "\"resourceType\": \"MedicationOrder\",");
+        //medication becomes medicationReference in DSTU2
+        //this replace covers replacement of both medication.reference, and the dispense.medication.reference
+        translatedJson = translatedJson.replaceAll("\"medication\"", "\"medicationReference\"");
+        //scheduledTiming becomes timing in DSTU2
+        translatedJson = translatedJson.replaceAll("\"scheduledTiming\"", "\"timing\"");
+        //Change dispense to dispenseRequest
+        translatedJson = translatedJson.replaceAll("\"dispense\":", "\"dispenseRequest\":");
+        //need to update the Substance object to use "code" instead of "type" to describe the substance
+        //fun with Regex here. Find the JSON snippet that indicates the beginning of a Substance, create two groups, the
+        //portion of the Regex in the parens. Then use those groups to maintain the existing substance definition
+        //but change "type" to "code".
+        translatedJson = translatedJson.replaceAll("(\"resourceType\":\\s*\"Substance\",\\s*\"id\":\\s*\"[\\w-]+\",\\s*\")type(\":)", "$1code$2");
+        //Medication does not contain the field name in DSTU2, remove it from the DSTU1 input
+        translatedJson = translatedJson.replaceAll("(\"resourceType\":\\s*\"Medication\",\\s*\"id\":\\s*\"[\\w-]+\",\\s*)\"name\":\\s*\"[\\w\\s,]+\",", "$1");
+
+        return translatedJson;
+    }
 
     /**
      * Takes in a JSONObject that represents a VistA Ex visit and generates a FHIR DSTU2 Encounter

@@ -74,6 +74,14 @@ public class TestVistaExResourceTranslator {
         Assert.assertEquals(encounters.size(), 254);
     }
 
+    @Test
+    public void testTranslateMedicationAdministration() throws Exception{
+        String jsonFileText = getFileTextContent("src/test/resources/json/medication-administration-fhirish-sample.json");
+        Bundle medicationAdminBundle = translator.translateMedicationAdministrationForPatient(jsonFileText);
+        validateBundle(medicationAdminBundle, 8, "MedicationAdministration");
+    }
+
+
     public void validateBundle(Bundle bundle, int expectedCount, String resourceName){
         Assert.assertNotNull(bundle);
         Assert.assertFalse(bundle.isEmpty());
