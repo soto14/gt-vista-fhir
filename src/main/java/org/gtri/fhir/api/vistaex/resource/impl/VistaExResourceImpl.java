@@ -57,7 +57,6 @@ public class VistaExResourceImpl implements VistaExResource{
     /*========================================================================*/
     private final Logger logger = LoggerFactory.getLogger(VistaExResourceImpl.class);
     private Properties properties;
-//    private String serverURL = "";
     private String fhirUrl;
     private String authUrl;
     private String refreshUrl;
@@ -81,7 +80,6 @@ public class VistaExResourceImpl implements VistaExResource{
             FileInputStream fis = new FileInputStream(propertiesFile);
             properties = new Properties();
             properties.load(fis);
-//            serverURL = properties.getProperty("serverUrl");
             String urlDns = properties.getProperty(DNS_URL_PROPERTY);
             fhirUrl = urlDns + properties.getProperty(FHIR_URL_PROPERTY);
             authUrl = urlDns + properties.getProperty(AUTH_URL_PROPERTY);
@@ -229,10 +227,14 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
-    public MedicationAdministration retrieveMedicationAdministrationForPatient(String patientId) {
+    public Bundle retrieveMedicationAdministrationForPatient(String patientId) {
+        logger.debug("Getting Medication Administration");
         //https://ehmp2.vaftl.us/resource/fhir/medicationadministration?subject.identifier=9E7A%3B3&limit=&fields=
-        //medicationadministration?subject.identifier=9E7A%3B3&limit=&fields=
-        return null;
+        Bundle medAdminBundle = null;
+        String medAdminUrl = fhirUrl + "medicationadministration?subject.identifier=" + patientId + "&limit=&fields=";
+        medAdminBundle = requestDataFromVistaEx( medAdminUrl, vistaExResourceTranslator::translateMedicationAdministrationForPatient);
+        logger.debug("Finished Getting Medication Administration");
+        return medAdminBundle;
     }
 
     @Override

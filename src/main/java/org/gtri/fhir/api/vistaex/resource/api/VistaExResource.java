@@ -49,11 +49,11 @@ public interface VistaExResource {
     public Bundle retrieveProcedureForPatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 MedicationAdministration Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of MedicationAdministration Object, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link MedicationAdministration} resource for the patient.
+     * @return {@link Bundle} resource for the patient.
      */
-    public MedicationAdministration retrieveMedicationAdministrationForPatient(String patientId);
+    public Bundle retrieveMedicationAdministrationForPatient(String patientId);
 
     /**
      * Retrieves a DTSU2 Bundle of AllergyIntollerance Objects, from the VistaEx API, for a patient
