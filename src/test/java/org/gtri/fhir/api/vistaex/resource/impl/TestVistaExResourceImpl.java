@@ -2,6 +2,7 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by es130 on 8/30/2016.
  */
-public class TestVistaExResourceImpl {
+public class TestVistaExResourceImpl extends AbstractTest{
     private static final String PATIENT_ID = "9E7A%3B3"; //maps to 9E7A;3
     private VistaExResource vistaExResource;
 
@@ -38,39 +39,33 @@ public class TestVistaExResourceImpl {
         Assert.assertEquals( names.size(), 1);
         Assert.assertTrue( names.get(0).getText().equals("EIGHT,PATIENT"));
 
+        //query for allergy-intolerance
+        Bundle allergyBundle = vistaExResource.retrieveAllergyIntoleranceForPatient(PATIENT_ID);
+        validateBundle(allergyBundle, 8, "AllergyIntolerance");
+
         //query for condition bundle
         Bundle conditionBundle = vistaExResource.retrieveConditionForPatient(PATIENT_ID);
-        Assert.assertNotNull(conditionBundle);
-        Assert.assertEquals(conditionBundle.getTotal(), Integer.valueOf(12) );
-        entryList = conditionBundle.getEntry();
-        for(Bundle.Entry entry : entryList){
-            Assert.assertEquals(entry.getResource().getResourceName(), "Condition" );
-        }
+        validateBundle(conditionBundle, 12, "Condition");
+
+        List<Encounter> encounters = vistaExResource.retrieveEncountersForPatient(PATIENT_ID);
+        Assert.assertEquals(encounters.size(), 254);
+
+        Bundle medicationAdmin = vistaExResource.retrieveMedicationAdministrationForPatient(PATIENT_ID);
+        validateBundle(medicationAdmin, 8, "MedicationAdministration");
+
+        Bundle medicationOrder = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
+        validateBundle(medicationOrder, 48, "MedicationOrder");
 
         //query for observation bundle
         Bundle observationBundle = vistaExResource.retrieveObservationForPatient(PATIENT_ID);
-        Assert.assertNotNull(observationBundle);
-        Assert.assertFalse(observationBundle.isEmpty());
-        entryList = observationBundle.getEntry();
-        Assert.assertTrue(entryList.size()> 0);
-        for(Bundle.Entry entry : entryList){
-            Assert.assertEquals(entry.getResource().getResourceName(), "Observation");
-        }
+        validateBundle( observationBundle, 1748, "Observation");
 
         //query for medication order bundle
-        Bundle medicationOrderBundle = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
-        Assert.assertNotNull(medicationOrderBundle);
-        Assert.assertFalse(medicationOrderBundle.isEmpty());
-        entryList = medicationOrderBundle.getEntry();
-        Assert.assertEquals(entryList.size(), 48);
-        for(Bundle.Entry entry : entryList){
-            Assert.assertNotNull(entry.getResource());
-            Assert.assertEquals(entry.getResource().getResourceName(), "MedicationOrder");
-        }
+        Bundle procedureBundle = vistaExResource.retrieveProcedureForPatient(PATIENT_ID);
+        validateBundle(procedureBundle, 2, "Procedure");
 
         //log out
         success = vistaExResource.logOutOfVistaEx();
         Assert.assertTrue(success);
     }
-
 }

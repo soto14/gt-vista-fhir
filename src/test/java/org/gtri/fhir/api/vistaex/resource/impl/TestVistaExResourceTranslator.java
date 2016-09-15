@@ -8,13 +8,10 @@ import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.nio.charset.Charset;
 import java.util.List;
 
-public class TestVistaExResourceTranslator {
+public class TestVistaExResourceTranslator extends AbstractTest{
 
     private VistaExResourceTranslator translator;
 
@@ -79,22 +76,5 @@ public class TestVistaExResourceTranslator {
         String jsonFileText = getFileTextContent("src/test/resources/json/medication-administration-fhirish-sample.json");
         Bundle medicationAdminBundle = translator.translateMedicationAdministrationForPatient(jsonFileText);
         validateBundle(medicationAdminBundle, 8, "MedicationAdministration");
-    }
-
-
-    public void validateBundle(Bundle bundle, int expectedCount, String resourceName){
-        Assert.assertNotNull(bundle);
-        Assert.assertFalse(bundle.isEmpty());
-        List<Bundle.Entry> entryList = bundle.getEntry();
-        Assert.assertEquals(entryList.size(), expectedCount);
-        for(Bundle.Entry entry : entryList){
-            Assert.assertNotNull(entry.getResource());
-            Assert.assertEquals(entry.getResource().getResourceName(), resourceName);
-        }
-    }
-
-    public String getFileTextContent(String filePath) throws Exception{
-        File patientJsonFile = new File(filePath);
-        return FileUtils.readFileToString(patientJsonFile, Charset.forName("UTF-8"));
     }
 }
