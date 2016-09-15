@@ -36,39 +36,35 @@ public class TestVistaExResourceTranslator {
     public void testTranslateConditionBundle() throws Exception{
         String jsonFileText = getFileTextContent("src/test/resources/json/condition-fhirish-sample.json");
         Bundle conditionBundle = translator.translateConditionBundleForPatient(jsonFileText);
-        Assert.assertFalse(conditionBundle.isEmpty());
-        Assert.assertEquals(conditionBundle.getTotal(), Integer.valueOf(12) );
-        List<Bundle.Entry> entryList = conditionBundle.getEntry();
-        for(Bundle.Entry entry : entryList){
-            Assert.assertEquals(entry.getResource().getResourceName(), "Condition" );
-        }
+        validateBundle(conditionBundle, 12, "Condition");
     }
 
     @Test
     public void testTranslateObservation() throws Exception{
         String jsonFileText = getFileTextContent("src/test/resources/json/observation-fhrish-sample.json");
         Bundle observationBundle = translator.translateObservationForPatient(jsonFileText);
-        Assert.assertNotNull(observationBundle);
-        Assert.assertFalse(observationBundle.isEmpty());
-        List<Bundle.Entry> entryList = observationBundle.getEntry();
-        Assert.assertEquals(entryList.size(), 1748);
-        for(Bundle.Entry entry : entryList){
-            Assert.assertEquals(entry.getResource().getResourceName(), "Observation");
-        }
+        validateBundle(observationBundle, 1748, "Observation");
     }
 
     @Test
     public void testTranslateMedicationPrescription() throws Exception{
         String jsonFileText = getFileTextContent("src/test/resources/json/medication-prescription-fhirish-sample-new.json");
         Bundle medicationPrescriptionBundle = translator.translateMedicationOrderForPatient(jsonFileText);
-        Assert.assertNotNull(medicationPrescriptionBundle);
-        Assert.assertFalse(medicationPrescriptionBundle.isEmpty());
-        List<Bundle.Entry> entryList = medicationPrescriptionBundle.getEntry();
-        Assert.assertEquals(entryList.size(), 48);
-        for(Bundle.Entry entry : entryList){
-            Assert.assertNotNull(entry.getResource());
-            Assert.assertEquals(entry.getResource().getResourceName(), "MedicationOrder");
-        }
+        validateBundle(medicationPrescriptionBundle, 48, "MedicationOrder");
+    }
+
+    @Test
+    public void testTranslateProcedure() throws Exception{
+        String jsonFileText = getFileTextContent("src/test/resources/json/procedure-fhirish-sample.json");
+        Bundle procedureBundle = translator.translateProcedureForPatient(jsonFileText);
+        validateBundle(procedureBundle, 2, "Procedure");
+    }
+
+    @Test
+    public void testTranslateAllergyIntolerance() throws Exception{
+        String jsonFileText = getFileTextContent("src/test/resources/json/allergy-intolerance-fhirish-sample.json");
+        Bundle allergyBundle = translator.translateAllergyIntoleranceForPatient(jsonFileText);
+        validateBundle(allergyBundle, 8, "AllergyIntolerance");
     }
 
     @Test
@@ -76,6 +72,17 @@ public class TestVistaExResourceTranslator {
         String jsonFileText = getFileTextContent("src/test/resources/json/visit-sample.json");
         List<Encounter> encounters = translator.translateEncounterforPatient(jsonFileText);
         Assert.assertEquals(encounters.size(), 254);
+    }
+
+    public void validateBundle(Bundle bundle, int expectedCount, String resourceName){
+        Assert.assertNotNull(bundle);
+        Assert.assertFalse(bundle.isEmpty());
+        List<Bundle.Entry> entryList = bundle.getEntry();
+        Assert.assertEquals(entryList.size(), expectedCount);
+        for(Bundle.Entry entry : entryList){
+            Assert.assertNotNull(entry.getResource());
+            Assert.assertEquals(entry.getResource().getResourceName(), resourceName);
+        }
     }
 
     public String getFileTextContent(String filePath) throws Exception{

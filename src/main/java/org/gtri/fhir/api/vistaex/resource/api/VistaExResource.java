@@ -42,11 +42,11 @@ public interface VistaExResource {
     public Bundle retrieveObservationForPatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 Procedure Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of Procedure Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link Procedure} resource for the patient.
+     * @return {@link Bundle} resource for the patient.
      */
-    public Procedure retrieveProcedureForPatient(String patientId);
+    public Bundle retrieveProcedureForPatient(String patientId);
 
     /**
      * Retrieves a DTSU2 MedicationAdministration Object, from the VistaEx API, for a patient
@@ -56,11 +56,11 @@ public interface VistaExResource {
     public MedicationAdministration retrieveMedicationAdministrationForPatient(String patientId);
 
     /**
-     * Retrieves a DTSU2 AllergyIntollerance Object, from the VistaEx API, for a patient
+     * Retrieves a DTSU2 Bundle of AllergyIntollerance Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link AllergyIntolerance} resource for the patient.
+     * @return {@link Bundle} resource for the patient.
      */
-    public AllergyIntolerance retrieveAllergyIntoleranceForPatient(String patientId);
+    public Bundle retrieveAllergyIntoleranceForPatient(String patientId);
 
     /**
      * Retrieves Vista Ex Visit objects and converts it to a DTSU2 Encounter to the best of its ability.

@@ -362,7 +362,6 @@ public class VistaExResourceImpl implements VistaExResource{
         String observationRecordUrl = serverURL + "patient/" + patientId + "/observation?limit=&date-asserted=&onset=&fields=";
         logger.debug("Using URL " + observationRecordUrl);
         HttpGet httpGet = new HttpGet(observationRecordUrl);
-
         try{
             CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
             try{
@@ -381,8 +380,27 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
-    public Procedure retrieveProcedureForPatient(String patientId) {
-        return null;
+    public Bundle retrieveProcedureForPatient(String patientId) {
+        logger.debug("Getting Procedures");
+        Bundle procedureBundle = null;
+        //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/procedure?limit=&date-asserted=&onset=&fields=
+        String procedureUrl = serverURL + "patient/" + patientId + "/procedure?limit=&date-asserted=&onset=&fields=";
+        HttpGet httpGet = new HttpGet(procedureUrl);
+        try{
+            CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
+            try{
+                String jsonStr = getJsonResponse(response);
+                procedureBundle = vistaExResourceTranslator.translateProcedureForPatient(jsonStr);
+            }
+            finally{
+                response.close();
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        logger.debug("Finished Getting Procedures");
+        return procedureBundle;
     }
 
     @Override
@@ -391,8 +409,27 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
-    public AllergyIntolerance retrieveAllergyIntoleranceForPatient(String patientId) {
-        return null;
+    public Bundle retrieveAllergyIntoleranceForPatient(String patientId) {
+        logger.debug("Getting Allergy Intolerances");
+        Bundle allergyBundle = null;
+        String allergyUrl = serverURL + "allergyintolerance?subject.identifier=" + patientId +"&uid=&start=&limit=&fields=";
+        logger.debug("Using URL " + allergyUrl);
+        HttpGet httpGet = new HttpGet(allergyUrl);
+        try{
+            CloseableHttpResponse response = getHttpClient().execute(httpGet, getHttpClientContext());
+            try{
+                String jsonStr = getJsonResponse(response);
+                allergyBundle = vistaExResourceTranslator.translateAllergyIntoleranceForPatient(jsonStr);
+            }
+            finally{
+                response.close();
+            }
+        }
+        catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        logger.debug("Finished Getting Allergy Intolerances");
+        return allergyBundle;
     }
 
     @Override

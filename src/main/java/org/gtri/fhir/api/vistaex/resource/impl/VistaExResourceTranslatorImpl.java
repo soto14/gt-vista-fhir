@@ -165,8 +165,21 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     }
 
     @Override
-    public Procedure translateProcedureForPatient(String procedureJson) {
-        return null;
+    public Bundle translateProcedureForPatient(String procedureJson) {
+        logger.debug("Translating Procedure Bundle");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(procedureJson);
+        //response from vista comes with patient element that maps to subject inDSTU2
+        translatedJson = translatedJson.replaceAll("\"patient\"", "\"subject\"");
+        //type maps to code
+        translatedJson = translatedJson.replaceAll("\"type\"", "\"code\"");
+        //TODO: check on code, and primary
+        translatedJson = translatedJson.replaceAll(",\\s*\"primary\":\\s*\\w+", "");
+        logger.debug("Translating {}", translatedJson);
+        Bundle procedureBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finished Translating Procedure Bundle");
+        return procedureBundle;
     }
 
     @Override
@@ -175,8 +188,18 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     }
 
     @Override
-    public AllergyIntolerance translateAllergyIntoleranceForPatient(String allergyIntoleranceJson) {
-        return null;
+    public Bundle translateAllergyIntoleranceForPatient(String allergyIntoleranceJson) {
+        logger.debug("Translating Allergy Intolerance");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(allergyIntoleranceJson);
+        //Vista Ex FHIR returns an element with an 'event" that should be 'reaction' in DSTU2
+        translatedJson = translatedJson.replaceAll("\"event\"", "\"reaction\"");
+        translatedJson = translatedJson.replaceAll("\"comment\":", "\"description\":");
+        translatedJson = translatedJson.replaceAll("\"duration\":\\s*\\w+,", "");
+        Bundle allergyBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finished Translating Allergy Intolerance");
+        return allergyBundle;
     }
 
     @Override
@@ -436,7 +459,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
 
     private String performCommonTranslations(String bundleJson){
         //some messages come in with the DSTU1 style bundles, update them
-        String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=&\";-]+\\s*\\})", "$1relation$2url$3");
+//        String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=&\";-]+\\s*\\})", "$1relation$2url$3");
+        String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=%&;-]+\"\\s*\\})", "$1relation$2url$3");
         //update units to unit to make Quantities valid from DSTU1 to DSTU2
         translatedJson = translatedJson.replaceAll("\"units\":", "\"unit\":");
         return translatedJson;

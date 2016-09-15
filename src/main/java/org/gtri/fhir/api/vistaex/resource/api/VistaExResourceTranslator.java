@@ -45,11 +45,11 @@ public interface VistaExResourceTranslator {
     public Bundle translateObservationForPatient(String observationBundleJson);
 
     /**
-     * Translates JSON for a Procedure Object, from the VistaEx API, to a DTSU2 Procedure
+     * Translates JSON for a Bundle of Procedure Objects, from the VistaEx API, to a DTSU2 Procedure
      * @param procedureJson the {@link String} JSON representation to translate to a DTSU2
-     * @return {@link Procedure}.
+     * @return {@link Bundle}.
      */
-    public Procedure translateProcedureForPatient(String procedureJson);
+    public Bundle translateProcedureForPatient(String procedureJson);
 
     /**
      * Translates JSON for a MedicationAdministration Object, from the VistaEx API, to a DTSU2 MedicationAdministration
@@ -59,11 +59,11 @@ public interface VistaExResourceTranslator {
     public MedicationAdministration translateMedicationAdministrationForPatient(String medicationAdministrationJson);
 
     /**
-     * Translates JSON for a AllergyIntollerance Object, from the VistaEx API, to a DTSU2 AllergyIntolerance
+     * Translates JSON for a Bundle of AllergyIntollerance Objects, from the VistaEx API, to a DTSU2 AllergyIntolerance
      * @param allergyIntoleranceJson the {@link String} JSON representation to translate to a DTSU2 AllergyIntolerance
-     * @return {@link AllergyIntolerance}.
+     * @return {@link Bundle}.
      */
-    public AllergyIntolerance translateAllergyIntoleranceForPatient(String allergyIntoleranceJson);
+    public Bundle translateAllergyIntoleranceForPatient(String allergyIntoleranceJson);
 
     /**
      * Translates JSON for a Visit Object, from the VistaEx API, to a DTSU2 Encounter
