@@ -31,6 +31,10 @@ Copy that war file to the $CATALINA_HOME/webapps directory.
 
 Then start Tomcat, and it will deploy the WAR file.
 
+To get the conformance statement
+- http://localhost:8080/hapiGtVistaEx/fhir/metadata
+
+You will be able to hit the web services at:
 - http://localhost:8080/hapiGtVistaEx/fhir/Patient/9E7A%3B3
 - http://localhost:8080/hapiGtVistaEx/fhir/Patient?id=9E7A%3B3&_format=json
 - http://localhost:8080/hapiGtVistaEx/fhir/Patient?_id=9E7A%3B3&_format=json
@@ -47,6 +51,9 @@ allows Maven to create/run a Jetty servlet container that can be hit by a web
 browser/client for testing. To start up the application in Jetty, run the following
 Maven command:
 > mvn jetty:run
+
+To get the conformance statement
+- http://localhost:8080/fhir/metadata
 
 You will be able to hit the web services at:
 - http://localhost:8080/fhir/Patient/9E7A%3B3

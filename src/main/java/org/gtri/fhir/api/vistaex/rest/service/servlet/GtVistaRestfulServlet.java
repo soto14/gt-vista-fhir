@@ -10,6 +10,7 @@ import ca.uhn.fhir.narrative.INarrativeGenerator;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
+import org.gtri.fhir.api.vistaex.rest.service.conformance.GtVistaExConformanceProvider;
 import org.gtri.fhir.api.vistaex.rest.service.provider.*;
 import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
@@ -51,7 +52,18 @@ public class GtVistaRestfulServlet extends RestfulServer {
         providers.add(new GtVistaExApiMedicationOrderResourceProvider());
         providers.add(new GtVistaExApiEncounterResourceProvider());
 		setResourceProviders(providers);
-		
+
+		/*
+		 * Add custom conformance provider
+		 *
+		 */
+        GtVistaExConformanceProvider conformanceProvider = new GtVistaExConformanceProvider(this);
+        //stuff added by Myungs Conformance provider, Do we need it?
+//        confProvider.setImplementationDescription("FHIR JPA Server");
+//        confProvider.setPublisher("Georgia Tech - I3L");
+//        confProvider.setAuthServerUrl(getServletConfig().getInitParameter("authServerUrl"));
+        setServerConformanceProvider(conformanceProvider);
+
 		/*
 		 * Use a narrative generator. This is a completely optional step, 
 		 * but can be useful as it causes HAPI to generate narratives for

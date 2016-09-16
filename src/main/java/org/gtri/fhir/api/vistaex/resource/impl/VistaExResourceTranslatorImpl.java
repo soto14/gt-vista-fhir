@@ -127,6 +127,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         String translatedJson = performCommonTranslations(conditionBundleJson);
         //manipulate the incoming JSON to convert from DSTU1 to DSTU2
         translatedJson = translatedJson .replaceAll("\"dateAsserted\"", "\"dateRecorded\"");
+        //Translate the Patient reference
+        translatedJson = translatedJson.replaceAll("(\"patient\":\\s*\\{\\s*\"reference\":\\s*\")(\\w+;\\w+)(\")", "$1Patient/$2$3");
         IParser parser = dstu2Context.newJsonParser();
         Bundle dstuConditionBundle = parser.parseResource(Bundle.class, translatedJson);
         logger.debug("Finished translating ConditionBundle");
