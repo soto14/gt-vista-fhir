@@ -11,10 +11,13 @@ import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import org.gtri.fhir.api.vistaex.rest.service.conformance.GtVistaExConformanceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.interceptor.OauthInterceptor;
 import org.gtri.fhir.api.vistaex.rest.service.provider.*;
 import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * This servlet is the actual FHIR server itself
@@ -41,6 +44,10 @@ public class GtVistaRestfulServlet extends RestfulServer {
 	 */
 	@Override
 	public void initialize() {
+
+		//Get a handle on the Web Application Context
+		WebApplicationContext applicationContext = ContextLoaderListener.getCurrentWebApplicationContext();
+
 		/*
 		 * Two resource providers are defined. Each one handles a specific
 		 * type of resource.
@@ -79,7 +86,11 @@ public class GtVistaRestfulServlet extends RestfulServer {
 		 * but can be nice for testing.
 		 */
 		registerInterceptor(new ResponseHighlighterInterceptor());
-		
+
+		//set OAuthInterceptor
+		OauthInterceptor oauthInterceptor = applicationContext.getBean(OauthInterceptor.class);
+		this.registerInterceptor(oauthInterceptor);
+
 		/*
 		 * Tells the server to return pretty-printed responses by default
 		 */

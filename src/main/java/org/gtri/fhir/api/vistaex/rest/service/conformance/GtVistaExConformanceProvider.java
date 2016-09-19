@@ -6,6 +6,7 @@ import ca.uhn.fhir.model.dstu2.valueset.RestfulSecurityServiceEnum;
 import ca.uhn.fhir.model.primitive.UriDt;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.provider.dstu2.ServerConformanceProvider;
+import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,6 @@ import java.util.Properties;
  */
 public class GtVistaExConformanceProvider extends ServerConformanceProvider {
 
-    private static final String PROPERTIES_FILE = "gtvistaex.properties";
     private static final String OAUTH_URL_BASE = "oauthUrlBase";
     private static final String SMART_ON_FHIR_URL= "smartOnFhirUrl";
     private static final String TOKEN = "token";
@@ -38,21 +38,13 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
 
     public GtVistaExConformanceProvider(RestfulServer theRestfulServer) {
         super(theRestfulServer);
-        try {
-            File propertiesFile = getFileInClassPath(PROPERTIES_FILE);
-            FileInputStream fis = new FileInputStream(propertiesFile);
-            properties = new Properties();
-            properties.load(fis);
-            oauthUrlBase = properties.getProperty(OAUTH_URL_BASE);
-            smartOnFhirUrl = properties.getProperty(SMART_ON_FHIR_URL);
+        properties = VistaUtil.getProperties();
+        oauthUrlBase = properties.getProperty(OAUTH_URL_BASE);
+        smartOnFhirUrl = properties.getProperty(SMART_ON_FHIR_URL);
 
-            authorizeURI = oauthUrlBase + AUTHORIZE;
-            tokenURI = oauthUrlBase + TOKEN;
-            registerURI = oauthUrlBase + REGISTER;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+        authorizeURI = oauthUrlBase + AUTHORIZE;
+        tokenURI = oauthUrlBase + TOKEN;
+        registerURI = oauthUrlBase + REGISTER;
         setCache(false);
     }
 
@@ -99,16 +91,5 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         return conformanceStmt;
     }
 
-    /**
-     * Finds a file on the classpath
-     * @param fileName the name of the file to find
-     * @return the file.
-     */
-    private File getFileInClassPath(String fileName) {
-        //how to find resource in Servlet
-        //http://stackoverflow.com/questions/2161054/where-to-place-and-how-to-read-configuration-resource-files-in-servlet-based-app/2161583#2161583
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        File propertiesFile = new File(classLoader.getResource(fileName).getFile());
-        return propertiesFile;
-    }
+
 }

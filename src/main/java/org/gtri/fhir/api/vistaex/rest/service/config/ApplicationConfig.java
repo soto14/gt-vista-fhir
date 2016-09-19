@@ -2,8 +2,17 @@ package org.gtri.fhir.api.vistaex.rest.service.config;
 
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.gtri.fhir.api.vistaex.resource.impl.VistaExResourceImpl;
+import org.gtri.fhir.api.vistaex.rest.service.interceptor.OauthInterceptor;
+import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 //import ca.uhn.fhir.context.FhirVersionEnum;
 //import ca.uhn.fhir.to.FhirTesterMvcConfig;
@@ -23,6 +32,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @ComponentScan({"org.gtri.fhir.api.vistaex.resource.impl.*", "org.gtri.fhir.api.vistaex.rest.service.provider.*"})
 public class ApplicationConfig {
+
+    private static final String INTROSPECT_URL = "introspectUrl";
+    private static final String INTROSPECT_CLIENT_ID = "introspectClientId";
+    private static final String INTROSPECT_CLIENT_SECRET = "introspectClientSecret";
+    private static final String INTROSPECT_ENABLE_OAUTH="introspectEnableOAuth";
+    private static final String INTROSPECT_LOCAL_BY_PASS="introspectLocalByPass";
+    private static final String INTROSPECT_READ_ONLY="introspectReadOnly";
 
 	/**
 	 * This bean tells the testing webpage which servers it should configure itself
@@ -68,5 +84,17 @@ public class ApplicationConfig {
 		return new VistaExResourceImpl();
 	}
 
+	@Bean
+	public OauthInterceptor oauthInterceptor(){
+        Properties properties = VistaUtil.getProperties();
+        OauthInterceptor interceptor = new OauthInterceptor();
+        interceptor.setIntrospectUrl(properties.getProperty(INTROSPECT_URL));
+        interceptor.setClientId(properties.getProperty(INTROSPECT_CLIENT_ID));
+        interceptor.setClientSecret(properties.getProperty(INTROSPECT_CLIENT_SECRET));
+        interceptor.setEnableOAuth(properties.getProperty(INTROSPECT_ENABLE_OAUTH));
+        interceptor.setLocalByPass(properties.getProperty(INTROSPECT_LOCAL_BY_PASS));
+        interceptor.setReadOnly(properties.getProperty(INTROSPECT_READ_ONLY));
+        return interceptor;
+    }
 }
 //@formatter:on
