@@ -90,6 +90,4 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         logger.debug("Finished Generating Conformance Statement");
         return conformanceStmt;
     }
-
-
 }
