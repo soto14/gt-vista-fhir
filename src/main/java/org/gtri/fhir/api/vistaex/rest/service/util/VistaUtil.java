@@ -4,10 +4,7 @@ import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -31,25 +28,27 @@ public class VistaUtil {
      * @param fileName the name of the file to find
      * @return the file.
      */
-    public static File getFileInClassPath(String fileName) {
+    public static InputStream getFileInputStreamFromClassPath(String fileName) {
         //how to find resource in Servlet
         //http://stackoverflow.com/questions/2161054/where-to-place-and-how-to-read-configuration-resource-files-in-servlet-based-app/2161583#2161583
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        File propertiesFile = new File(classLoader.getResource(fileName).getFile());
-        return propertiesFile;
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        return inputStream;
     }
 
     public static Properties getProperties(){
+        Properties properties = null;
         try {
-            File propertiesFile = getFileInClassPath(PROPERTIES_FILE);
-            FileInputStream fis = new FileInputStream(propertiesFile);
-            Properties properties = new Properties();
+            InputStream fis = getFileInputStreamFromClassPath(PROPERTIES_FILE);
+            properties = new Properties();
             properties.load(fis);
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
+            properties = null;
         } catch (IOException ioe) {
             ioe.printStackTrace();
+            properties = null;
         }
-        return getProperties();
+        return properties;
     }
 }
