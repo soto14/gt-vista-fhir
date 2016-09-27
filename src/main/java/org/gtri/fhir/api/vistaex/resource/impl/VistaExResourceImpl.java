@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
+import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,6 @@ public class VistaExResourceImpl implements VistaExResource{
     private static final String SITE_CODE = "site";
     private static final String RESPONSE_HEADER_COOKIE = "Set-Cookie";
     private static final String REQUEST_HEADER_COOKIE = "Cookie";
-    private static final String PROPERTIES_FILE = "gtvistaex.properties";
     private static final String AUTH_URL_PROPERTY = "authUrl";
     private static final String REFRESH_URL_PROPERTY = "refreshUrl";
     private static final String DNS_URL_PROPERTY = "serverDns";
@@ -75,22 +75,13 @@ public class VistaExResourceImpl implements VistaExResource{
     public VistaExResourceImpl(){
         vistaExResourceTranslator = new VistaExResourceTranslatorImpl();
 
-        try {
-            File propertiesFile = getFileInClassPath(PROPERTIES_FILE);
-            FileInputStream fis = new FileInputStream(propertiesFile);
-            properties = new Properties();
-            properties.load(fis);
+        properties = VistaUtil.getProperties();
+        if( properties != null ) {
             String urlDns = properties.getProperty(DNS_URL_PROPERTY);
             fhirUrl = urlDns + properties.getProperty(FHIR_URL_PROPERTY);
             authUrl = urlDns + properties.getProperty(AUTH_URL_PROPERTY);
             refreshUrl = urlDns + properties.getProperty(REFRESH_URL_PROPERTY);
             visitUrl = urlDns + properties.getProperty(VISIT_URL_PROPERTY);
-        }
-        catch(FileNotFoundException fnfe){
-            fnfe.printStackTrace();
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
         }
     }
 
