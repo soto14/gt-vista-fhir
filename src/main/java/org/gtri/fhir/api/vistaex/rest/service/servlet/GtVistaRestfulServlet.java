@@ -11,7 +11,6 @@ import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
 import org.gtri.fhir.api.vistaex.rest.service.conformance.GtVistaExConformanceProvider;
-import org.gtri.fhir.api.vistaex.rest.service.interceptor.OauthInterceptor;
 import org.gtri.fhir.api.vistaex.rest.service.provider.*;
 import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.slf4j.Logger;
@@ -53,22 +52,20 @@ public class GtVistaRestfulServlet extends RestfulServer {
 		 * type of resource.
 		 */
 		List<IResourceProvider> providers = new ArrayList<IResourceProvider>();
-		providers.add(new GtVistaExApiPatientResourceProvider());
+		providers.add(new GtVistaExApiAllergyIntolleranceResourceProvider());
+		providers.add(new GtVistaExApiConditionResourceProvider());
+		providers.add(new GtVistaExApiEncounterResourceProvider());
+		providers.add(new GtVistaExApiMedicationAdministrationResourceProvider());
+		providers.add(new GtVistaExApiMedicationOrderResourceProvider());
 		providers.add(new GtVistaExApiObservationResourceProvider());
-        providers.add(new GtVistaExApiConditionResourceProvider());
-        providers.add(new GtVistaExApiMedicationOrderResourceProvider());
-        providers.add(new GtVistaExApiEncounterResourceProvider());
+		providers.add(new GtVistaExApiPatientResourceProvider());
+		providers.add(new GtVistaExApiProcedureResourceProvider());
 		setResourceProviders(providers);
 
 		/*
 		 * Add custom conformance provider
-		 *
 		 */
         GtVistaExConformanceProvider conformanceProvider = new GtVistaExConformanceProvider(this);
-        //stuff added by Myungs Conformance provider, Do we need it?
-//        confProvider.setImplementationDescription("FHIR JPA Server");
-//        confProvider.setPublisher("Georgia Tech - I3L");
-//        confProvider.setAuthServerUrl(getServletConfig().getInitParameter("authServerUrl"));
         setServerConformanceProvider(conformanceProvider);
 
 		/*
@@ -87,10 +84,6 @@ public class GtVistaRestfulServlet extends RestfulServer {
 		 */
 		registerInterceptor(new ResponseHighlighterInterceptor());
 
-		//set OAuthInterceptor
-		OauthInterceptor oauthInterceptor = applicationContext.getBean(OauthInterceptor.class);
-		this.registerInterceptor(oauthInterceptor);
-
 		/*
 		 * Tells the server to return pretty-printed responses by default
 		 */
@@ -103,7 +96,6 @@ public class GtVistaRestfulServlet extends RestfulServer {
         sessionRefreshTimerTask = new SessionRefreshTimer();
         refreshTimer = new Timer();
         refreshTimer.schedule(sessionRefreshTimerTask, SESSION_REFRESH_INTERVAL_MILLI, SESSION_REFRESH_INTERVAL_MILLI);
-
 	}
 
     @Override

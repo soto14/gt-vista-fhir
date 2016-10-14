@@ -1,0 +1,33 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "id": "ca24a0de-1b7f-4cf6-88c9-8a4183297d8b",
+  "link": [
+    {
+      "rel": "self",
+      "href": "http://172.16.4.105:8888/resource/fhir/allergyintolerance?subject.identifier=9E7A%3B3&uid=&start=&limit=&fields="
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "text": {
+          "status": "generated",
+          "div": "<div>SOY MILK</div>"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "text": {
+          "status": "generated",
+          "div": "<div>MILK <MILKS></div>"
+        }
+      }
+    }
+
+  ],
+  "total": 2
+}

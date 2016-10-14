@@ -13,6 +13,7 @@ import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ParticipantTypeEnum;
 import ca.uhn.fhir.parser.IParser;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
+import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by es130 on 8/29/2016.
@@ -190,6 +193,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("\"event\"", "\"reaction\"");
         translatedJson = translatedJson.replaceAll("\"comment\":", "\"description\":");
         translatedJson = translatedJson.replaceAll("\"duration\":\\s*\\w+,", "");
+        translatedJson = VistaUtil.fixDivHtmlElements(translatedJson);
         Bundle allergyBundle = parser.parseResource(Bundle.class, translatedJson);
         logger.debug("Finished Translating Allergy Intolerance");
         return allergyBundle;

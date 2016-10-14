@@ -41,11 +41,11 @@ public class TestVistaExResourceImpl extends AbstractTest{
 
         //query for allergy-intolerance
         Bundle allergyBundle = vistaExResource.retrieveAllergyIntoleranceForPatient(PATIENT_ID);
-        validateBundle(allergyBundle, 8, "AllergyIntolerance");
+        validateBundle(allergyBundle, 9, "AllergyIntolerance");
 
         //query for condition bundle
         Bundle conditionBundle = vistaExResource.retrieveConditionForPatient(PATIENT_ID);
-        validateBundle(conditionBundle, 12, "Condition");
+        validateBundle(conditionBundle, 13, "Condition");
 
         List<Encounter> encounters = vistaExResource.retrieveEncountersForPatient(PATIENT_ID);
         Assert.assertEquals(encounters.size(), 254);
