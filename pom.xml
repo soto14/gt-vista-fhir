@@ -14,8 +14,7 @@
 	<groupId>org.gtri.fhir.api.vistaex</groupId>
 	<artifactId>gt-fhir-external-vista</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<!--<packaging>war</packaging>-->
+	<packaging>war</packaging>
 
 	<name>HAPI FHIR GT VistA Ex API Sample RESTful Server</name>
 
