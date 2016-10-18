@@ -1,4 +1,4 @@
-# hapiGtVistaEx
+# gt-vista-fhir
 HAPI FHIR Project to talk to VistA Ex API
 About
 --------------------------------------------------------------------------------
