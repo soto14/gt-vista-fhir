@@ -490,8 +490,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     }
 
     private String performCommonTranslations(String bundleJson){
-        //some messages come in with the DSTU1 style bundles, update them
-//        String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=&\";-]+\\s*\\})", "$1relation$2url$3");
+//        logger.debug("Translating {}", bundleJson);
+        // some messages come in with the DSTU1 style bundles, update them
         String translatedJson = bundleJson.replaceAll("(\"link\":\\s*\\[\\s*\\{\\s*\")rel(\":\\s*\"\\w+\",\\s*\")href(\":\\s*\"[\\w:/\\.?=%&;-]+\"\\s*\\})", "$1relation$2url$3");
         //update units to unit to make Quantities valid from DSTU1 to DSTU2
         translatedJson = translatedJson.replaceAll("\"units\":", "\"unit\":");

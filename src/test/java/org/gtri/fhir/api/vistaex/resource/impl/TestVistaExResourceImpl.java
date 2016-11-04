@@ -55,11 +55,11 @@ public class TestVistaExResourceImpl extends AbstractTest{
 
         //query for allergy-intolerance
         Bundle allergyBundle = vistaExResource.retrieveAllergyIntoleranceForPatient(PATIENT_ID);
-        validateBundle(allergyBundle, 9, "AllergyIntolerance");
+        validateBundle(allergyBundle, 8, "AllergyIntolerance"); // was 9
 
         //query for condition bundle
         Bundle conditionBundle = vistaExResource.retrieveConditionForPatient(PATIENT_ID);
-        validateBundle(conditionBundle, 14, "Condition");
+        validateBundle(conditionBundle, 12, "Condition"); //was 14
 
         List<Encounter> encounters = vistaExResource.retrieveEncountersForPatient(PATIENT_ID);
         Assert.assertEquals(encounters.size(), 254);
@@ -72,8 +72,7 @@ public class TestVistaExResourceImpl extends AbstractTest{
 
         //query for observation bundle
         Bundle observationBundle = vistaExResource.retrieveObservationForPatient(PATIENT_ID);
-        validateBundle( observationBundle, 1749, "Observation");
-//        validateBundle( observationBundle, 1748, "Observation");
+        validateBundle( observationBundle, 1748, "Observation"); //was 1749
 
         //query for medication order bundle
         Bundle procedureBundle = vistaExResource.retrieveProcedureForPatient(PATIENT_ID);
