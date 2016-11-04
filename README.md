@@ -1,4 +1,4 @@
-# hapiGtVistaEx
+# gt-vista-fhir
 HAPI FHIR Project to talk to VistA Ex API
 About
 --------------------------------------------------------------------------------
@@ -38,17 +38,17 @@ To get the conformance statement
 - http://localhost:8080/hapiGtVistaEx/fhir/metadata
 
 You will be able to hit the web services at:
-- http://localhost:8080/hapiGtVistaEx/fhir/Patient/9E7A%3B3
-- http://localhost:8080/hapiGtVistaEx/fhir/Patient?id=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Patient?_id=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Patient?identifier=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Condition?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Observation?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Encounter?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/MedicationAdministration?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/Procedure?patient=9E7A%3B3&_format=json
-- http://localhost:8080/hapiGtVistaEx/fhir/AllergyIntolerance?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient/9E7A%3B3
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?id=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?_id=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?identifier=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Condition?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Observation?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Encounter?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/MedicationAdministration?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Procedure?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/AllergyIntolerance?patient=9E7A%3B3&_format=json
 
 How to run locally with Jetty
 --------------------------------------------------------------------------------
