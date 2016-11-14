@@ -65,6 +65,7 @@ public class VistaExResourceImpl implements VistaExResource{
     private static final String DNS_URL_PROPERTY = "serverDns";
     private static final String FHIR_URL_PROPERTY = "serverFhir";
     private static final String VISIT_URL_PROPERTY = "visitUrl";
+    private static final String SITE_PID_DELIMETER = "%3B";
 
     /*========================================================================*/
     /* PRIVATE VARIABLES */
@@ -75,6 +76,8 @@ public class VistaExResourceImpl implements VistaExResource{
     private String authUrl;
     private String refreshUrl;
     private String visitUrl;
+    private String siteCode;
+
     private VistaExResourceTranslator vistaExResourceTranslator;
     //TODO: this needs to change for production. For the demo it is ok because we are only using
     //one user. In reality this needs to be stored in the user session.
@@ -96,6 +99,7 @@ public class VistaExResourceImpl implements VistaExResource{
             authUrl = urlDns + properties.getProperty(AUTH_URL_PROPERTY);
             refreshUrl = urlDns + properties.getProperty(REFRESH_URL_PROPERTY);
             visitUrl = urlDns + properties.getProperty(VISIT_URL_PROPERTY);
+            siteCode = properties.getProperty(SITE_CODE);
         }
     }
 
@@ -127,11 +131,51 @@ public class VistaExResourceImpl implements VistaExResource{
         return httpClientContext;
     }
 
+    public String getFhirUrl() {
+        return fhirUrl;
+    }
+
+    public String getAuthUrl() {
+        return authUrl;
+    }
+
+    public String getRefreshUrl() {
+        return refreshUrl;
+    }
+
+    public String getVisitUrl() {
+        return visitUrl;
+    }
+
+    public String getSiteCode() {
+        return siteCode;
+    }
+
     /*========================================================================*/
     /* SETTERS */
     /*========================================================================*/
     public void setCookie(String cookie) {
         this.cookie = cookie;
+    }
+
+    public void setFhirUrl(String fhirUrl) {
+        this.fhirUrl = fhirUrl;
+    }
+
+    public void setAuthUrl(String authUrl) {
+        this.authUrl = authUrl;
+    }
+
+    public void setRefreshUrl(String refreshUrl) {
+        this.refreshUrl = refreshUrl;
+    }
+
+    public void setVisitUrl(String visitUrl) {
+        this.visitUrl = visitUrl;
+    }
+
+    public void setSiteCode(String siteCode) {
+        this.siteCode = siteCode;
     }
 
     /*========================================================================*/
@@ -140,7 +184,7 @@ public class VistaExResourceImpl implements VistaExResource{
     @Override
     public Boolean loginToVistaEx() {
         logger.debug("Logging into VistaEx");
-        HttpPost httpPost = new HttpPost(authUrl);
+        HttpPost httpPost = new HttpPost(getAuthUrl());
         //build login JSON and to post
         StringEntity loginEntity = createLoginEntity();
         httpPost.setEntity(loginEntity);
@@ -152,7 +196,7 @@ public class VistaExResourceImpl implements VistaExResource{
     @Override
     public Boolean refreshSessionOnVistaEx() {
         logger.debug("Refreshing session on VistaEx");
-        HttpGet httpGet = new HttpGet(refreshUrl);
+        HttpGet httpGet = new HttpGet(getRefreshUrl());
         Boolean success = processLogInOutRequest(httpGet);
         logger.debug("Finished refreshing session on VistaEx");
         return success;
@@ -161,7 +205,7 @@ public class VistaExResourceImpl implements VistaExResource{
     @Override
     public Boolean logOutOfVistaEx(){
         logger.debug("Logging out of VistaEx");
-        HttpDelete httpDelete = new HttpDelete(authUrl);
+        HttpDelete httpDelete = new HttpDelete(getAuthUrl());
         Boolean success = processLogInOutRequest(httpDelete);
         logger.debug("Finished logging out of VistaEx");
         return success;
@@ -169,14 +213,16 @@ public class VistaExResourceImpl implements VistaExResource{
 
     @Override
     /**
-     * @param patientID, the id of the patient to search, must be of the format
-     *                   <site_id>%3B<patient_id>, %3B is the URL escaped ; char.
+     * Retrieves a DTSU2 Patient Object, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Patient} resource for the patient.
      */
     public Patient retrievePatient(String patientId) {
         logger.debug("Getting Patient " + patientId);
         Patient patient = null;
         //assuming patient ID is of format <site_id>%3B<patient_id>, for example C877%3B3
-        String patientRecordURL = fhirUrl + "patient/" + patientId + "?fields=";
+        String patientRecordURL = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "?fields=";
         logger.debug("Using URL " + patientRecordURL);
         patient = requestDataFromVistaEx( patientRecordURL, vistaExResourceTranslator::translatePatient);
         //Explicitly set the id
@@ -185,10 +231,16 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of MedicationOrder Objects, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveMedicationOrderForPatient(String patientId) {
         logger.debug("Getting MedicationOrder for Patient");
         Bundle medicationOrderBundle = null;
-        String medicationPrescriptionUrl = fhirUrl + "patient/" + patientId + "/medicationprescription?limit=&fields=";
+        String medicationPrescriptionUrl = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "/medicationprescription?limit=&fields=";
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/medicationprescription?limit=&fields=
         logger.debug("Using URL " + medicationPrescriptionUrl);
         medicationOrderBundle = requestDataFromVistaEx( medicationPrescriptionUrl, vistaExResourceTranslator::translateMedicationOrderForPatient);
@@ -197,10 +249,16 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of Condition Objects, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveConditionForPatient(String patientId) {
         logger.debug("Getting Conditions for Patient {}", patientId);
         Bundle conditionBundle = null;
-        String conditionRecordUrl = fhirUrl + "patient/" + patientId + "/condition?limit=&date-asserted=&onset=&fields=";
+        String conditionRecordUrl = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "/condition?limit=&date-asserted=&onset=&fields=";
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/condition?limit=&date-asserted=&onset=&fields=
         logger.debug("Using URL " + conditionRecordUrl);
         conditionBundle = requestDataFromVistaEx( conditionRecordUrl, vistaExResourceTranslator::translateConditionBundleForPatient);
@@ -209,11 +267,17 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of Observation Objects, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveObservationForPatient(String patientId) {
         logger.debug("Getting Observation Bundle for Patient {}", patientId);
         Bundle observationBundle = null;
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/observation?limit=&date-asserted=&onset=&fields=
-        String observationRecordUrl = fhirUrl + "patient/" + patientId + "/observation?limit=&date-asserted=&onset=&fields=";
+        String observationRecordUrl = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "/observation?limit=&date-asserted=&onset=&fields=";
         logger.debug("Using URL " + observationRecordUrl);
         observationBundle = requestDataFromVistaEx( observationRecordUrl, vistaExResourceTranslator::translateObservationForPatient);
         logger.debug("Finished Getting Conditions");
@@ -221,32 +285,50 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of Procedure Objects, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveProcedureForPatient(String patientId) {
         logger.debug("Getting Procedures");
         Bundle procedureBundle = null;
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/procedure?limit=&date-asserted=&onset=&fields=
-        String procedureUrl = fhirUrl + "patient/" + patientId + "/procedure?limit=&date-asserted=&onset=&fields=";
+        String procedureUrl = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "/procedure?limit=&date-asserted=&onset=&fields=";
         procedureBundle = requestDataFromVistaEx( procedureUrl, vistaExResourceTranslator::translateProcedureForPatient);
         logger.debug("Finished Getting Procedures");
         return procedureBundle;
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of MedicationAdministration Object, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveMedicationAdministrationForPatient(String patientId) {
         logger.debug("Getting Medication Administration");
         //https://ehmp2.vaftl.us/resource/fhir/medicationadministration?subject.identifier=9E7A%3B3&limit=&fields=
         Bundle medAdminBundle = null;
-        String medAdminUrl = fhirUrl + "medicationadministration?subject.identifier=" + patientId + "&limit=&fields=";
+        String medAdminUrl = getFhirUrl() + "medicationadministration?subject.identifier=" + getSiteCode() + SITE_PID_DELIMETER + patientId + "&limit=&fields=";
         medAdminBundle = requestDataFromVistaEx( medAdminUrl, vistaExResourceTranslator::translateMedicationAdministrationForPatient);
         logger.debug("Finished Getting Medication Administration");
         return medAdminBundle;
     }
 
     @Override
+    /**
+     * Retrieves a DTSU2 Bundle of AllergyIntollerance Objects, from the VistaEx API, for a patient
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return {@link Bundle} resource for the patient.
+     */
     public Bundle retrieveAllergyIntoleranceForPatient(String patientId) {
         logger.debug("Getting Allergy Intolerances");
         Bundle allergyBundle = null;
-        String allergyUrl = fhirUrl + "allergyintolerance?subject.identifier=" + patientId +"&uid=&start=&limit=&fields=";
+        String allergyUrl = getFhirUrl() + "allergyintolerance?subject.identifier=" + getSiteCode() + SITE_PID_DELIMETER + patientId +"&uid=&start=&limit=&fields=";
         logger.debug("Using URL " + allergyUrl);
         allergyBundle = requestDataFromVistaEx( allergyUrl, vistaExResourceTranslator::translateAllergyIntoleranceForPatient);
         logger.debug("Finished Getting Allergy Intolerances");
@@ -254,11 +336,17 @@ public class VistaExResourceImpl implements VistaExResource{
     }
 
     @Override
+    /**
+     * Retrieves Vista Ex Visit objects and converts it to a DTSU2 Encounter to the best of its ability.
+     * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
+     *                  patient ID before making the call to VistaEx.
+     * @return List of {@link Encounter} resource for the patient.
+     */
     public List<Encounter> retrieveEncountersForPatient(String patientId) {
         logger.debug("Getting Encounters for Patient {}", patientId);
         List<Encounter> encounters = null;
         //https://54.173.144.121/resource/patient/record/domain/visit?pid=9E7A%3B3&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=
-        String visitUrlWithParam = visitUrl + "?pid=" + patientId + "&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=";
+        String visitUrlWithParam = getVisitUrl() + "?pid=" + getSiteCode() + SITE_PID_DELIMETER + patientId + "&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=";
         logger.debug("Using URL " + visitUrlWithParam);
         encounters = requestDataFromVistaEx( visitUrlWithParam, vistaExResourceTranslator::translateEncounterforPatient );
         logger.debug("Finished Getting Encounters");

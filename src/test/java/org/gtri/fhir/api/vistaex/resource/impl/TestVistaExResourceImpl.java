@@ -29,7 +29,10 @@ import org.junit.Test;
 import java.util.List;
 
 public class TestVistaExResourceImpl extends AbstractTest{
-    private static final String PATIENT_ID = "9E7A%3B3"; //maps to 9E7A;3
+    //The SITE ID is appended by the impl methods in VistaExResourceImpl, there is no need to append it to the
+    //PATIENT_ID anymore. However, if at some point that does change, teh previous PATIENT_ID value was left
+    //here for an example.
+    private static final String PATIENT_ID = "3";//"9E7A%3B3"; //maps to 9E7A;3
     private VistaExResource vistaExResource;
 
     @Before
