@@ -25,6 +25,10 @@ The WAR file for the application can be built by running the following command
 When Maven finishes the build there will be a WAR file for the application in the
 `/target` directory.
 
+How to configure
+----------------
+The application can be configured via the gtvistaex.properties file. This file contains properties for the VistaEx user, site, and endpoint URLS. By default the system is configured to use the user "sc1234" and the and the PANORAMA site, 9E7A.
+
 How to deploy to Tomcat
 --------------------------------------------------------------------------------
 After running a "mvn clean install" command there will be a WAR file in the 
@@ -38,17 +42,17 @@ To get the conformance statement
 - http://localhost:8080/hapiGtVistaEx/fhir/metadata
 
 You will be able to hit the web services at:
-- http://localhost:8080/gt-vista-fhir/fhir/Patient/9E7A%3B3
-- http://localhost:8080/gt-vista-fhir/fhir/Patient?id=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Patient?_id=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Patient?identifier=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Condition?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Observation?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Encounter?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/MedicationAdministration?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/Procedure?patient=9E7A%3B3&_format=json
-- http://localhost:8080/gt-vista-fhir/fhir/AllergyIntolerance?patient=9E7A%3B3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient/3
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?id=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?_id=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Patient?identifier=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/MedicationOrder?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Condition?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Observation?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Encounter?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/MedicationAdministration?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/Procedure?patient=3&_format=json
+- http://localhost:8080/gt-vista-fhir/fhir/AllergyIntolerance?patient=3&_format=json
 
 How to run locally with Jetty
 --------------------------------------------------------------------------------
@@ -62,14 +66,14 @@ To get the conformance statement
 - http://localhost:8080/fhir/metadata
 
 You will be able to hit the web services at:
-- http://localhost:8080/fhir/Patient/9E7A%3B3
-- http://localhost:8080/fhir/Patient?id=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Patient?_id=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Patient?identifier=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/MedicationOrder?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Condition?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Observation?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Encounter?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/MedicationAdministration?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/Procedure?patient=9E7A%3B3&_format=json
-- http://localhost:8080/fhir/AllergyIntolerance?patient=9E7A%3B3&_format=json
+- http://localhost:8080/fhir/Patient/3
+- http://localhost:8080/fhir/Patient?id=3&_format=json
+- http://localhost:8080/fhir/Patient?_id=3&_format=json
+- http://localhost:8080/fhir/Patient?identifier=3&_format=json
+- http://localhost:8080/fhir/MedicationOrder?patient=3&_format=json
+- http://localhost:8080/fhir/Condition?patient=3&_format=json
+- http://localhost:8080/fhir/Observation?patient=3&_format=json
+- http://localhost:8080/fhir/Encounter?patient=3&_format=json
+- http://localhost:8080/fhir/MedicationAdministration?patient=3&_format=json
+- http://localhost:8080/fhir/Procedure?patient=3&_format=json
+- http://localhost:8080/fhir/AllergyIntolerance?patient=3&_format=json
