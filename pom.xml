@@ -1,16 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- 
-	HAPI projects use the HAPI-FHIR base POM as their base. You don't need this
-	for your own projects. One thing to note though:  
-	-->
-	<!--<parent>-->
-		<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
-		<!--<artifactId>hapi-fhir</artifactId>-->
-		<!--<version>2.0-SNAPSHOT</version>-->
-		<!--<relativePath>../pom.xml</relativePath>-->
-	<!--</parent>-->
 	<groupId>org.gtri.fhir.api.vistaex</groupId>
 	<artifactId>gt-fhir-external-vista</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -29,6 +19,7 @@
 	</repositories>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- configure timestamp in MANIFEST.MF for maven-war-provider -->
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
         <jetty_version>9.3.10.v20160621</jetty_version>
@@ -134,22 +125,6 @@
             <artifactId>spring-websocket</artifactId>
             <version>${spring_version}</version>
         </dependency>
-
-		<!-- This dependency is used for the "FHIR Tester" web app overlay -->
-		<!--<dependency>-->
-			<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
-			<!--<artifactId>hapi-fhir-testpage-overlay</artifactId>-->
-			<!--<version>2.0-SNAPSHOT</version>-->
-			<!--<type>war</type>-->
-			<!--<scope>provided</scope>		-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-			<!--<groupId>ca.uhn.hapi.fhir</groupId>-->
-			<!--<artifactId>hapi-fhir-testpage-overlay</artifactId>-->
-			<!--<version>2.0-SNAPSHOT</version>-->
-			<!--<classifier>classes</classifier>-->
-			<!--<scope>provided</scope>		-->
-		<!--</dependency>-->
 
 		<!-- 
 		HAPI-FHIR uses Logback for logging support. The logback library is included 
@@ -321,8 +296,9 @@
 		Tells Maven to name the generated WAR file as
 		restful-server-example.war
 		-->
-		<finalName>hapiGtVistaEx</finalName>
-		
+		<!--<finalName>hapiGtVistaEx</finalName>-->
+		<finalName>${project.artifactId}-${project.version}</finalName>
+
 		<!-- 
 		The following is not required for the application to build, but
 		allows you to test it by issuing "mvn jetty:run" from the command
@@ -350,11 +326,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
-			<!-- 
-			The configuration here tells the WAR plugin to include the FHIR Tester
-			overlay. You can omit it if you are not using that feature.
-			-->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -365,6 +337,68 @@
                 <!--</configuration>-->
 			</plugin>
 
+            <!-- We need to jar plugin to build a jar of the project source -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>jar-project</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- install the jar file in the local Maven repo -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>jar-to-local-repo</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <packaging>jar</packaging>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <file>${project.build.directory}\${project.artifactId}-${project.version}.jar</file>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- plugin to push jar to deploy as well -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                                    <type>jar</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
