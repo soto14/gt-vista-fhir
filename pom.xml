@@ -376,7 +376,7 @@
                 </executions>
             </plugin>
 
-            <!-- plugin to push jar to deploy as well -->
+            <!-- Attach the jar file to be installed and deployed -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
