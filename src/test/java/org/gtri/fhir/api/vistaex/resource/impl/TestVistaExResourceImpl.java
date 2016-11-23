@@ -18,10 +18,7 @@
 package org.gtri.fhir.api.vistaex.resource.impl;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
-import ca.uhn.fhir.model.dstu2.resource.Encounter;
-import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
+import ca.uhn.fhir.model.dstu2.resource.*;
 import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
 import org.junit.Before;
@@ -73,8 +70,8 @@ public class TestVistaExResourceImpl extends AbstractTest{
         List<MedicationAdministration> medicationAdmin = vistaExResource.retrieveMedicationAdministrationForPatient(PATIENT_ID);
         Assert.assertEquals(medicationAdmin.size(), 8);
 
-        Bundle medicationOrder = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
-        validateBundle(medicationOrder, 48, "MedicationOrder");
+        List<MedicationOrder> medicationOrder = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
+        Assert.assertEquals(medicationOrder.size(), 48);
 
         //query for observation bundle
         Bundle observationBundle = vistaExResource.retrieveObservationForPatient(PATIENT_ID);

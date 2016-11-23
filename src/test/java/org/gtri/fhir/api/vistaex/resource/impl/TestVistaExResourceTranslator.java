@@ -18,10 +18,7 @@
 package org.gtri.fhir.api.vistaex.resource.impl;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
-import ca.uhn.fhir.model.dstu2.resource.Encounter;
-import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
+import ca.uhn.fhir.model.dstu2.resource.*;
 import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
 import org.junit.Before;
@@ -64,8 +61,9 @@ public class TestVistaExResourceTranslator extends AbstractTest{
     @Test
     public void testTranslateMedicationPrescription() throws Exception{
         String jsonFileText = getFileTextContent("src/test/resources/json/medication-prescription-fhirish-sample-new.json");
-        Bundle medicationPrescriptionBundle = translator.translateMedicationOrderForPatient(jsonFileText);
-        validateBundle(medicationPrescriptionBundle, 48, "MedicationOrder");
+        List<MedicationOrder> medicationPrescriptionBundle = translator.translateMedicationOrderForPatient(jsonFileText);
+        Assert.assertEquals(medicationPrescriptionBundle.size(), 48);
+//        validateBundle(medicationPrescriptionBundle, 48, "MedicationOrder");
     }
 
     @Test
@@ -92,8 +90,6 @@ public class TestVistaExResourceTranslator extends AbstractTest{
     @Test
     public void testTranslateMedicationAdministration() throws Exception{
         String jsonFileText = getFileTextContent("src/test/resources/json/medication-administration-fhirish-sample.json");
-//        Bundle medicationAdminBundle = translator.translateMedicationAdministrationForPatient(jsonFileText);
-//        validateBundle(medicationAdminBundle, 8, "MedicationAdministration");
         List<MedicationAdministration> medicationAdminBundle = translator.translateMedicationAdministrationForPatient(jsonFileText);
         Assert.assertEquals(medicationAdminBundle.size(), 8);
     }

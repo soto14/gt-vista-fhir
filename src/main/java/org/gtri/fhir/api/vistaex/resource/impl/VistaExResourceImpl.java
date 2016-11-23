@@ -235,17 +235,17 @@ public class VistaExResourceImpl implements VistaExResource{
      * Retrieves a DTSU2 Bundle of MedicationOrder Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
      *                  patient ID before making the call to VistaEx.
-     * @return {@link Bundle} resource for the patient.
+     * @return {@link List} of {@link MedicationOrder} resources for the patient.
      */
-    public Bundle retrieveMedicationOrderForPatient(String patientId) {
+    public List<MedicationOrder> retrieveMedicationOrderForPatient(String patientId) {
         logger.debug("Getting MedicationOrder for Patient");
-        Bundle medicationOrderBundle = null;
+        List<MedicationOrder> medicationOrders = null;
         String medicationPrescriptionUrl = getFhirUrl() + "patient/" + getSiteCode() + SITE_PID_DELIMETER + patientId + "/medicationprescription?limit=&fields=";
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/medicationprescription?limit=&fields=
         logger.debug("Using URL " + medicationPrescriptionUrl);
-        medicationOrderBundle = requestDataFromVistaEx( medicationPrescriptionUrl, vistaExResourceTranslator::translateMedicationOrderForPatient);
+        medicationOrders = requestDataFromVistaEx( medicationPrescriptionUrl, vistaExResourceTranslator::translateMedicationOrderForPatient);
         logger.debug("Finished Getting MedicationOrder");
-        return medicationOrderBundle;
+        return medicationOrders;
     }
 
     @Override
@@ -306,12 +306,11 @@ public class VistaExResourceImpl implements VistaExResource{
      * Retrieves a DTSU2 Bundle of MedicationAdministration Object, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search. The method handles appending the VistaEx Site ID to the
      *                  patient ID before making the call to VistaEx.
-     * @return {@link Bundle} resource for the patient.
+     * @return {@link List} of {@link MedicationAdministration} resources for the patient.
      */
     public List<MedicationAdministration> retrieveMedicationAdministrationForPatient(String patientId) {
         logger.debug("Getting Medication Administration");
         //https://ehmp2.vaftl.us/resource/fhir/medicationadministration?subject.identifier=9E7A%3B3&limit=&fields=
-//        Bundle medAdminBundle = null;
         List<MedicationAdministration> medicationAdministrationList = null;
         String medAdminUrl = getFhirUrl() + "medicationadministration?subject.identifier=" + getSiteCode() + SITE_PID_DELIMETER + patientId + "&limit=&fields=";
         medicationAdministrationList = requestDataFromVistaEx( medAdminUrl, vistaExResourceTranslator::translateMedicationAdministrationForPatient);

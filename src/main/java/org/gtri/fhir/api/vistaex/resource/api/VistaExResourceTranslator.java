@@ -39,9 +39,9 @@ public interface VistaExResourceTranslator {
     /**
      * Translates JSON for a Bundle of MedicationOrder Objects, from the VistaEx API, to a DTSU2 MedicationOrder
      * @param medicationOrderBundleJson the {@link String} JSON representation to translate to a DTSU2 MedicationOrder Bundle
-     * @return {@link Bundle}.
+     * @return
      */
-    public Bundle translateMedicationOrderForPatient(String medicationOrderBundleJson);
+    public List<MedicationOrder> translateMedicationOrderForPatient(String medicationOrderBundleJson);
 
     /**
      * Translates JSON for a Bundle of Condition Objects, from the VistaEx API, to a DTSU2 Bundle of Conditions
@@ -67,7 +67,7 @@ public interface VistaExResourceTranslator {
     /**
      * Translates JSON for a Bundle of MedicationAdministration Objects, from the VistaEx API, to a DTSU2 MedicationAdministration
      * @param medicationAdministrationJson the {@link String} JSON representation to translate to a DTSU2 MedicationAdministration
-     * @return {@link Bundle}.
+     * @return
      */
     public List<MedicationAdministration> translateMedicationAdministrationForPatient(String medicationAdministrationJson);
 

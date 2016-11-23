@@ -26,6 +26,8 @@ import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.param.ReferenceParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 
+import java.util.List;
+
 public class GtVistaExApiMedicationOrderResourceProvider extends GtVistaResourceProvider implements IResourceProvider {
     @Override
     public Class<MedicationOrder> getResourceType() {
@@ -39,10 +41,10 @@ public class GtVistaExApiMedicationOrderResourceProvider extends GtVistaResource
      * @return
      */
     @Search
-    public Bundle findMedicationOrderWithChain(
+    public List<MedicationOrder> findMedicationOrderWithChain(
             @RequiredParam(name= Observation.SP_PATIENT)ReferenceParam patientId
     ){
-        Bundle observationBundle = getVistaExResource().retrieveMedicationOrderForPatient(patientId.getValue());
+        List<MedicationOrder> observationBundle = getVistaExResource().retrieveMedicationOrderForPatient(patientId.getValue());
         return observationBundle;
     }
 }

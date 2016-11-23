@@ -37,9 +37,9 @@ public interface VistaExResource {
     /**
      * Retrieves a DTSU2 Bundle of MedicationOrder Objects, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link Bundle} resource for the patient.
+     * @return {@link List} of {@link MedicationOrder} resources for the patient.
      */
-    public Bundle retrieveMedicationOrderForPatient(String patientId);
+    public List<MedicationOrder> retrieveMedicationOrderForPatient(String patientId);
 
     /**
      * Retrieves a DTSU2 Bundle of Condition Objects, from the VistaEx API, for a patient
@@ -65,7 +65,7 @@ public interface VistaExResource {
     /**
      * Retrieves a DTSU2 Bundle of MedicationAdministration Object, from the VistaEx API, for a patient
      * @param patientId the patient ID to use for the search
-     * @return {@link Bundle} resource for the patient.
+     * @return {@link List} of {@link MedicationAdministration} resources for the patient.
      */
     public List<MedicationAdministration> retrieveMedicationAdministrationForPatient(String patientId);
 

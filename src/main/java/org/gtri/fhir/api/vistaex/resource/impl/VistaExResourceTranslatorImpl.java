@@ -25,6 +25,7 @@ import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.dstu2.valueset.MedicationAdministrationStatusEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ParticipantTypeEnum;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
+import ca.uhn.fhir.model.primitive.DecimalDt;
 import ca.uhn.fhir.parser.IParser;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResourceTranslator;
 import org.gtri.fhir.api.vistaex.rest.service.util.VistaUtil;
@@ -51,6 +52,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private static final String DATA_KEY = "data";
     private static final String DATE_KEY = "dateTime";
     private static final String ICD9_URL = "http://hl7.org/fhir/sid/icd-9-cm";
+    private static final String ID_FIELD = "id";
     private static final String ITEMS_KEY = "items";
     private static final String LAST_UPDATE_TIME_KEY= "lastUpdateTime";
     private static final String LOCATION_UID_KEY = "locationUid";
@@ -63,7 +65,6 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private static final String MEDICATION_ADMIN_EFFECTIVE_TIME_FIELD = "effectiveTimePeriod";
     private static final String MEDICATION_ADMIN_EFFECTIVE_TIME_START_FIELD = "start";
     private static final String MEDICATION_ADMIN_EFFECTIVE_TIME_END_FIELD = "end";
-    private static final String MEDICATION_ADMIN_ID_FIELD = "id";
     private static final String MEDICATION_ADMIN_PATIENT_FIELD = "patient";
     private static final String MEDICATION_ADMIN_STATUS_FIELD = "status";
     private static final String MEDICATION_CODE_FIELD = "code";
@@ -106,6 +107,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private FhirContext dstu1Context;
     private FhirContext dstu2Context;
     private DateFormat dateFormat;
+    private DateFormat errorDateFormat;
 
     /*========================================================================*/
     /* CONSTRUCTORS */
@@ -114,7 +116,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         //create a dstu1Context
         dstu1Context = FhirContext.forDstu1();
         dstu2Context = FhirContext.forDstu2();
-        dateFormat = new SimpleDateFormat("yyyymmddHHmm");
+        dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        errorDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     /*========================================================================*/
@@ -125,43 +128,28 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         return dateFormat;
     }
 
+    public DateFormat getErrorDateFormat() {
+        return errorDateFormat;
+    }
+
     /*========================================================================*/
     /* PUBLIC METHODS */
     /*========================================================================*/
+
     @Override
-    public Patient translatePatient(String patientJSON) {
-        logger.debug("Translating Patient");
+    public Bundle translateAllergyIntoleranceForPatient(String allergyIntoleranceJson) {
+        logger.debug("Translating Allergy Intolerance");
         IParser parser = dstu2Context.newJsonParser();
-        String translatedJson = performCommonTranslations(patientJSON);
-        Patient dstuPatient = parser.parseResource(Patient.class, translatedJson);
-        logger.debug("FINISHED Translating Patient");
-        return dstuPatient;
-    }
-
-    @Override
-    public Bundle translateMedicationOrderForPatient(String medicationOrderBundleJson) {
-        logger.debug("Translating Medication Order");
-
         //perform common translations
-        String translatedJson = performCommonTranslations(medicationOrderBundleJson);
-
-        //JSON coming back from server does not have the "resource" element for each resource in the entry portion of the bundle, add it
-        //Fun with regex. Find the begining fo the MedicationPrescription definition and add a "resource: " in frong of it.
-        //The incoming JSON does not have it.
-        translatedJson = translatedJson.replaceAll("(\\{\\s*\"resourceType\":\\s*\"MedicationPrescription\",)", "\"resource\": $1");
-
-        //now wrap the resources in {}
-        translatedJson = translatedJson.replaceAll("(\"entry\":\\s*\\[)", "$1{");
-        translatedJson = translatedJson.replaceAll("(],\\s*\"total\":)", "}$1");
-        translatedJson = translatedJson.replaceAll("(,\\s*)(\"resource\":)", "}$1{$2");
-
-        //translate the medication prescription to a medication order
-        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
-
-        IParser parser = dstu2Context.newJsonParser();
-        Bundle dstuMedicationOrderBundle = parser.parseResource(Bundle.class, translatedJson);
-        logger.debug("Finsihed Translating Medication Order");
-        return dstuMedicationOrderBundle;
+        String translatedJson = performCommonTranslations(allergyIntoleranceJson);
+        //Vista Ex FHIR returns an element with an 'event" that should be 'reaction' in DSTU2
+        translatedJson = translatedJson.replaceAll("\"event\"", "\"reaction\"");
+        translatedJson = translatedJson.replaceAll("\"comment\":", "\"description\":");
+        translatedJson = translatedJson.replaceAll("\"duration\":\\s*\\w+,", "");
+        translatedJson = VistaUtil.fixDivHtmlElements(translatedJson);
+        Bundle allergyBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finished Translating Allergy Intolerance");
+        return allergyBundle;
     }
 
     @Override
@@ -181,68 +169,6 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         Bundle dstuConditionBundle = parser.parseResource(Bundle.class, translatedJson);
         logger.debug("Finished translating ConditionBundle");
         return dstuConditionBundle;
-    }
-
-    @Override
-    public Bundle translateObservationForPatient(String observationBundleJson) {
-        logger.debug("Translating ObservationBundle");
-        IParser parser = dstu2Context.newJsonParser();
-        //perform common translations
-        String translatedJson = performCommonTranslations(observationBundleJson);
-        //reliability was removed in DSTU2
-        translatedJson = translatedJson.replaceAll("\"reliability\":\\s*\"\\w*\",", "");
-        //appliesDateTime maps to effectiveDateTime in DSTU2
-        translatedJson = translatedJson.replaceAll("\"appliesDateTime\"", "\"effectiveDateTime\"");
-        //appliesPeriod maps to effectivePeriod in DSTU2
-        translatedJson = translatedJson.replaceAll("\"appliesPeriod\"", "\"effectivePeriod\"");
-        Bundle dstuObservationBundle = parser.parseResource(Bundle.class, translatedJson);
-        logger.debug("Finished Translating ObservationBundle");
-        return dstuObservationBundle;
-    }
-
-    @Override
-    public Bundle translateProcedureForPatient(String procedureJson) {
-        logger.debug("Translating Procedure Bundle");
-        IParser parser = dstu2Context.newJsonParser();
-        //perform common translations
-        String translatedJson = performCommonTranslations(procedureJson);
-        //response from vista comes with patient element that maps to subject inDSTU2
-        translatedJson = translatedJson.replaceAll("\"patient\"", "\"subject\"");
-        //type maps to code
-        translatedJson = translatedJson.replaceAll("\"type\"", "\"code\"");
-        translatedJson = translatedJson.replaceAll(",\\s*\"primary\":\\s*\\w+", "");
-        Bundle procedureBundle = parser.parseResource(Bundle.class, translatedJson);
-        logger.debug("Finished Translating Procedure Bundle");
-        return procedureBundle;
-    }
-
-    @Override
-    public List<MedicationAdministration> translateMedicationAdministrationForPatient(String medicationAdministrationJson) {
-        logger.debug("Translating Medication Administration");
-        IParser parser = dstu2Context.newJsonParser();
-        //perform common translations
-        String translatedJson = performCommonTranslations(medicationAdministrationJson);
-        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
-
-        List<MedicationAdministration> medicationAdministrations = buildMedicationAdministrationList(translatedJson);
-        logger.debug("Finished Translating Medication Administration");
-        return medicationAdministrations;
-    }
-
-    @Override
-    public Bundle translateAllergyIntoleranceForPatient(String allergyIntoleranceJson) {
-        logger.debug("Translating Allergy Intolerance");
-        IParser parser = dstu2Context.newJsonParser();
-        //perform common translations
-        String translatedJson = performCommonTranslations(allergyIntoleranceJson);
-        //Vista Ex FHIR returns an element with an 'event" that should be 'reaction' in DSTU2
-        translatedJson = translatedJson.replaceAll("\"event\"", "\"reaction\"");
-        translatedJson = translatedJson.replaceAll("\"comment\":", "\"description\":");
-        translatedJson = translatedJson.replaceAll("\"duration\":\\s*\\w+,", "");
-        translatedJson = VistaUtil.fixDivHtmlElements(translatedJson);
-        Bundle allergyBundle = parser.parseResource(Bundle.class, translatedJson);
-        logger.debug("Finished Translating Allergy Intolerance");
-        return allergyBundle;
     }
 
     @Override
@@ -314,6 +240,90 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         return encounters;
     }
 
+    @Override
+    public List<MedicationAdministration> translateMedicationAdministrationForPatient(String medicationAdministrationJson) {
+        logger.debug("Translating Medication Administration");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(medicationAdministrationJson);
+        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
+
+        List<MedicationAdministration> medicationAdministrations = buildMedicationAdministrationList(translatedJson);
+        logger.debug("Finished Translating Medication Administration");
+        return medicationAdministrations;
+    }
+
+    @Override
+    public List<MedicationOrder> translateMedicationOrderForPatient(String medicationOrderBundleJson) {
+        logger.debug("Translating Medication Order");
+
+        //perform common translations
+        String translatedJson = performCommonTranslations(medicationOrderBundleJson);
+
+        //JSON coming back from server does not have the "resource" element for each resource in the entry portion of the bundle, add it
+        //Fun with regex. Find the beginning of the MedicationPrescription definition and add a "resource: " in front of it.
+        //The incoming JSON does not have it.
+        translatedJson = translatedJson.replaceAll("(\\{\\s*\"resourceType\":\\s*\"MedicationPrescription\",)", "\"resource\": $1");
+
+        //now wrap the resources in {}
+        translatedJson = translatedJson.replaceAll("(\"entry\":\\s*\\[)", "$1{");
+        translatedJson = translatedJson.replaceAll("(],\\s*\"total\":)", "}$1");
+        translatedJson = translatedJson.replaceAll("(,\\s*)(\"resource\":)", "}$1{$2");
+
+        //translate the medication prescription to a medication order
+        translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
+        List<MedicationOrder> medicationOrderList = buildMedicationOrderList(translatedJson);
+
+//        IParser parser = dstu2Context.newJsonParser();
+//        Bundle dstuMedicationOrderBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finsihed Translating Medication Order");
+//        return dstuMedicationOrderBundle;
+        return medicationOrderList;
+    }
+
+    @Override
+    public Bundle translateObservationForPatient(String observationBundleJson) {
+        logger.debug("Translating ObservationBundle");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(observationBundleJson);
+        //reliability was removed in DSTU2
+        translatedJson = translatedJson.replaceAll("\"reliability\":\\s*\"\\w*\",", "");
+        //appliesDateTime maps to effectiveDateTime in DSTU2
+        translatedJson = translatedJson.replaceAll("\"appliesDateTime\"", "\"effectiveDateTime\"");
+        //appliesPeriod maps to effectivePeriod in DSTU2
+        translatedJson = translatedJson.replaceAll("\"appliesPeriod\"", "\"effectivePeriod\"");
+        Bundle dstuObservationBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finished Translating ObservationBundle");
+        return dstuObservationBundle;
+    }
+
+    @Override
+    public Patient translatePatient(String patientJSON) {
+        logger.debug("Translating Patient");
+        IParser parser = dstu2Context.newJsonParser();
+        String translatedJson = performCommonTranslations(patientJSON);
+        Patient dstuPatient = parser.parseResource(Patient.class, translatedJson);
+        logger.debug("FINISHED Translating Patient");
+        return dstuPatient;
+    }
+
+    @Override
+    public Bundle translateProcedureForPatient(String procedureJson) {
+        logger.debug("Translating Procedure Bundle");
+        IParser parser = dstu2Context.newJsonParser();
+        //perform common translations
+        String translatedJson = performCommonTranslations(procedureJson);
+        //response from vista comes with patient element that maps to subject inDSTU2
+        translatedJson = translatedJson.replaceAll("\"patient\"", "\"subject\"");
+        //type maps to code
+        translatedJson = translatedJson.replaceAll("\"type\"", "\"code\"");
+        translatedJson = translatedJson.replaceAll(",\\s*\"primary\":\\s*\\w+", "");
+        Bundle procedureBundle = parser.parseResource(Bundle.class, translatedJson);
+        logger.debug("Finished Translating Procedure Bundle");
+        return procedureBundle;
+    }
+
     /*========================================================================*/
     /* PRIVATE METHODS */
     /*========================================================================*/
@@ -341,7 +351,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
 
             //things to set for MedicationAdministration
             //id
-            medicationAdministration.setId(currMedicationAdministration.getString(MEDICATION_ADMIN_ID_FIELD));
+            medicationAdministration.setId(currMedicationAdministration.getString(ID_FIELD));
 
             //status
             medicationAdministration.setStatus(MedicationAdministrationStatusEnum.forCode(currMedicationAdministration.getString(MEDICATION_ADMIN_STATUS_FIELD)));
@@ -359,15 +369,59 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
             medicationAdministration.setDosage(dosage);
 
             //search
-            //TODO: Figure out how to set this
+            //TODO: Figure out how to set this, does it need to be set?
 
             //medicationCodeableConcept
-            medCodeableConcept = getMedicationFromContained(currMedicationAdministration);
+            medCodeableConcept = getMedicationAdminContainedMedication(currMedicationAdministration);
             medicationAdministration.setMedication(medCodeableConcept);
 
             medicationAdministrationList.add(medicationAdministration);
         }
         return medicationAdministrationList;
+    }
+
+    private List<MedicationOrder> buildMedicationOrderList(String jsonBundle){
+        List<MedicationOrder> medicationOrderList = new ArrayList<MedicationOrder>();
+        JSONObject bundleJson = new JSONObject(jsonBundle);
+        JSONArray entryArray = bundleJson.getJSONArray("entry");
+        //now traverse the Array of "resource" elements
+        //for each "resource" element
+        JSONObject currEntry;
+        JSONObject currMedicationOrder;
+        CodeableConceptDt medCodeableConcept;
+        String currDateWritten;
+        for( int i=0; i<entryArray.length(); i++){
+            //get the current medication order
+            currEntry = entryArray.optJSONObject(i);
+            currMedicationOrder = currEntry.optJSONObject(RESOURCE_FIELD);
+
+            MedicationOrder medicationOrder = new MedicationOrder();
+
+            //things needed for each medication order
+            //id
+            medicationOrder.setId(currMedicationOrder.getString(ID_FIELD));
+
+            //date written
+            currDateWritten = currMedicationOrder.optString("dateWritten");
+            DateTimeDt writtenDateTimeDt = new DateTimeDt();
+            writtenDateTimeDt.setValueAsString(currDateWritten);
+            medicationOrder.setDateWritten(writtenDateTimeDt);
+
+            //patient
+            //TODO not sure how we will get this information
+
+            //medication codeable concept
+            medCodeableConcept = getMedicationCodeableConceptFromMedicationOrder(currMedicationOrder);
+            medicationOrder.setMedication(medCodeableConcept);
+
+            //dispense request
+            MedicationOrder.DispenseRequest dispenseRequest = getDispenseRequestFromMedicationOrder(currMedicationOrder);
+            //set the medication codeable concept
+            dispenseRequest.setMedication(medCodeableConcept);
+            medicationOrder.setDispenseRequest(dispenseRequest);
+            medicationOrderList.add(medicationOrder);
+        }
+        return medicationOrderList;
     }
 
     /**
@@ -481,15 +535,36 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
      * @param visit
      * @return
      */
-//    private PeriodDt createEncounterStayPeriod(JSONObject stay){
     private PeriodDt createEncounterStayPeriod(JSONObject visit){
-        Date startDate = null;
-        Date endDate = null;
+        Date startDate = getDateForString(visit.optString(DATE_KEY), getDateFormat());
+        Date endDate = getDateForString(visit.optString(LAST_UPDATE_TIME_KEY), getDateFormat());
+        return createPeriod(startDate, endDate);
+    }
+
+    /**
+     * Takes in a JSONObject that represents a VistaEx MedicationOrder Validity Period and generates a
+     * FHIR DSTU2 period.
+     * @param validityPeriod
+     * @return
+     */
+    private PeriodDt createValidityPeriod(JSONObject validityPeriod){
+        String startDateString = validityPeriod.getString("start");
+        String endDateString = validityPeriod.getString("end");
+        SimpleDateFormat validitiyDateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date startDate = getDateForString(startDateString, validitiyDateformater);
+        Date endDate = getDateForString(endDateString, validitiyDateformater);
+        return createPeriod(startDate, endDate);
+    }
+
+    /**
+     * Takes a start and end date and returns a PeriodDt
+     *
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    private PeriodDt createPeriod(Date startDate, Date endDate){
         PeriodDt periodDt = new PeriodDt();
-
-        startDate = getDateForString(visit.optString(DATE_KEY), getDateFormat());
-        endDate = getDateForString(visit.optString(LAST_UPDATE_TIME_KEY), getDateFormat());
-
         if(startDate != null && endDate != null){
             periodDt.setStartWithSecondsPrecision(startDate);
             periodDt.setEndWithSecondsPrecision(endDate);
@@ -549,10 +624,47 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                 date = df.parse(dateStr);
             }
             catch(ParseException pe){
-                pe.printStackTrace();
+                try{
+                    date = getErrorDateFormat().parse(dateStr);
+                }
+                catch(ParseException pe2){
+                    pe.printStackTrace();
+                }
             }
         }
         return date;
+    }
+
+    /**
+     * Takes in a JSON representation of a VistaEx MedicationPrescription translated to a FHIR DSTU2 MedicationOrder and
+     * returns a HAPI DispenseRequest object for the dispense request it contains.
+     * @param medicationOrder
+     * @return
+     */
+    private MedicationOrder.DispenseRequest getDispenseRequestFromMedicationOrder(JSONObject medicationOrder){
+        MedicationOrder.DispenseRequest dispenseRequest = new MedicationOrder.DispenseRequest();
+        //get the dispense JSONObject
+        JSONObject dispense = medicationOrder.getJSONObject("dispenseRequest");
+        //set the validity period
+        JSONObject validityPeriod = dispense.getJSONObject("validityPeriod");
+        PeriodDt validityPeriodDt = createValidityPeriod(validityPeriod);
+        dispenseRequest.setValidityPeriod(validityPeriodDt);
+
+        //set the number of repeats allowed
+        if(dispense.has("numberOfRepeatsAllowed")) {
+            int repeats = dispense.optInt("numberOfRepeatsAllowed");
+            dispenseRequest.setNumberOfRepeatsAllowed(repeats);
+        }
+
+        //set the quantity
+        JSONObject quantity = dispense.getJSONObject("quantity");
+        int quantityValue = quantity.getInt("value");
+        SimpleQuantityDt simpleQuantityDt = new SimpleQuantityDt();
+        DecimalDt decimalValue = new DecimalDt();
+        decimalValue.setValueAsInteger(quantityValue);
+        simpleQuantityDt.setValue(decimalValue);
+        dispenseRequest.setQuantity(simpleQuantityDt);
+        return dispenseRequest;
     }
 
     /**
@@ -618,37 +730,45 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
      * @param currMedicationAdministration
      * @return
      */
-    private CodeableConceptDt getMedicationFromContained(JSONObject currMedicationAdministration){
+    private CodeableConceptDt getMedicationAdminContainedMedication(JSONObject currMedicationAdministration){
         CodeableConceptDt medCodeableConcept = null;
         JSONObject currContained;
-        JSONObject currCode;
-        JSONArray currCodingArray;
         //get the "contained" Array in "MedicationAdministration
         JSONArray medAdminContainedArray = currMedicationAdministration.getJSONArray(CONTAINED_FIELD);
-        JSONArray medOrderContainedArray;
-        JSONObject currMedOrderContained;
-        //search it for the item with the resourceType "Medication"
-        boolean foundMedication = false;
         for( int j=0; j<medAdminContainedArray.length(); j++) {
-            foundMedication = false;
             currContained = medAdminContainedArray.optJSONObject(j);
-            if( currContained.getString(RESOURCE_TYPE_FIELD).equals(RESOURCE_MEDICATION_ORDER)){
-                //get the contained in the Medication Order
-                medOrderContainedArray = currContained.getJSONArray(CONTAINED_FIELD);
-                for( int k=0; k< medOrderContainedArray.length(); k++) {
-                    currMedOrderContained = medOrderContainedArray.optJSONObject(k);
-                    if (currMedOrderContained.getString(RESOURCE_TYPE_FIELD).equals(RESOURCE_MEDICATION)) {
-                        //from the "Medication" element get the "code" element
-                        currCode = currMedOrderContained.getJSONObject(MEDICATION_CODE_FIELD);
-                        //from the "code" element get the "coding" Array
-                        currCodingArray = currCode.getJSONArray(MEDICATION_CODING_FIELD);
-                        //search the elements in the "coding" array by looking at their "system", "code", "display" elements
-                        medCodeableConcept = getMedicationCode(currCodingArray);
-                        //found our Medication, so break out of the search in contained
-                        break;
-                    }
-                }
-                if(foundMedication){
+            medCodeableConcept = getMedicationCodeableConceptFromMedicationOrder(currContained);
+            if( medCodeableConcept != null ){
+                break;
+            }
+        }
+        return medCodeableConcept;
+    }
+
+    /**
+     * Searches a VistaEx MedicationOrder for a contained Medication and returns a HAPI DSTU2 Medication
+     * CodeableConceptDt with the data for the medication.
+     * @param medicationOrder
+     * @return
+     */
+    private CodeableConceptDt getMedicationCodeableConceptFromMedicationOrder(JSONObject medicationOrder){
+        CodeableConceptDt medCodeableConcept = null;
+        if(medicationOrder.getString(RESOURCE_TYPE_FIELD).equals(RESOURCE_MEDICATION_ORDER)){
+            //get the contained in the Medication Order
+            JSONArray medOrderContainedArray = medicationOrder.getJSONArray(CONTAINED_FIELD);
+            JSONObject currMedOrderContained;
+            JSONObject currCode;
+            JSONArray currCodingArray;
+            for( int k=0; k< medOrderContainedArray.length(); k++) {
+                currMedOrderContained = medOrderContainedArray.optJSONObject(k);
+                if (currMedOrderContained.getString(RESOURCE_TYPE_FIELD).equals(RESOURCE_MEDICATION)) {
+                    //from the "Medication" element get the "code" element
+                    currCode = currMedOrderContained.getJSONObject(MEDICATION_CODE_FIELD);
+                    //from the "code" element get the "coding" Array
+                    currCodingArray = currCode.getJSONArray(MEDICATION_CODING_FIELD);
+                    //search the elements in the "coding" array by looking at their "system", "code", "display" elements
+                    medCodeableConcept = getMedicationCode(currCodingArray);
+                    //found our Medication, so break out of the search in contained
                     break;
                 }
             }
