@@ -24,6 +24,7 @@ import ca.uhn.fhir.model.dstu2.valueset.EncounterClassEnum;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.dstu2.valueset.MedicationAdministrationStatusEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ParticipantTypeEnum;
+import ca.uhn.fhir.model.primitive.CodeDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.model.primitive.DecimalDt;
 import ca.uhn.fhir.parser.IParser;
@@ -40,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator {
 
@@ -167,6 +169,32 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("(\"system\":\\s*\")urn:oid:2.16.840.1.113883.6.42(\")", "$1" + ICD9_URL + "$2");
         IParser parser = dstu2Context.newJsonParser();
         Bundle dstuConditionBundle = parser.parseResource(Bundle.class, translatedJson);
+        //filter codes, so code sets only contain unique codes
+        for( Bundle.Entry entry : dstuConditionBundle.getEntry() ){
+            for( CodeableConceptDt codeableConceptDt : entry.getResource().getAllPopulatedChildElementsOfType(CodeableConceptDt.class) ){
+                List<CodingDt> uniqueCodes = new ArrayList<CodingDt>();
+                for( CodingDt code : codeableConceptDt.getCoding() ){
+                    //have we seen the code
+                    Boolean isCodeUnique = true;
+                    for( CodingDt uniqueCode : uniqueCodes ){
+                        if( uniqueCode.getCode().equals(code.getCode()) &&
+                            uniqueCode.getSystem().equals(code.getSystem()) &&
+                            uniqueCode.getDisplay().equals(code.getDisplay())
+                        ){
+                            //code is not unique
+                            isCodeUnique = false;
+                            break;
+                        }
+                    }
+                    if(isCodeUnique){
+                        uniqueCodes.add(code);
+                    }
+                }
+                codeableConceptDt.setCoding( uniqueCodes );
+            }
+        }
+//        dstuConditionBundle.getEntry().get(0).getResource().getAllPopulatedChildElementsOfType(CodeableConceptDt.class).get(0).getCoding().stream().distinct()
+
         logger.debug("Finished translating ConditionBundle");
         return dstuConditionBundle;
     }
@@ -274,10 +302,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translateMedicationPrescriptionToMedicationOrder(translatedJson);
         List<MedicationOrder> medicationOrderList = buildMedicationOrderList(translatedJson);
 
-//        IParser parser = dstu2Context.newJsonParser();
-//        Bundle dstuMedicationOrderBundle = parser.parseResource(Bundle.class, translatedJson);
         logger.debug("Finsihed Translating Medication Order");
-//        return dstuMedicationOrderBundle;
         return medicationOrderList;
     }
 
@@ -380,6 +405,12 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         return medicationAdministrationList;
     }
 
+    /**
+     * Takes a String representing a translated MedicationOrder Bundle from VistaEx and makes a list of
+     * HAPI FHIR DSTU2 MedicationOrder Objects.
+     * @param jsonBundle the bundle to process
+     * @return a {@link List} of MedicationAdministration objects contained in the passed in bundle.
+     */
     private List<MedicationOrder> buildMedicationOrderList(String jsonBundle){
         List<MedicationOrder> medicationOrderList = new ArrayList<MedicationOrder>();
         JSONObject bundleJson = new JSONObject(jsonBundle);
@@ -394,10 +425,9 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
             //get the current medication order
             currEntry = entryArray.optJSONObject(i);
             currMedicationOrder = currEntry.optJSONObject(RESOURCE_FIELD);
-
+            //create a new MedicationOrder
             MedicationOrder medicationOrder = new MedicationOrder();
 
-            //things needed for each medication order
             //id
             medicationOrder.setId(currMedicationOrder.getString(ID_FIELD));
 

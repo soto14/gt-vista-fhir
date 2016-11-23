@@ -35,10 +35,8 @@ public class GtVistaExApiMedicationAdministrationResourceProvider extends GtVist
 
     @Search
     public List<MedicationAdministration> findMedicationAdministration(
-//    public Bundle findMedicationAdministration(
             @RequiredParam(name= MedicationAdministration.SP_PATIENT)ReferenceParam patientId
     ){
-//        Bundle medicationAdminBundle = getVistaExResource().retrieveMedicationAdministrationForPatient(patientId.getValue());
         List<MedicationAdministration> medicationAdminBundle = getVistaExResource().retrieveMedicationAdministrationForPatient(patientId.getValue());
         return medicationAdminBundle;
     }
