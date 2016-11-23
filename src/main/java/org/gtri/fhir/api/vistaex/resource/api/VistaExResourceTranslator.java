@@ -69,7 +69,7 @@ public interface VistaExResourceTranslator {
      * @param medicationAdministrationJson the {@link String} JSON representation to translate to a DTSU2 MedicationAdministration
      * @return {@link Bundle}.
      */
-    public Bundle translateMedicationAdministrationForPatient(String medicationAdministrationJson);
+    public List<MedicationAdministration> translateMedicationAdministrationForPatient(String medicationAdministrationJson);
 
     /**
      * Translates JSON for a Bundle of AllergyIntollerance Objects, from the VistaEx API, to a DTSU2 AllergyIntolerance

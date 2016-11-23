@@ -20,6 +20,7 @@ package org.gtri.fhir.api.vistaex.resource.impl;
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
+import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import junit.framework.Assert;
 import org.gtri.fhir.api.vistaex.resource.api.VistaExResource;
@@ -65,10 +66,12 @@ public class TestVistaExResourceImpl extends AbstractTest{
         validateBundle(conditionBundle, 12, "Condition"); //was 14
 
         List<Encounter> encounters = vistaExResource.retrieveEncountersForPatient(PATIENT_ID);
-        Assert.assertEquals(encounters.size(), 254);
+        Assert.assertEquals(encounters.size(), 125);//was 254, but now that the results are filtered by site the number is reduced.
 
-        Bundle medicationAdmin = vistaExResource.retrieveMedicationAdministrationForPatient(PATIENT_ID);
-        validateBundle(medicationAdmin, 8, "MedicationAdministration");
+//        Bundle medicationAdmin = vistaExResource.retrieveMedicationAdministrationForPatient(PATIENT_ID);
+//        validateBundle(medicationAdmin, 8, "MedicationAdministration");
+        List<MedicationAdministration> medicationAdmin = vistaExResource.retrieveMedicationAdministrationForPatient(PATIENT_ID);
+        Assert.assertEquals(medicationAdmin.size(), 8);
 
         Bundle medicationOrder = vistaExResource.retrieveMedicationOrderForPatient(PATIENT_ID);
         validateBundle(medicationOrder, 48, "MedicationOrder");

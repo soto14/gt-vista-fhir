@@ -555,6 +555,7 @@
 						"valueString": "MedicationProduct{uid=''}"
 					},
 					{
+
 						"url": "http://vistacore.us/fhir/extensions/med#products[0]/suppliedCode",
 						"valueString": "urn:va:vuid:4013990"
 					},

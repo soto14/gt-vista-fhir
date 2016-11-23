@@ -308,14 +308,15 @@ public class VistaExResourceImpl implements VistaExResource{
      *                  patient ID before making the call to VistaEx.
      * @return {@link Bundle} resource for the patient.
      */
-    public Bundle retrieveMedicationAdministrationForPatient(String patientId) {
+    public List<MedicationAdministration> retrieveMedicationAdministrationForPatient(String patientId) {
         logger.debug("Getting Medication Administration");
         //https://ehmp2.vaftl.us/resource/fhir/medicationadministration?subject.identifier=9E7A%3B3&limit=&fields=
-        Bundle medAdminBundle = null;
+//        Bundle medAdminBundle = null;
+        List<MedicationAdministration> medicationAdministrationList = null;
         String medAdminUrl = getFhirUrl() + "medicationadministration?subject.identifier=" + getSiteCode() + SITE_PID_DELIMETER + patientId + "&limit=&fields=";
-        medAdminBundle = requestDataFromVistaEx( medAdminUrl, vistaExResourceTranslator::translateMedicationAdministrationForPatient);
+        medicationAdministrationList = requestDataFromVistaEx( medAdminUrl, vistaExResourceTranslator::translateMedicationAdministrationForPatient);
         logger.debug("Finished Getting Medication Administration");
-        return medAdminBundle;
+        return medicationAdministrationList;
     }
 
     @Override
@@ -346,7 +347,8 @@ public class VistaExResourceImpl implements VistaExResource{
         logger.debug("Getting Encounters for Patient {}", patientId);
         List<Encounter> encounters = null;
         //https://54.173.144.121/resource/patient/record/domain/visit?pid=9E7A%3B3&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=
-        String visitUrlWithParam = getVisitUrl() + "?pid=" + getSiteCode() + SITE_PID_DELIMETER + patientId + "&uid=&start=&limit=&filter=&order=&callType=&vler_uid=&fields=";
+        String pid = getSiteCode() + SITE_PID_DELIMETER + patientId;
+        String visitUrlWithParam = getVisitUrl() + "?pid=" + pid + "&uid=&start=&limit=&filter=eq(%22pid%22%2C%22" + pid + "%22)&order=&callType=&vler_uid=&fields=";
         logger.debug("Using URL " + visitUrlWithParam);
         encounters = requestDataFromVistaEx( visitUrlWithParam, vistaExResourceTranslator::translateEncounterforPatient );
         logger.debug("Finished Getting Encounters");

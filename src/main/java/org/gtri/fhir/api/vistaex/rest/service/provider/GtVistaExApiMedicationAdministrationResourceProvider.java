@@ -25,6 +25,8 @@ import ca.uhn.fhir.rest.param.ReferenceParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
+import java.util.List;
+
 public class GtVistaExApiMedicationAdministrationResourceProvider extends GtVistaResourceProvider implements IResourceProvider {
     @Override
     public Class<MedicationAdministration> getResourceType() {
@@ -32,10 +34,12 @@ public class GtVistaExApiMedicationAdministrationResourceProvider extends GtVist
     }
 
     @Search
-    public Bundle findMedicationAdministration(
+    public List<MedicationAdministration> findMedicationAdministration(
+//    public Bundle findMedicationAdministration(
             @RequiredParam(name= MedicationAdministration.SP_PATIENT)ReferenceParam patientId
     ){
-        Bundle medicationAdminBundle = getVistaExResource().retrieveMedicationAdministrationForPatient(patientId.getValue());
+//        Bundle medicationAdminBundle = getVistaExResource().retrieveMedicationAdministrationForPatient(patientId.getValue());
+        List<MedicationAdministration> medicationAdminBundle = getVistaExResource().retrieveMedicationAdministrationForPatient(patientId.getValue());
         return medicationAdminBundle;
     }
 }

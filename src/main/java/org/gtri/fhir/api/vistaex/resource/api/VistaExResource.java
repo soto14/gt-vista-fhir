@@ -67,7 +67,7 @@ public interface VistaExResource {
      * @param patientId the patient ID to use for the search
      * @return {@link Bundle} resource for the patient.
      */
-    public Bundle retrieveMedicationAdministrationForPatient(String patientId);
+    public List<MedicationAdministration> retrieveMedicationAdministrationForPatient(String patientId);
 
     /**
      * Retrieves a DTSU2 Bundle of AllergyIntollerance Objects, from the VistaEx API, for a patient
