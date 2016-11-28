@@ -63,7 +63,6 @@ public class TestVistaExResourceTranslator extends AbstractTest{
         String jsonFileText = getFileTextContent("src/test/resources/json/medication-prescription-fhirish-sample-new.json");
         List<MedicationOrder> medicationPrescriptionBundle = translator.translateMedicationOrderForPatient(jsonFileText);
         Assert.assertEquals(medicationPrescriptionBundle.size(), 48);
-//        validateBundle(medicationPrescriptionBundle, 48, "MedicationOrder");
     }
 
     @Test

@@ -17,6 +17,7 @@
 
 package org.gtri.fhir.api.vistaex.resource.impl;
 
+import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -244,6 +245,7 @@ public class VistaExResourceImpl implements VistaExResource{
         //https://54.173.144.121/resource/fhir/patient/9E7A%3B3/medicationprescription?limit=&fields=
         logger.debug("Using URL " + medicationPrescriptionUrl);
         medicationOrders = requestDataFromVistaEx( medicationPrescriptionUrl, vistaExResourceTranslator::translateMedicationOrderForPatient);
+        addPatientToMedicationOrders(patientId, medicationOrders);
         logger.debug("Finished Getting MedicationOrder");
         return medicationOrders;
     }
@@ -357,6 +359,19 @@ public class VistaExResourceImpl implements VistaExResource{
     /*========================================================================*/
     /* PRIVATE METHODS */
     /*========================================================================*/
+
+    /**
+     * Goes through a List of MedicationOrder objects and adds a patient element to them.
+     * @param patientId
+     * @param medicationOrders
+     */
+    private void addPatientToMedicationOrders(String patientId, List<MedicationOrder> medicationOrders){
+        //go through and add patient information to each MedicationOrder, this data is not returned in the query to
+        //the VistaEx medicationprescription endpoint.
+        for(MedicationOrder mo : medicationOrders){
+            mo.setPatient(new ResourceReferenceDt("Patient/" + patientId));
+        }
+    }
 
     /**
      * Handles executing and processing the response of VistaEx requests dealing with

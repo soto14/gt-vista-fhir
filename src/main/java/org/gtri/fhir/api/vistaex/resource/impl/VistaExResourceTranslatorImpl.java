@@ -18,13 +18,13 @@
 package org.gtri.fhir.api.vistaex.resource.impl;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.model.api.IResource;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterClassEnum;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.dstu2.valueset.MedicationAdministrationStatusEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ParticipantTypeEnum;
-import ca.uhn.fhir.model.primitive.CodeDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.model.primitive.DecimalDt;
 import ca.uhn.fhir.parser.IParser;
@@ -47,12 +47,14 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
 
     private static final String MEDICATION_PRESCRIPTION = "MedicationPrescription";
     private static final String ARRIVAL_DATE_TIME_KEY = "arrivalDateTime";
-    private static final String DISCHARGE_DATE_TIME_KEY = "dischargeDateTime";
     private static final String CATEGORY_CODE_KEY = "categoryCode";
     private static final String CATEGORY_NAME_KEY = "categoryName";
     private static final String CONTAINED_FIELD = "contained";
     private static final String DATA_KEY = "data";
     private static final String DATE_KEY = "dateTime";
+    private static final String DATE_WRITTEN_FIELD = "dateWritten";
+    private static final String DISCHARGE_DATE_TIME_KEY = "dischargeDateTime";
+    private static final String DISPENSE_REQUEST_FIELD = "dispenseRequest";
     private static final String ICD9_URL = "http://hl7.org/fhir/sid/icd-9-cm";
     private static final String ID_FIELD = "id";
     private static final String ITEMS_KEY = "items";
@@ -74,12 +76,14 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private static final String MEDICATION_CODE_SYSTEM_FIELD = "system";
     private static final String MEDICATION_CODE_CODE_FIELD = "code";
     private static final String MEDICATION_CODE_DISPLAY_FIELD = "display";
+    private static final String NUM_REPEATS_ALLOWED_FIELD = "numberOfRepeatsAllowed";
     private static final String PATIENT_CLASS_NAME_KEY = "patientClassName";
     private static final String PATIENT_PID_KEY = "pid";
     private static final String PRIMARY_PROVIDER_KEY = "primaryProvider";
     private static final String PROVIDER_UID_KEY = "providerUid";
     private static final String PROVIDERS_KEY = "providers";
     private static final String PROVIDER_DISPLAY_NAME_KEY = "providerDisplayName";
+    private static final String QUANTITY_FIELD = "quantity";
     private static final String REFERENCE_FIELD = "reference";
     private static final String RESOURCE_FIELD = "resource";
     private static final String RESOURCE_TYPE_FIELD = "resourceType";
@@ -94,7 +98,8 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private static final String UID_KEY = "uid";
     private static final String UNITS_OF_MEASURE_ID = "urn:oid:2.16.840.1.113883.6.8";
     private static final String UNITS_OF_MEASURE_URN = "http://unitsofmeasure.org";
-
+    private static final String VALIDITY_PERIOD_FIELD = "validityPeriod";
+    private static final String VALUE_FIELD = "value";
 
     /*========================================================================*/
     /* PRIVATE VARIABLES */
@@ -169,32 +174,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("(\"system\":\\s*\")urn:oid:2.16.840.1.113883.6.42(\")", "$1" + ICD9_URL + "$2");
         IParser parser = dstu2Context.newJsonParser();
         Bundle dstuConditionBundle = parser.parseResource(Bundle.class, translatedJson);
-        //filter codes, so code sets only contain unique codes
-        for( Bundle.Entry entry : dstuConditionBundle.getEntry() ){
-            for( CodeableConceptDt codeableConceptDt : entry.getResource().getAllPopulatedChildElementsOfType(CodeableConceptDt.class) ){
-                List<CodingDt> uniqueCodes = new ArrayList<CodingDt>();
-                for( CodingDt code : codeableConceptDt.getCoding() ){
-                    //have we seen the code
-                    Boolean isCodeUnique = true;
-                    for( CodingDt uniqueCode : uniqueCodes ){
-                        if( uniqueCode.getCode().equals(code.getCode()) &&
-                            uniqueCode.getSystem().equals(code.getSystem()) &&
-                            uniqueCode.getDisplay().equals(code.getDisplay())
-                        ){
-                            //code is not unique
-                            isCodeUnique = false;
-                            break;
-                        }
-                    }
-                    if(isCodeUnique){
-                        uniqueCodes.add(code);
-                    }
-                }
-                codeableConceptDt.setCoding( uniqueCodes );
-            }
-        }
-//        dstuConditionBundle.getEntry().get(0).getResource().getAllPopulatedChildElementsOfType(CodeableConceptDt.class).get(0).getCoding().stream().distinct()
-
+        removeDuplicateConditionCodes(dstuConditionBundle);
         logger.debug("Finished translating ConditionBundle");
         return dstuConditionBundle;
     }
@@ -318,7 +298,12 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         translatedJson = translatedJson.replaceAll("\"appliesDateTime\"", "\"effectiveDateTime\"");
         //appliesPeriod maps to effectivePeriod in DSTU2
         translatedJson = translatedJson.replaceAll("\"appliesPeriod\"", "\"effectivePeriod\"");
+        //add # to the front of the Performer reference ID to reference a contained object
+        translatedJson = translatedJson.replaceAll("(\"performer\":\\s*\\[\\s*\\{\\s*\"reference\":\\s*\")([\\w-]+\")", "$1#$2");
+        //generate the bundle from the translated JSON
         Bundle dstuObservationBundle = parser.parseResource(Bundle.class, translatedJson);
+        //Create the components for systolic and diastolic pressures
+        createSystolicAndDiastolicComponents(dstuObservationBundle);
         logger.debug("Finished Translating ObservationBundle");
         return dstuObservationBundle;
     }
@@ -352,6 +337,66 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     /*========================================================================*/
     /* PRIVATE METHODS */
     /*========================================================================*/
+
+    /**
+     * Takes a String representing a translated MedicationOrder Bundle from VistaEx and makes a list of
+     * HAPI FHIR DSTU2 MedicationOrder Objects.
+     * @param jsonBundle the bundle to process
+     * @return a {@link List} of MedicationAdministration objects contained in the passed in bundle.
+     */
+    private List<MedicationOrder> buildMedicationOrderList(String jsonBundle){
+        List<MedicationOrder> medicationOrderList = new ArrayList<MedicationOrder>();
+        JSONObject bundleJson = new JSONObject(jsonBundle);
+        JSONArray entryArray = bundleJson.getJSONArray("entry");
+        //now traverse the Array of "resource" elements
+        //for each "resource" element
+        JSONObject currEntry;
+        JSONObject currMedicationOrder;
+        CodeableConceptDt medCodeableConcept;
+        String currDateWritten;
+        for( int i=0; i<entryArray.length(); i++){
+            //get the current medication order
+            currEntry = entryArray.optJSONObject(i);
+            currMedicationOrder = currEntry.optJSONObject(RESOURCE_FIELD);
+            //create a new MedicationOrder
+            MedicationOrder medicationOrder = new MedicationOrder();
+
+            //id
+            medicationOrder.setId(currMedicationOrder.getString(ID_FIELD));
+
+            //date written
+            currDateWritten = currMedicationOrder.optString(DATE_WRITTEN_FIELD);
+            DateTimeDt writtenDateTimeDt = new DateTimeDt();
+            writtenDateTimeDt.setValueAsString(currDateWritten);
+            medicationOrder.setDateWritten(writtenDateTimeDt);
+
+            //patient
+            //TODO not sure how we will get this information
+
+            //medication codeable concept
+            medCodeableConcept = getMedicationCodeableConceptFromMedicationOrder(currMedicationOrder);
+            medicationOrder.setMedication(medCodeableConcept);
+
+            //dispense request
+            MedicationOrder.DispenseRequest dispenseRequest = getDispenseRequestFromMedicationOrder(currMedicationOrder);
+            //set the medication codeable concept
+            dispenseRequest.setMedication(medCodeableConcept);
+            medicationOrder.setDispenseRequest(dispenseRequest);
+            medicationOrderList.add(medicationOrder);
+        }
+        return medicationOrderList;
+    }
+
+    /**
+     * Takes in a VistA Ex visit Provider JSON object and adds it to an Encounter.Participant list.
+     * @param encounterParticipants - the list to modify
+     * @param provider the provider to use
+     * @param isPrimary true if the provider is the primary provider, false otherwise
+     */
+    private void addEncounterProviderToParticiantList(List<Encounter.Participant> encounterParticipants, JSONObject provider, Boolean isPrimary){
+        Encounter.Participant primary = createEncounterProvider(provider, isPrimary);
+        encounterParticipants.add(primary);
+    }
 
     /**
      * Takes a String representing a translated MedicationAdministration Bundle from VistaEx and makes a list of
@@ -393,9 +438,6 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
             MedicationAdministration.Dosage dosage = getMedicationAdminDosage(currMedicationAdministration);
             medicationAdministration.setDosage(dosage);
 
-            //search
-            //TODO: Figure out how to set this, does it need to be set?
-
             //medicationCodeableConcept
             medCodeableConcept = getMedicationAdminContainedMedication(currMedicationAdministration);
             medicationAdministration.setMedication(medCodeableConcept);
@@ -406,63 +448,27 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     }
 
     /**
-     * Takes a String representing a translated MedicationOrder Bundle from VistaEx and makes a list of
-     * HAPI FHIR DSTU2 MedicationOrder Objects.
-     * @param jsonBundle the bundle to process
-     * @return a {@link List} of MedicationAdministration objects contained in the passed in bundle.
+     * Creates a date time from a date string.
+     * @param dateTimeString the string representation of the date time.
+     * @return
      */
-    private List<MedicationOrder> buildMedicationOrderList(String jsonBundle){
-        List<MedicationOrder> medicationOrderList = new ArrayList<MedicationOrder>();
-        JSONObject bundleJson = new JSONObject(jsonBundle);
-        JSONArray entryArray = bundleJson.getJSONArray("entry");
-        //now traverse the Array of "resource" elements
-        //for each "resource" element
-        JSONObject currEntry;
-        JSONObject currMedicationOrder;
-        CodeableConceptDt medCodeableConcept;
-        String currDateWritten;
-        for( int i=0; i<entryArray.length(); i++){
-            //get the current medication order
-            currEntry = entryArray.optJSONObject(i);
-            currMedicationOrder = currEntry.optJSONObject(RESOURCE_FIELD);
-            //create a new MedicationOrder
-            MedicationOrder medicationOrder = new MedicationOrder();
-
-            //id
-            medicationOrder.setId(currMedicationOrder.getString(ID_FIELD));
-
-            //date written
-            currDateWritten = currMedicationOrder.optString("dateWritten");
-            DateTimeDt writtenDateTimeDt = new DateTimeDt();
-            writtenDateTimeDt.setValueAsString(currDateWritten);
-            medicationOrder.setDateWritten(writtenDateTimeDt);
-
-            //patient
-            //TODO not sure how we will get this information
-
-            //medication codeable concept
-            medCodeableConcept = getMedicationCodeableConceptFromMedicationOrder(currMedicationOrder);
-            medicationOrder.setMedication(medCodeableConcept);
-
-            //dispense request
-            MedicationOrder.DispenseRequest dispenseRequest = getDispenseRequestFromMedicationOrder(currMedicationOrder);
-            //set the medication codeable concept
-            dispenseRequest.setMedication(medCodeableConcept);
-            medicationOrder.setDispenseRequest(dispenseRequest);
-            medicationOrderList.add(medicationOrder);
-        }
-        return medicationOrderList;
+    private DateTimeDt createDateTime(String dateTimeString){
+        DateTimeDt dateTimeDt = new DateTimeDt();
+        dateTimeDt.setValueAsString(dateTimeString);
+        return dateTimeDt;
     }
 
     /**
-     * Takes in a VistA Ex visit Provider JSON object and adds it to an Encounter.Participant list.
-     * @param encounterParticipants - the list to modify
-     * @param provider the provider to use
-     * @param isPrimary true if the provider is the primary provider, false otherwise
+     * Creates a {@link PeriodDt}
+     * @param start the start time
+     * @param end the end time
+     * @return
      */
-    private void addEncounterProviderToParticiantList(List<Encounter.Participant> encounterParticipants, JSONObject provider, Boolean isPrimary){
-        Encounter.Participant primary = createEncounterProvider(provider, isPrimary);
-        encounterParticipants.add(primary);
+    private PeriodDt createTimePeriod(DateTimeDt start, DateTimeDt end){
+        PeriodDt periodDt = new PeriodDt();
+        periodDt.setStart(start);
+        periodDt.setEnd(end);
+        return periodDt;
     }
 
     /**
@@ -568,7 +574,53 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private PeriodDt createEncounterStayPeriod(JSONObject visit){
         Date startDate = getDateForString(visit.optString(DATE_KEY), getDateFormat());
         Date endDate = getDateForString(visit.optString(LAST_UPDATE_TIME_KEY), getDateFormat());
-        return createPeriod(startDate, endDate);
+        return createValidityPeriod(startDate, endDate);
+    }
+
+    /**
+     * Takes a {@link Bundle} and updates the Observation resources for systolic and diastolic blood pressure readings
+     * to pull the contained systolic and diastolic resources into a Component element of the Observation resource.
+     * @param observationBundle
+     */
+    private void createSystolicAndDiastolicComponents(Bundle observationBundle){
+        //look through all of the Observation
+        for( Bundle.Entry entry : observationBundle.getEntry() ){
+            //if observation is for blood pressure
+            if(entry.getResource().getText().getDivAsString().toLowerCase().contains("blood pressure systolic and diastolic")){
+                Observation currObservation = (Observation)entry.getResource();
+                //we found a blood pressure
+                //get the contained observations, create components for them, and add them to the main Observation
+                List<IResource> observationsToRemove = new ArrayList<IResource>();
+                currObservation.getContained().getContainedResources().forEach( containedResource -> {
+                    if (containedResource instanceof Observation) {
+                        //create a component
+                        Observation.Component component = new Observation.Component();
+                        component.setCode(((Observation) containedResource).getCode());
+                        component.setValue(((Observation) containedResource).getValue());
+                        if( component.getValue() instanceof QuantityDt){
+                            QuantityDt valueQuantity = ((QuantityDt)component.getValue());
+                            valueQuantity.setSystem(UNITS_OF_MEASURE_URN);
+                            valueQuantity.setCode(valueQuantity.getUnit());
+                        }
+                        currObservation.addComponent(component);
+                        observationsToRemove.add(containedResource);
+                    }
+                });
+                //Find the resources in the contained element that are not Observations
+                List<IResource> filteredContained = currObservation.getContained().getContainedResources()
+                                                    .stream()
+                                                    .filter(resource -> !(resource.getResourceName().trim().equalsIgnoreCase("Observation")))
+                                                    .collect(Collectors.toList());
+                //create a new contained element
+                ContainedDt newContained = new ContainedDt();
+                //set its content to be the filtered list
+                newContained.setContainedResources(filteredContained);
+                //set the new contained elements
+                currObservation.setContained(newContained);
+                //clear out the relations, since they are only for
+                currObservation.setRelated(null);
+            }
+        }
     }
 
     /**
@@ -583,7 +635,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         SimpleDateFormat validitiyDateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date startDate = getDateForString(startDateString, validitiyDateformater);
         Date endDate = getDateForString(endDateString, validitiyDateformater);
-        return createPeriod(startDate, endDate);
+        return createValidityPeriod(startDate, endDate);
     }
 
     /**
@@ -593,7 +645,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
      * @param endDate
      * @return
      */
-    private PeriodDt createPeriod(Date startDate, Date endDate){
+    private PeriodDt createValidityPeriod(Date startDate, Date endDate){
         PeriodDt periodDt = new PeriodDt();
         if(startDate != null && endDate != null){
             periodDt.setStartWithSecondsPrecision(startDate);
@@ -658,7 +710,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
                     date = getErrorDateFormat().parse(dateStr);
                 }
                 catch(ParseException pe2){
-                    pe.printStackTrace();
+                    logger.warn("Could not parse date ", dateStr);
                 }
             }
         }
@@ -674,21 +726,21 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
     private MedicationOrder.DispenseRequest getDispenseRequestFromMedicationOrder(JSONObject medicationOrder){
         MedicationOrder.DispenseRequest dispenseRequest = new MedicationOrder.DispenseRequest();
         //get the dispense JSONObject
-        JSONObject dispense = medicationOrder.getJSONObject("dispenseRequest");
+        JSONObject dispense = medicationOrder.getJSONObject(DISPENSE_REQUEST_FIELD);
         //set the validity period
-        JSONObject validityPeriod = dispense.getJSONObject("validityPeriod");
+        JSONObject validityPeriod = dispense.getJSONObject(VALIDITY_PERIOD_FIELD);
         PeriodDt validityPeriodDt = createValidityPeriod(validityPeriod);
         dispenseRequest.setValidityPeriod(validityPeriodDt);
 
         //set the number of repeats allowed
-        if(dispense.has("numberOfRepeatsAllowed")) {
-            int repeats = dispense.optInt("numberOfRepeatsAllowed");
+        if(dispense.has(NUM_REPEATS_ALLOWED_FIELD)) {
+            int repeats = dispense.optInt(NUM_REPEATS_ALLOWED_FIELD);
             dispenseRequest.setNumberOfRepeatsAllowed(repeats);
         }
 
         //set the quantity
-        JSONObject quantity = dispense.getJSONObject("quantity");
-        int quantityValue = quantity.getInt("value");
+        JSONObject quantity = dispense.getJSONObject(QUANTITY_FIELD);
+        int quantityValue = quantity.getInt(VALUE_FIELD);
         SimpleQuantityDt simpleQuantityDt = new SimpleQuantityDt();
         DecimalDt decimalValue = new DecimalDt();
         decimalValue.setValueAsInteger(quantityValue);
@@ -731,15 +783,7 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
         JSONObject effectiveTimeObj = medicationAdmin.getJSONObject(MEDICATION_ADMIN_EFFECTIVE_TIME_FIELD);
         String startTime = effectiveTimeObj.getString(MEDICATION_ADMIN_EFFECTIVE_TIME_START_FIELD);
         String endTime = effectiveTimeObj.getString(MEDICATION_ADMIN_EFFECTIVE_TIME_END_FIELD);
-        IParser parser = dstu2Context.newJsonParser();
-        PeriodDt periodDt = new PeriodDt();
-        DateTimeDt startDateTimeDt = new DateTimeDt();
-        startDateTimeDt.setValueAsString(startTime);
-        DateTimeDt endDateTimeDt = new DateTimeDt();
-        endDateTimeDt.setValueAsString(startTime);
-        periodDt.setStart(startDateTimeDt);
-        periodDt.setEnd(endDateTimeDt);
-        return periodDt;
+        return createTimePeriod(createDateTime(startTime), createDateTime(endTime));
     }
 
     /**
@@ -914,6 +958,38 @@ public class VistaExResourceTranslatorImpl implements VistaExResourceTranslator 
      */
     private String processVistaExSnomedCode(String code){
         return code.replace(SNOMED_CT_VISTAEX_CODE_PREFIX, "");
+    }
+
+    /**
+     * Takes a HAPI Bundle Object that represents a translated VistaEx Condition, and removes duplicate codes from
+     * each condition in the Bundle.
+     * @param dstuConditionBundle
+     */
+    private void removeDuplicateConditionCodes(Bundle dstuConditionBundle){
+        //filter codes, so code sets only contain unique codes
+        for( Bundle.Entry entry : dstuConditionBundle.getEntry() ){
+            for( CodeableConceptDt codeableConceptDt : entry.getResource().getAllPopulatedChildElementsOfType(CodeableConceptDt.class) ){
+                List<CodingDt> uniqueCodes = new ArrayList<CodingDt>();
+                for( CodingDt code : codeableConceptDt.getCoding() ){
+                    //have we seen the code
+                    Boolean isCodeUnique = true;
+                    for( CodingDt uniqueCode : uniqueCodes ){
+                        if( uniqueCode.getCode().equals(code.getCode()) &&
+                                uniqueCode.getSystem().equals(code.getSystem()) &&
+                                uniqueCode.getDisplay().equals(code.getDisplay())
+                                ){
+                            //code is not unique
+                            isCodeUnique = false;
+                            break;
+                        }
+                    }
+                    if(isCodeUnique){
+                        uniqueCodes.add(code);
+                    }
+                }
+                codeableConceptDt.setCoding( uniqueCodes );
+            }
+        }
     }
 
     /**
