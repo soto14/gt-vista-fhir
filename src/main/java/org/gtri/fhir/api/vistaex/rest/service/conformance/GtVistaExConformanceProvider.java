@@ -38,6 +38,7 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
 
     private static final String OAUTH_URL_BASE = "oauthUrlBase";
     private static final String SMART_ON_FHIR_URL= "smartOnFhirUrl";
+    private static final String SECURITY_EXTENSION_URL = "securityExtensionUrl";
     private static final String TOKEN = "token";
     private static final String AUTHORIZE = "authorize";
     private static final String REGISTER = "register";
@@ -50,6 +51,7 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
     private String authorizeURI;
     private String tokenURI;
     private String registerURI;
+    private String securityExtensionUrl;
 
     private final Logger logger = LoggerFactory.getLogger(GtVistaExConformanceProvider.class);
 
@@ -58,6 +60,7 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         properties = VistaUtil.getProperties();
         oauthUrlBase = properties.getProperty(OAUTH_URL_BASE);
         smartOnFhirUrl = properties.getProperty(SMART_ON_FHIR_URL);
+        securityExtensionUrl = properties.getProperty(SECURITY_EXTENSION_URL);
 
         authorizeURI = oauthUrlBase + AUTHORIZE;
         tokenURI = oauthUrlBase + TOKEN;
@@ -91,7 +94,7 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         ExtensionDt registerExtension = new ExtensionDt(false, REGISTER, new UriDt(registerURI));
 
         ExtensionDt securityExtension = new ExtensionDt();
-        securityExtension.setUrl(oauthUrlBase);
+        securityExtension.setUrl(securityExtensionUrl);
         securityExtension.addUndeclaredExtension(authorizeExtension);
         securityExtension.addUndeclaredExtension(tokenExtension);
         securityExtension.addUndeclaredExtension(registerExtension);
