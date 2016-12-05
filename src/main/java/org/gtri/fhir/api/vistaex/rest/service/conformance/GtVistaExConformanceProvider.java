@@ -41,6 +41,8 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
     private static final String TOKEN = "token";
     private static final String AUTHORIZE = "authorize";
     private static final String REGISTER = "register";
+    private static final String PUBLISHER = "publisher";
+    private static final String DESCRIPTION = "description";
 
     private Properties properties;
     private String oauthUrlBase;
@@ -61,6 +63,7 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         tokenURI = oauthUrlBase + TOKEN;
         registerURI = oauthUrlBase + REGISTER;
         setCache(false);
+        setPublisher(properties.getProperty(PUBLISHER));
     }
 
     @Override
@@ -70,6 +73,9 @@ public class GtVistaExConformanceProvider extends ServerConformanceProvider {
         Conformance conformanceStmt = super.getServerConformance(theRequest);
 
         Conformance.RestSecurity restSec = new Conformance.RestSecurity();
+
+        //set the conformance statement description
+        conformanceStmt.setDescription(properties.getProperty(DESCRIPTION));
 
         //Set security.service
         restSec.setService(RestfulSecurityServiceEnum.SMART_ON_FHIR);

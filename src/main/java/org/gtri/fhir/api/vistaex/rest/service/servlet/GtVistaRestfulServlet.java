@@ -22,8 +22,10 @@ import java.util.List;
 import java.util.Timer;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.narrative.DefaultThymeleafNarrativeGenerator;
 import ca.uhn.fhir.narrative.INarrativeGenerator;
+import ca.uhn.fhir.rest.server.EncodingEnum;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.RestfulServer;
 import ca.uhn.fhir.rest.server.interceptor.ResponseHighlighterInterceptor;
@@ -105,6 +107,13 @@ public class GtVistaRestfulServlet extends RestfulServer {
 		 * Tells the server to return pretty-printed responses by default
 		 */
 		setDefaultPrettyPrint(true);
+
+		/*
+		 * Default to JSON and pretty printing
+		 */
+		setDefaultResponseEncoding(EncodingEnum.JSON);
+
+		setFhirContext(new FhirContext((FhirVersionEnum.DSTU2)));
 
         //log in to Vista Ex API
         VistaUtil.getVistaExResource().loginToVistaEx();
